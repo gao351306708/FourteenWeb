@@ -11,26 +11,9 @@ var port = process.env.PORT || config.dev.port
  * Create HTTP server.
  */
 console.log("process.env.NODE_ENV==1111111111111111111==>>",process.env.NODE_ENV)
-//生产环境.https证书
-if(process.env.NODE_ENV == "development"){
-  var http = require('http');
-  app.set('port', port);
-  var server = http.createServer(app);
-}else {
-  //https证书
-  var http= require("https");
-  var fs = require("fs");
-  var path = require('path')
-  //var privateKey  =  fs.readFileSync( path.join(__dirname, '/util/idiil.com.cn.key'), '', 'utf8');
-  //var certificate =  fs.readFileSync(path.join(__dirname, '/util/idiil.com.cn.chained.crt'), '', 'utf8');
-  var privateKey  =  fs.readFileSync('/etc/nginx/ssl/idiil.com.cn.key', '', 'utf8');
-  var certificate =  fs.readFileSync('/etc/nginx/ssl/idiil.com.cn.chained.crt', '', 'utf8');
-  var credentials = {key: privateKey, cert: certificate};
-  app.set('port', port);
-  var server = http.createServer(credentials,app);
-  console.log("55555555555555555555555---https")
-}
-
+var http = require('http');
+app.set('port', port);
+var server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.

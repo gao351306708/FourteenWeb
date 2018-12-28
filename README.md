@@ -1,6 +1,6 @@
-# vue-manage
+# vue项目（个人网站）
 
-> 一个基于vue+element-ui+node的多页面的项目。
+> 基于vue+element-ui+node的多页面的项目。
 
 ## 安装步骤
 
@@ -19,4 +19,4 @@ npm install
 npm run dev
 
 #5、查看效果
-localhost:9999
+localhost:1004
