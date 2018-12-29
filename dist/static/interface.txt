@@ -1,0 +1,190 @@
+获取单题接口
+		GET请求
+
+		http://39.106.128.159/restAPI3.0/question/quesById?qid=00001964-1039-4b4b-83e2-59888bc94f52&subject_id=2
+
+		参数
+		qid => 试题ID
+
+		subject_id => 学科ID
+
+
+		返回数据,字段意思可以问老胡
+		{
+            "index":{--属性
+                "gid":"00001964-1039-4b4b-83e2-59888bc94f52",--题目编号
+                "zh_knowledge":"",--知识点base64
+                "knowledge":"<img src='file:///E:/sxpic/65/e7/65e785d3e43d16ffb12aed0e8cf6_2589622kn.png' >",--知识点图片
+                "difficulty":"4",--难易度
+                "score":"2",--分数
+                "objective_flag":"1",--1客观题 0主观题
+                "question_type":"401",--试题类型
+                "cp_id":null,--没啥用
+                "chapter_id":null,--没啥用
+                "zh_Tid":null,--没啥用
+                "exam_name":null,--没啥用
+                "subject_id":"0",--学科编号
+                "ti_order":"0",--没啥用
+                "grade_id":null,--年级
+                "section_id":null,--学段
+                "knowledge_id":null,--知识点编号
+                "combine_flag":"0",--主子题
+                "question_template":"1"--试题模版
+            },
+            "question":{--题目内容集合
+                "gid":"00001964-1039-4b4b-83e2-59888bc94f52",--题目编号
+                "content":"5LiL5YiX5Zub5Liq5Ye95pWw77ya4pGgeT3vuaMyeCsx77yM4pGheT1heO+5o2LvvIzikaJ5Pe+5
+        ozxpbWcgc3JjPSIvc3hwaWMvMzAvYjMvMzBiM2U1NmJlYzQ4NDM4NmFhZTQwNDJiYzQ3YjlkMTgu
+        cG5nIj4gIO+8jCDikaN5PXg8c3VwPjI8L3N1cD4rMuS4re+8jOaYr+S4gOasoeWHveaVsOeahOac
+        ie+8iOOAgOOAgO+8iTxicj5bQV0gICAg4pGgJm5ic3A7PGJyPltCXSAgICDikaDikaE8YnI+W0Nd
+        ICAgIOKRoeKRojxicj5bRF0gICAg4pGg4pGj",--题目内容base64格式需解码
+                "objective_answer":"QQ==",--客观题答案base64格式需解码
+                "answer":"PGltZyBzcmM9Jy9zeHBpYy82NS9lNy82NWU3ODVkM2U0M2QxNmZmYjEyYWVkMGU4Y2Y2XzI1ODk2
+        MjJhbi5wbmcnID4=",--主观题答案base64格式需解码
+                "analysis":"PGltZyBzcmM9Jy9zeHBpYy82NS9lNy82NWU3ODVkM2U0M2QxNmZmYjEyYWVkMGU4Y2Y2XzI1ODk2
+        MjJleC5wbmcnID4=",--解析base64格式需解码
+                "column_content":""--选项base64格式需解码
+            }
+        }
+		
+		
+批量更新接口
+		
+		POST请求
+
+		http://39.106.128.159/restAPI3.0/question/updateQues
+
+		参数
+		ajax中data:{--可以只传变更的数据。。gid必须
+			subject_id:2,
+			index:[{--属性
+                   "gid":"00001964-1039-4b4b-83e2-59888bc94f52",--题目编号
+                   "zh_knowledge":"",--知识点base64格式
+                   "knowledge":"<img src='file:///E:/sxpic/65/e7/65e785d3e43d16ffb12aed0e8cf6_2589622kn.png' >",--知识点图片
+                   "difficulty":"4",--难易度
+                   "score":"2",--分数
+                   "objective_flag":"1",--1客观题 0主观题
+                   "question_type":"401",--试题类型
+                   "cp_id":null,--没啥用
+                   "chapter_id":null,--没啥用
+                   "zh_Tid":null,--没啥用
+                   "exam_name":null,--没啥用
+                   "subject_id":"0",--学科编号
+                   "ti_order":"0",--没啥用
+                   "grade_id":null,--年级
+                   "section_id":null,--学段
+                   "knowledge_id":null,--知识点编号
+                   "combine_flag":"0",--主子题
+                   "question_template":"1"--试题模版
+               }],
+			question:[{--题目内容集合
+                      "gid":"00001964-1039-4b4b-83e2-59888bc94f52",--题目编号
+                      "content":"5LiL5YiX5Zub5Liq5Ye95pWw77ya4pGgeT3vuaMyeCsx77yM4pGheT1heO+5o2LvvIzikaJ5Pe+5
+              ozxpbWcgc3JjPSIvc3hwaWMvMzAvYjMvMzBiM2U1NmJlYzQ4NDM4NmFhZTQwNDJiYzQ3YjlkMTgu
+              cG5nIj4gIO+8jCDikaN5PXg8c3VwPjI8L3N1cD4rMuS4re+8jOaYr+S4gOasoeWHveaVsOeahOac
+              ie+8iOOAgOOAgO+8iTxicj5bQV0gICAg4pGgJm5ic3A7PGJyPltCXSAgICDikaDikaE8YnI+W0Nd
+              ICAgIOKRoeKRojxicj5bRF0gICAg4pGg4pGj",--题目内容base64格式
+                      "objective_answer":"QQ==",--客观题答案base64格式
+                      "answer":"PGltZyBzcmM9Jy9zeHBpYy82NS9lNy82NWU3ODVkM2U0M2QxNmZmYjEyYWVkMGU4Y2Y2XzI1ODk2
+              MjJhbi5wbmcnID4=",--主观题答案base64格式
+                      "analysis":"PGltZyBzcmM9Jy9zeHBpYy82NS9lNy82NWU3ODVkM2U0M2QxNmZmYjEyYWVkMGU4Y2Y2XzI1ODk2
+              MjJleC5wbmcnID4=",--解析base64格式
+                      "column_content":""--选项base64格式
+                  }]
+		}
+		
+		
+		其中json数组中的json必须包含gid和需要更新的字段数据,字段获取单题接口一样，数据格式也要求一样
+		
+		
+删除用户接口
+		GET请求
+		
+		http://39.106.128.159/restAPI3.0/user/delStu?sid=33426
+		
+		sid => student_id(学生ID)
+		
+		
+		返回值中code=0 为已派发作业不可删除
+		code=1 为删除成功
+		
+		
+视频接口
+		GET请求
+		
+		单元视频接口
+		http://39.106.128.159/restAPI3.0/video?action=vedio&uid=3748&sid=2
+		
+		uid => 单元ID
+		sid => 学科ID
+		
+		章节视频接口
+		http://39.106.128.159/restAPI3.0/video?action=vedio&cid=13747&sid=2
+		
+		cid => 章节ID
+		sid => 学科ID
+
+
+		获取图书下的视频列表  用于视频管理
+		http://39.106.128.159/restAPI3.0/video?action=videolist&grade=7&sid=2&pubid=2&callback=callback
+		grade=>年级ID{1,2,3,4,5,6,7,8,9,10,11}
+		sid => 学科ID {语文-1 数学-2 英语-3 物理-4 化学-5 生物-6 历史-7 地理-8   政治-9}
+		pubid=>出版社{人教-2}
+
+题目报错相关接口
+		GET请求
+
+		报错列表
+		http://39.106.128.159/restAPI3.0/examination_paper?action=feedbackList&page=1&pageSize=20&status=0&type=0
+
+		status => 处理状态可选参数 默认不带这个参数 0所有 1已处理 2未处理
+		type => 报错类型可选参数 默认不带这个参数 0所有 1内容错误 2属性错误
+
+		返回值:
+		{
+            "list":[
+                {
+                    "id":"14593",--编号
+                    "userid":"157083",--用户编号
+                    "feedtime":"2018-08-26 01:09:31",--报错时间
+                    "content":"sdsdds",--报错信息
+                    "ti_id":"brj10008951",--题目编号
+                    "subject_id":"2",--学科编号
+                    "type":"1",--错误类型
+                    "status":"1",--处理状态
+                    "username":"702@163.com",--用户名
+                    "realname":"数学老师"--用户昵称
+                }
+            ],
+            "count":"1"--总数量
+        }
+
+		报错数据状态变更
+		http://39.106.128.159/restAPI3.0/examination_paper?action=changeFeedbackStatus&id=14593
+
+		id => 报错数据ID
+
+
+		返回数据:
+		{"count":1}
+
+		报错数据统计
+		http://39.106.128.159/restAPI3.0/examination_paper?action=feedbackReport&startTime=2018-08-25&endTime=2018-08-25
+
+		startTime => 开始时间
+		endTime =>结束时间
+
+		返回数据:
+		{
+            "list":[
+                {
+                    "num":"3",--时间段内报错总数量
+                    "username":"702@163.com",--用户名称
+                    "realname":"数学老师"--用户昵称
+                }
+            ]
+        }
+		
+		
+		
+		
