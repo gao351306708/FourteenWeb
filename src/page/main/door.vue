@@ -1,27 +1,66 @@
 <template>
-  <el-container>
-    <el-header class="door">
+  <el-container class="wrapper_door">
+    <div class="main-loader"></div>
+    <header :class="openFlag?'full-header active': 'full-header'">
+      <div class="inner-1">
+        <div class="inner-2">
+          <a class="close" @click="openFlag=false">
+            <i class="el-icon-close" style="font-size: 36px"></i>
+          </a>
+          <div class="center_container">
+            <p style="margin-top:25% ">BLOG</p>
+            <p>ABOUT US</p>
+            <p>CONTACT</p>
+          </div>
+        </div>
+      </div>
+    </header>
+    <header class="main-header">
       <el-row>
-        <el-col :span="4"><img src="../../../static/images/logo.png" width="128px" height="60px"></el-col>
-        <el-col :span="20"><div class="loginButton"></div></el-col>
+        <el-col :span="12" class="header_section left"><a href="http://www.rambogj.club"><img src="../../../static/images/logo.png" /></a></el-col>
+        <el-col :span="12" class="header_section right">
+          <div class="open" @click="openFlag=true">
+            <span class="icon">
+                <span class="bar index-1"></span>
+                <span class="bar index-2"></span>
+                <span class="bar index-3"></span>
+            </span>
+          </div>
+        </el-col>
       </el-row>
-    </el-header>
-    <el-main>
-      <img src="../../../static/images/11.jpg" class="HomeBanner" />
-      <section class="form_contianer">
-        <div class="senctionblock">
-          <el-row>
-            <el-col :span="24"><div class="loginButton">登 录</div></el-col>
-          </el-row>
-          <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="80px" class="demo-ruleForm">
-            <el-form-item label="用户名" prop="name">
-              <el-input type="text" v-model="ruleForm.name"></el-input>
-            </el-form-item>
-            <el-form-item label="密码" prop="pass">
-              <el-input type="password" v-model="ruleForm.pass"></el-input>
-            </el-form-item>
-            <el-button @click="loginEnter('ruleForm')" class="enterButton">登 录</el-button>
-          </el-form>
+    </header>
+    <div class="nav"></div>
+    <el-main class="main_page_container">
+      <section class="section_left">
+        <div class="video delay-1">
+          <video width="478" height="354" muted autoplay="true" src="../../../static/sources/Latest_work_fond.mp4"></video>
+        </div>
+      </section>
+      <section class="section_right">
+        <a class="visuals delay-1">
+          <span class="picture">
+            <img src="../../../static/images/page_chapitre720x1000.png">
+          </span>
+          <span class="video_container">
+            <span class="video">
+              <video muted autoplay="true" id="animationVideo" src="../../../static/sources/texte_animation.mp4"></video>
+            </span>
+          </span>
+        </a>
+        <div class="center_section">
+          <div class="top_sec">
+            FourteenWeb/<br>
+            Personal Web Site
+          </div>
+          <div class="title_sec">STARTING</div>
+          <div class="date_sec">
+            <div class="top">2019</div>
+            <span class="stroke"></span>
+            <div class="bottom">Present</div>
+          </div>
+          <div class="arrow">
+            <i class="el-icon-back" style="width: 30px"></i>
+          </div>
         </div>
       </section>
     </el-main>
@@ -30,180 +69,26 @@
 
 <script type="text/ecmascript-6">
   import {doLogin,doTestLogin,registerUser} from '../../api/user'
-  import {getClassInfo} from '../../api/classes'
-  import classData from '../../data/classlist'
   import {setStore,getStore,clearStore,setSession,getSession} from '../../config/publicMethod'
   import {filterWebUrl} from '../../config/methods'
   export default {
     name: 'door',
     data () {
-      var validatePass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入密码'));
-        } else {
-          if (this.ruleForm.checkPass !== '') {
-            this.$refs.ruleForm.validateField('checkPass');
-          }
-          callback();
-        }
-      };
-      var validatePass2 = (rule, value, callback) => {
-          if (value === '') {
-            callback(new Error('请再次输入密码'));
-          } else if (value !== this.ruleForm.pass) {
-            callback(new Error('两次输入密码不一致!'));
-          } else {
-            callback();
-          }
-      }
       return {
-        ClassUserList:null,
-        show2: true,
-        btnChangeName:'登录',
-        inputName: '',
-        inputPassword:'',
-        allUserList:[],
-        ruleForm: {
-          name:'',
-          phone:'',
-          pass:'',
-          checkPass:'',
-          role:null,
-        },
-        ruleForm1: {
-          name:'',
-          phone:'',
-          pass:'',
-          checkPass:'',
-          role:null,
-        },
-        rules: {
-          name: [
-            { required: true, message: '请输入用户名', trigger: 'blur' },
-          ],
-          phone: [
-            { required: true, message: '请输入手机号', trigger: 'blur' },
-            { min: 11, max: 11, message: '请输入11位手机号', trigger: 'blur' }
-          ],
-          role:[
-            { required: true, message: '请选择角色身份', trigger: 'change' }
-          ],
-          pass: [
-            {required: true,  validator: validatePass, trigger: 'blur' }
-          ],
-          checkPass: [
-            {required: true,  validator: validatePass2, trigger: 'blur' }
-          ]
-        }
+        openFlag:false,
       }
     },
+    mounted() {
+      //监听页面事件
+      var video = document.getElementById('animationVideo');
+      $('.video_container .video').hover(function(){
+        if(video.paused){
+          video.play();
+        }
+      })
+    },
     methods:{
-      async loginEnter(formName){
-
-        //查询用户信息
-        const dataUserList = await doTestLogin('/static/ClassUserList.json');
-        setStore("ClassUserList",dataUserList);
-        this.ClassUserList = dataUserList;
-
-        this.$refs[formName].validate(async(valid) => {
-          if (valid) {
-            let userinfo = null;
-            let fromflag = this.fromFlag;//true为真实数据，false为本地数据
-            this.ruleForm.role = '2';
-            console.log('55555555555555555555555555555555555555555555555',fromflag)
-            if(fromflag){
-              const result = await doLogin(this.ruleForm)//查询用户信息
-              console.log("注册结果------->",result)
-              if(result.code == 200){
-                if((result.data[0])){
-                  userinfo = {userId:result.data[0].userid, userName: result.data[0].username};
-                  if(this.ruleForm.role == '1'){//学生登录
-                    const dataList = await getClassInfo();
-                    console.warn("获取课堂数据:::::",dataList)
-                    let dataParams={};
-                    dataParams.teacherId = dataList.classList.teacherId;
-                    dataParams.CenterID = dataList.CenterID;
-                    dataParams.CenterWeb = dataList.CenterWeb;
-                    dataParams.ClassID = dataList.ClassID;
-                    dataParams.CourseType = dataList.CourseType;
-                    dataParams.MainWeb = dataList.MainWeb;
-                    dataParams.StudentID = userinfo.userId;
-                    let urlend = filterWebUrl2(dataParams,"1");
-                    console.warn("获取课堂地址:::::",urlend)
-//                    window.open(urlend);
-                    return
-                  }else {//教师登录
-                    if(getStore("userInfo")){//已经有值
-                      if(JSON.parse(getStore("userInfo")).userId != userinfo.userId){//和上次的登录人不一样
-                        clearStore();
-                        //由于清除了所有的 所以现在在存一遍需要的
-                        const dataUserList = await doTestLogin('/static/ClassUserList.json');
-                        setStore("ClassUserList",dataUserList);
-                      }
-                    }
-                    setSession("accessToken",true);//设置登录状态的值
-                    setStore("userInfo",JSON.stringify(userinfo))
-                    this.$router.replace({ name: 'home', params: userinfo})
-                  }
-                }else {
-                  alert("用户名或密码错误")
-                }
-              }else {
-                console.error('登录失败!!');
-              }
-            }else {//本地数据
-              let flag = false;
-              if(this.ruleForm.role == '1'){//学生
-                this.ClassUserList.StudentList.forEach((item)=>{
-                  if(item.userName == this.ruleForm.name){
-                    if(item.Password == this.ruleForm.pass){
-                      flag = true;
-                      userinfo = item;
-                    }
-                  }
-                })
-              }
-              if(this.ruleForm.role == '2'){//教师
-                this.ClassUserList.InstructorList.forEach((item)=>{
-                  if(item.userName == this.ruleForm.name){
-                    if(item.Password == this.ruleForm.pass){
-                      flag = true;
-                      userinfo = item;
-                    }
-                  }
-                })
-              }
-              if(flag){
-                setSession("accessToken",true);//设置登录状态的值
-                setStore("userInfo",JSON.stringify(userinfo))
-                if(this.ruleForm.role == '1'){
-                  this.$router.replace({ name: 'homeStudent', params: userinfo})
-                }else if(this.ruleForm.role == '2'){//教师登录
-                  this.$router.replace({ name: 'homeTeacher', params: userinfo})
-                }else {
-                  alert("跳转到管理员页面")
-                }
-              }else {
-                alert("用户名或密码错误")
-              }
-            }
-          } else {
-            console.error('error login submit!!');
-            return false;
-          }
-        });
-      },
       registerSubmitForm(formName){
-        this.$refs[formName].validate(async(valid) => {
-          if (valid) {
-            console.log("角色------->",this.ruleForm)
-            const data = await registerUser(this.ruleForm)
-            console.log("注册结果------->",data)
-          } else {
-            console.error('error submit!!');
-            return false;
-          }
-        });
       }
     }
   }
@@ -212,67 +97,284 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less" type="text/less">
   @import '../../assets/mixin.less';
-  .door{
-    background-color: #ba7439;
-  }
-  .form_contianer .el-row{
-    margin: 15px 0;
-  }
-  .el-main{
-    padding: 0;
-  }
-  .manage_tip{
-    position: absolute;
-    width: 100%;
-    left:0;
-    p{
-      font-size: 34px;
-    }
-    button{
-      width: 200px;
-      margin-top: 20px;
-      font-size: 18px;
-    }
-  }
-  .senctionblock{
+  .wrapper_door{
     position: relative;
-    background-color: #eac996;
-    padding: 1px 18px 10px 18px;
-  }
-  .HomeBanner{
-    width: 100%;
-    height: -webkit-fill-available;
-    background-size: cover;
-  }
-  .form_contianer{
-    width: 320px;
-    min-height: 210px;
-    position: absolute;
-    top: 25%;
-    left: 75%;
-    margin-top: -105px;
-    margin-left: -160px;
-    padding: 25px;
-    border-radius: 5px;
-    text-align: center;
-    background-color: #ba7439;
-    .clickchange{
-      background-color: white;
-      position: absolute;
-      right: 5px;
-      z-index: 10;
-      top: 5px;
-    }
-    .loginButton{
-      font-size: 18px;
-      font-weight: 400;
-    }
-    .enterButton{
-      background-color: #00c1de;
-      font-size: 20px;
+    min-height: 100vh;
+    background-color: #fff;
+    .full-header{
+      position: fixed;
+      display: block;
+      margin: 0;
+      z-index: 8;
+      pointer-events: none;
+      top: 0;
+      left: 0;
+      height: 100%;
       width: 100%;
-      cursor: pointer;
-      color: white;
+      overflow: hidden;
+      .inner-1,.inner-2{
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+      }
+      .inner-1{
+        position: absolute;
+        background: #0e0e0e;
+        transition: transform 1s;
+        transition-timing-function: cubic-bezier(.85,0,.15,1);
+        will-change: transform;
+        transform: translateY(-100%);
+      }
+      .center_container{
+        position: absolute;
+        width: 50%;
+        height: 80%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        p{
+          text-align: center;
+          font-size: 48px;
+          margin: 30px 0;
+          color: white;
+          cursor: pointer;
+        }
+      }
+      .close{
+        display: block;
+        position: absolute;
+        left: 50%;
+        top: 31px;
+        width: 50px;
+        height: 50px;
+        margin: 0 0 0 -25px;
+        color: white;
+        z-index: 8;
+        cursor: pointer;
+        i{
+          transition: transform .4s;
+        }
+        i:hover{
+          transform: rotate(180deg);
+          transition-delay: .1s;
+        }
+      }
+      a{
+        color: inherit;
+        outline: none;
+      }
+    }
+    .full-header.active{
+      pointer-events: auto;
+    }
+    .full-header.active .inner-1, .full-header.active .inner-2{
+      transform: translateY(0);
+    }
+    .main-loader{
+
+    }
+    .main-header{
+      height: 80px;
+      position: relative;
+      z-index: 5;
+      width: 100%;
+    }
+    .header_section{
+      text-align: left;
+    }
+    .left{
+      padding-left: 35px;
+      img{
+        width: 128px;
+        height: 80px;
+        cursor: pointer;
+      }
+    }
+    .right{
+      height: 80px;
+      .open{
+        display: block;
+        position: absolute;
+        width: 30px;
+        height: 21px;
+        top: 40%;
+        left: 50%;
+        cursor:pointer;
+        z-index: 2;
+      .icon{
+        width: 25px;
+        height: 14px;
+      .bar{
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 2px;
+        background: #000;
+        transition: transform .2s cubic-bezier(.75,0,.5,1);
+        will-change: transform;
+      }
+      .index-2{
+        top: 50%;
+        margin-top: -1px;
+      }
+      .index-3{
+        bottom: 0;
+      }
+      }
+      }
+    }
+  }
+  .main_page_container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    .section_left{
+      position: absolute;
+      top: 40px;
+      right: 58%;
+      bottom: 40px;
+      left: 40px;
+      .video{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 478px;
+        height: 354px;
+        margin: -177px 0 0 -239px;
+      }
+      .delay-1{
+        transition-delay: .05s;
+      }
+    }
+    .section_right{
+      position: absolute;
+      top: 40px;
+      right: 40px;
+      bottom: 40px;
+      left: 42%;
+      .visuals{
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 30%;
+        background: #cfd2d2;
+        z-index: 1;
+        cursor:pointer;
+        .picture{
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          img{
+            position: relative;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            left: 0;
+          }
+        }
+        .video_container{
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          .video{
+            opacity: 0;
+            transition: opacity .8s;
+            will-change: opacity;
+            video{
+              width: 100%;
+              height: 100%;
+              opacity: 0.99;
+              object-fit: fill;
+            }
+          }
+          .video:hover{
+            opacity: 1;
+          }
+        }
+      }
+      .delay-1{
+        transition-delay: .05s;
+      }
+      .center_section{
+        position: absolute;
+        top: 50%;
+        left: 10%;
+        margin-top: -80px;
+        width: 200px;
+        height: 150px;
+        z-index: 6;
+        .title_sec{
+          font-size: 65px;
+          width: 400px;
+          margin: 0 0 10px 0px;
+          font-family: cursive;
+          font-weight: 600;
+          font-style: normal;
+          color: rgb(0,0,0);
+        }
+        .top_sec{
+          position: absolute;
+          top: -70px;
+          left: 42px;
+          font-family: Mensch;
+          font-weight: 400;
+          font-size: 14px;
+        }
+        .date_sec{
+          position: absolute;
+          top: 22px;
+          right: calc(100% - 13px);
+          .top{
+            position: absolute;
+            right: 0;
+            bottom: 5px;
+            font-family: cursive
+          }
+          .stroke{
+            display: block;
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40px;
+            height: 1px;
+            background: #000;
+            transform: scaleX(1);
+          }
+          .bottom{
+            position: absolute;
+            top: 5px;
+            right: 0;
+          }
+        }
+        .arrow{
+          display: block;
+          width: 40px;
+          font-size: 28px;
+          margin: 0 0 0 64px;
+          transition: transform .3s;
+          will-change: transform;
+        }
+        .arrow i{
+          transform: rotate(180deg);
+        }
+        .arrow:hover{
+          transform:translate(5px,0px);
+          cursor: pointer;
+        }
+      }
     }
   }
 </style>

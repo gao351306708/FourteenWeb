@@ -24,7 +24,7 @@
               <el-row>
                 <span>中心：{{props.row.centerId}}</span>
               </el-row>
-              <el-form label-position="left" inline class="demo-table-expand" v-for=" (item,index) in props.row.otherInfo">
+              <el-form label-position="left" inline class="demo-table-expand" v-for=" (item,index) in props.row.otherInfo" :key="index">
                 <el-form-item>
                   <span>{{"科目" + (index+1) + "："}}</span><span>{{item.subjectId=='0' ? '数学':'英语'}}</span>
                 </el-form-item>
