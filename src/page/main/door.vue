@@ -1,6 +1,12 @@
 <template>
   <el-container class="wrapper_door">
-    <div class="main-loader"></div>
+    <div class="main-loader">
+      <!--<div :class="loadingFlag?'loader-1 loading': 'loader-1'">-->
+        <!--<div class="imgRotate" >-->
+          <!--<img src="../../../static/images/loading2.png">-->
+        <!--</div>-->
+      <!--</div>-->
+    </div>
     <header :class="openFlag?'full-header active': 'full-header'">
       <div class="inner-1">
         <div class="inner-2">
@@ -8,9 +14,9 @@
             <i class="el-icon-close" style="font-size: 36px"></i>
           </a>
           <div class="center_container">
-            <p style="margin-top:25% ">BLOG</p>
-            <p>ABOUT US</p>
-            <p>CONTACT</p>
+            <p style="margin-top:25%"><span style="width:180px">BLOG</span></p>
+            <p><span style="width:280px">ABOUT US</span></p>
+            <p><span style="width:280px">CONTACT</span></p>
           </div>
         </div>
       </div>
@@ -29,11 +35,32 @@
         </el-col>
       </el-row>
     </header>
-    <div class="nav"></div>
+    <nav class="navigation active">
+      <div class="list">
+        <div>
+          <i class="el-icon-back arrowUp" ></i>
+        </div>
+        <a>
+          <div class="bannerSection"><span>第二页</span></div>
+        </a>
+        <a>
+          <div class="bannerSection"><span>第三页</span></div>
+        </a>
+        <a>
+          <div class="bannerSection"><span>第四页</span></div>
+        </a>
+        <a>
+          <div class="bannerSection"><span>第五页</span></div>
+        </a>
+        <div>
+          <i class="el-icon-back arrowDown"></i>
+        </div>
+      </div>
+    </nav>
     <el-main class="main_page_container">
       <section class="section_left">
         <div class="video delay-1">
-          <video width="478" height="354" muted autoplay="true" src="../../../static/sources/Latest_work_fond.mp4"></video>
+          <video width="478" height="354" muted preload="auto" id="animationVideo1" src="../../../static/sources/Latest_work_fond.mp4"></video>
         </div>
       </section>
       <section class="section_right">
@@ -43,7 +70,7 @@
           </span>
           <span class="video_container">
             <span class="video">
-              <video muted autoplay="true" id="animationVideo" src="../../../static/sources/texte_animation.mp4"></video>
+              <video muted preload="auto" id="animationVideo2" src="../../../static/sources/texte_animation.mp4"></video>
             </span>
           </span>
         </a>
@@ -76,20 +103,36 @@
     data () {
       return {
         openFlag:false,
+        loadingFlag:false,
+        video1:null
       }
     },
     mounted() {
       //监听页面事件
-      var video = document.getElementById('animationVideo');
+      var video1 = document.getElementById('animationVideo1');
+      var video2 = document.getElementById('animationVideo2');
+      this.video1 = video1;
       $('.video_container .video').hover(function(){
-        if(video.paused){
-          video.play();
+        if(video2.paused){
+          video2.play();
         }
       })
+      let _this = this;
+      setTimeout(function(){
+        _this.loadingFlag = true
+      },3500)
+    },
+    watch:{
+      'loadingFlag': function(cur,old){
+        if(cur){
+          var video1 = document.getElementById('animationVideo1');
+          if(video1.paused){
+            video1.play();
+          }
+        }
+      }
     },
     methods:{
-      registerSubmitForm(formName){
-      }
     }
   }
 </script>
@@ -101,6 +144,109 @@
     position: relative;
     min-height: 100vh;
     background-color: #fff;
+    .main-loader{
+      position: fixed;
+      z-index: 15;
+      pointer-events: none;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      .loader-1{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-color: #000000;
+        transition: transform 1s;
+        transition-timing-function: cubic-bezier(.85,0,.15,1);
+        will-change: transform;
+      }
+      .loading{
+        transform: translateX(-100%);
+      }
+      .imgRotate img{
+        position: absolute;
+        top:50%;
+        left: 50%;
+        width: 300px;
+        height: 100px;
+        margin: -50px 0 0 -150px;
+        animation:rotating 2.5s linear forwards;
+      }
+      @keyframes rotating{
+        from {transform:rotate(0deg) scale(1);}
+        to {transform:rotate(360deg) scale(4);}
+      }
+    }
+    nav.navigation{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: fixed;
+      top: calc(50% - 120px);
+      bottom: calc(50% - 120px);
+      left: 15px;
+      width: 40px;
+      z-index: 50;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s,transform .3s;
+      will-change: opacity,transform;
+      a{
+        display: inline-block;
+        position: relative;
+        width:28px;
+        height: 16px;
+        padding: 0;
+        cursor: pointer;
+        transition: height .3s,transform .3s;
+        .bannerSection{
+          display: inline-block;
+          position: relative;
+          top: -8px;
+          height: 0px;
+          border: 1px solid #d5d5d5;
+          width: 100%;
+          text-align: center;
+          font-size: 18px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          span{
+            display: block;
+            padding: 5px;
+          }
+        }
+      }
+      a:hover{
+        height: 100px;
+        border: 1px solid #818181;
+        .bannerSection{
+          border: none;
+          height: 100%;
+          padding-top: 8px;
+        }
+      }
+      .arrowUp{
+        font-size: 22px;
+        transform: rotate(90deg);
+        color: darkgray;
+        cursor: pointer;
+      }
+      .arrowDown{
+        font-size: 22px;
+        transform: rotate(-90deg);
+        color: darkgray;
+        cursor: pointer;
+      }
+    }
+    nav.navigation.active{
+      opacity: 1;
+      pointer-events: auto;
+    }
     .full-header{
       position: fixed;
       display: block;
@@ -141,6 +287,27 @@
           color: white;
           cursor: pointer;
         }
+        p span{
+          display: inline-block;
+          position: relative;
+          width: 300px;
+        }
+        p span::before{
+          content: "";
+          display: inline-block;
+          position: absolute;
+          width: 0px;
+          height: 5px;
+          color: red;
+          background-color: white;
+          margin-top: 30px;
+          margin-left: -20px;
+          z-index: 39;
+          transition: width .5s;
+        }
+        p span:hover:before{
+          width:100%
+        }
       }
       .close{
         display: block;
@@ -172,58 +339,66 @@
     .full-header.active .inner-1, .full-header.active .inner-2{
       transform: translateY(0);
     }
-    .main-loader{
-
-    }
     .main-header{
       height: 80px;
       position: relative;
       z-index: 5;
       width: 100%;
+      .left{
+        padding-left: 35px;
+        img{
+          width: 128px;
+          height: 80px;
+          cursor: pointer;
+        }
+      }
+      .right{
+        height: 80px;
+        .open{
+          display: block;
+          position: absolute;
+          width: 30px;
+          height: 21px;
+          top: 40%;
+          left: 50%;
+          cursor:pointer;
+          z-index: 2;
+          .icon{
+            width: 25px;
+            height: 14px;
+            .bar{
+              position: absolute;
+              display: block;
+              width: 100%;
+              height: 2px;
+              background: #000;
+              transition: transform .2s cubic-bezier(.75,0,.5,1);
+              will-change: transform;
+            }
+            .index-2{
+              top: 50%;
+              margin-top: -1px;
+            }
+            .index-3{
+              bottom: 0;
+            }
+          }
+        }
+        .open:hover{
+          .index-1{
+          transform: translateX(-5px);
+          }
+          .index-2{
+          transform: translateX(5px);
+          }
+          .index-3{
+          transform: translateX(-5px);
+          }
+        }
+      }
     }
     .header_section{
       text-align: left;
-    }
-    .left{
-      padding-left: 35px;
-      img{
-        width: 128px;
-        height: 80px;
-        cursor: pointer;
-      }
-    }
-    .right{
-      height: 80px;
-      .open{
-        display: block;
-        position: absolute;
-        width: 30px;
-        height: 21px;
-        top: 40%;
-        left: 50%;
-        cursor:pointer;
-        z-index: 2;
-      .icon{
-        width: 25px;
-        height: 14px;
-      .bar{
-        position: absolute;
-        display: block;
-        width: 100%;
-        height: 2px;
-        background: #000;
-        transition: transform .2s cubic-bezier(.75,0,.5,1);
-        will-change: transform;
-      }
-      .index-2{
-        top: 50%;
-        margin-top: -1px;
-      }
-      .index-3{
-        bottom: 0;
-      }
-      }
-      }
     }
   }
   .main_page_container{

@@ -7,7 +7,7 @@
       </el-row>
     </el-header>
     <el-main>
-      <img src="../../../static/images/homeBanner.jpg" class="HomeBanner" />
+      <!--<img src="../../../static/images/homeBanner.jpg" class="HomeBanner" />-->
       <section class="form_contianer">
         <div class="senctionblock">
           <el-row>
