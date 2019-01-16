@@ -1,11 +1,11 @@
 <template>
   <el-container class="wrapper_door">
     <div class="main-loader">
-      <!--<div :class="loadingFlag?'loader-1 loading': 'loader-1'">-->
-        <!--<div class="imgRotate" >-->
-          <!--<img src="../../../static/images/loading2.png">-->
-        <!--</div>-->
-      <!--</div>-->
+      <div :class="loadingFlag?'loader-1 loading': 'loader-1'">
+        <div class="imgRotate" >
+          <img src="../../../static/images/loading2.png">
+        </div>
+      </div>
     </div>
     <header :class="openFlag?'full-header active': 'full-header'">
       <div class="inner-1">
