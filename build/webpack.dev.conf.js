@@ -67,13 +67,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       chunks:['indexApp']
     }),
     new HtmlWebpackPlugin({
-      filename: 'faXianShiShuXue.html',
-      template: 'faXianShiShuXue.html',
-      favicon: path.resolve('favicon.ico'),
-      inject: true,
-      chunks:['faXianShiShuXue']
-    }),
-    new HtmlWebpackPlugin({
       filename: 'manage.html',
       template: 'manage.html',
       inject: true,

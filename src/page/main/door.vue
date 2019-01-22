@@ -1,12 +1,12 @@
 <template>
   <el-container class="wrapper_door">
-    <div class="main-loader">
-      <div :class="loadingFlag?'loader-1 loading': 'loader-1'">
-        <div class="imgRotate" >
-          <img src="../../../static/images/loading2.png">
-        </div>
-      </div>
-    </div>
+    <!--<div class="main-loader">-->
+      <!--<div :class="loadingFlag?'loader-1 loading': 'loader-1'">-->
+        <!--<div class="imgRotate" >-->
+          <!--<img src="../../../static/images/loading2.png">-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
     <header :class="openFlag?'full-header active': 'full-header'">
       <div class="inner-1">
         <div class="inner-2">
@@ -15,7 +15,7 @@
           </a>
           <div class="center_container">
             <p style="margin-top:25%"><span style="width:180px">BLOG</span></p>
-            <p><span style="width:280px">ABOUT US</span></p>
+            <p><span style="width:280px">ABOUT ME</span></p>
             <p><span style="width:280px">CONTACT</span></p>
           </div>
         </div>
@@ -35,61 +35,23 @@
         </el-col>
       </el-row>
     </header>
-    <nav class="navigation active">
+    <nav class="navigation active" router>
       <div class="list">
-        <div>
+        <div style="margin-bottom: 8px" @click="arrowClick('pre')">
           <i class="el-icon-back arrowUp" ></i>
         </div>
-        <a>
-          <div class="bannerSection"><span>第二页</span></div>
+        <a v-for="(item,index) in navList"
+           :class="['num'+(index+1),{'active':(index+1)==currentNum}]"
+            @click="currentNum=(index+1)">
+          <div class="bannerSection"><span>{{item}}</span></div>
         </a>
-        <a>
-          <div class="bannerSection"><span>第三页</span></div>
-        </a>
-        <a>
-          <div class="bannerSection"><span>第四页</span></div>
-        </a>
-        <a>
-          <div class="bannerSection"><span>第五页</span></div>
-        </a>
-        <div>
+        <div @click="arrowClick('next')">
           <i class="el-icon-back arrowDown"></i>
         </div>
       </div>
     </nav>
-    <el-main class="main_page_container">
-      <section class="section_left">
-        <div class="video delay-1">
-          <video width="478" height="354" muted preload="auto" id="animationVideo1" src="../../../static/sources/Latest_work_fond.mp4"></video>
-        </div>
-      </section>
-      <section class="section_right">
-        <a class="visuals delay-1">
-          <span class="picture">
-            <img src="../../../static/images/page_chapitre720x1000.png">
-          </span>
-          <span class="video_container">
-            <span class="video">
-              <video muted preload="auto" id="animationVideo2" src="../../../static/sources/texte_animation.mp4"></video>
-            </span>
-          </span>
-        </a>
-        <div class="center_section">
-          <div class="top_sec">
-            FourteenWeb/<br>
-            Personal Web Site
-          </div>
-          <div class="title_sec">STARTING</div>
-          <div class="date_sec">
-            <div class="top">2019</div>
-            <span class="stroke"></span>
-            <div class="bottom">Present</div>
-          </div>
-          <div class="arrow">
-            <i class="el-icon-back" style="width: 30px"></i>
-          </div>
-        </div>
-      </section>
+    <el-main class="center_view">
+      <router-view></router-view>
     </el-main>
   </el-container>
 </template>
@@ -104,23 +66,19 @@
       return {
         openFlag:false,
         loadingFlag:false,
-        video1:null
+        video1:null,
+        navList:['首页','技术文档','大杂烩','娱乐'],
+        currentNum:1,
+        opacityFlag:false
       }
     },
     mounted() {
-      //监听页面事件
-      var video1 = document.getElementById('animationVideo1');
-      var video2 = document.getElementById('animationVideo2');
-      this.video1 = video1;
-      $('.video_container .video').hover(function(){
-        if(video2.paused){
-          video2.play();
-        }
-      })
       let _this = this;
       setTimeout(function(){
         _this.loadingFlag = true
-      },3500)
+      },3500);
+      //监听页面事件
+      this.windowAddMouseWheel();
     },
     watch:{
       'loadingFlag': function(cur,old){
@@ -130,9 +88,100 @@
             video1.play();
           }
         }
-      }
+      },
     },
     methods:{
+      arrowClick(param){
+        if(param == 'pre'){
+          if(this.currentNum != 1){
+            this.currentNum = this.currentNum-1;
+          }
+        }else {
+          if(this.currentNum != this.navList.length){
+            this.currentNum = this.currentNum+1;
+          }
+        }
+      },
+      windowAddMouseWheel() {
+        let _this = this;
+        var time1 = 0;
+        var scrollFunc = function (e) {
+          e = e || window.event;
+          let timeStamp = parseInt(e.timeStamp);//滚动的时间戳
+          console.log("scrollFunc---->",timeStamp);
+          if (e.wheelDelta) {  //判断浏览器IE，谷歌滑轮事件
+            console.log("scrollFunc---->111111111111111111111111-->",time1);
+            if (e.wheelDelta > 0) { //当滑轮向上滚动时
+              if(time1 != timeStamp){
+                time1 = timeStamp;
+                _this.scrollHandle('up');
+              }
+            }
+            if (e.wheelDelta < 0) { //当滑轮向下滚动时
+              if(time1 != timeStamp){
+                time1 = timeStamp;
+                _this.scrollHandle('down');
+              }
+            }
+          } else if (e.detail) {  //Firefox滑轮事件
+            console.log("scrollFunc---->222222222222222222222");
+            if (e.detail> 0) { //当滑轮向上滚动时
+              _this.scrollHandle('up');
+            }
+            if (e.detail< 0) { //当滑轮向下滚动时
+              _this.scrollHandle('down');
+            }
+          }
+        };
+        //给页面绑定滑轮滚动事件
+        if (document.addEventListener) {
+          document.addEventListener('DOMMouseScroll', scrollFunc, false);
+        }
+        //滚动滑轮触发scrollFunc方法
+        window.onmousewheel = document.onmousewheel = scrollFunc;
+      },
+      scrollHandle(direaction){
+        console.log("direaction",direaction);
+        if(direaction == 'up'){
+          if(this.currentNum>1){
+            this.currentNum = this.currentNum-1;
+            this.changePage();
+          }
+        }else {
+          if(this.currentNum < this.navList.length){
+            this.currentNum = this.currentNum+1;
+            this.changePage();
+          }
+        }
+      },
+      changePage(){
+        let _this = this;
+        $(".wrapper_door").transition({
+          opacity: 0.1,
+          duration: 1000,
+          easing: 'linear',
+          complete:function(){
+            switch (_this.currentNum)
+            {
+              case 1 :
+                _this.$router.push({path:'/'});
+                break;
+              case 2 :
+                _this.$router.push({path:'Amusement'});
+                break;
+              case 3 :
+                _this.$router.push({path:'AllMost'});
+                break;
+              case 4 :
+                _this.$router.push({path:'Blog'});
+                break;
+              default :
+                _this.$router.push({path:'/'});
+                break;
+            }
+          }
+        });
+      }
     }
   }
 </script>
@@ -144,6 +193,7 @@
     position: relative;
     min-height: 100vh;
     background-color: #fff;
+    opacity:1;
     .main-loader{
       position: fixed;
       z-index: 15;
@@ -183,23 +233,23 @@
       }
     }
     nav.navigation{
+      position: fixed;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      position: fixed;
       top: calc(50% - 120px);
       bottom: calc(50% - 120px);
       left: 15px;
       width: 40px;
-      z-index: 50;
-      opacity: 0;
-      pointer-events: none;
+      z-index: 14;
+      opacity: 1;
+      pointer-events: auto;
       transition: opacity .3s,transform .3s;
       will-change: opacity,transform;
       a{
         display: inline-block;
         position: relative;
-        width:28px;
+        width:24px;
         height: 16px;
         padding: 0;
         cursor: pointer;
@@ -208,11 +258,13 @@
           display: inline-block;
           position: relative;
           top: -8px;
+          margin-top: 8px;
           height: 0px;
+          line-height: 25px;
           border: 1px solid #d5d5d5;
           width: 100%;
           text-align: center;
-          font-size: 18px;
+          font-size: 14px;
           overflow: hidden;
           text-overflow: ellipsis;
           span{
@@ -221,14 +273,24 @@
           }
         }
       }
-      a:hover{
-        height: 100px;
-        border: 1px solid #818181;
+      a:hover,a.active{
+        border: 1px solid #9c9c9c;
         .bannerSection{
           border: none;
           height: 100%;
-          padding-top: 8px;
         }
+      }
+      .num1:hover,a.num1.active{
+        height: 60px;
+      }
+      .num2:hover,a.num2.active{
+        height: 110px;
+      }
+      .num3:hover,a.num3.active{
+        height: 90px;
+      }
+      .num4:hover,a.num4.active{
+        height: 60px;
       }
       .arrowUp{
         font-size: 22px;
@@ -242,10 +304,6 @@
         color: darkgray;
         cursor: pointer;
       }
-    }
-    nav.navigation.active{
-      opacity: 1;
-      pointer-events: auto;
     }
     .full-header{
       position: fixed;
@@ -401,155 +459,7 @@
       text-align: left;
     }
   }
-  .main_page_container{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    .section_left{
-      position: absolute;
-      top: 40px;
-      right: 58%;
-      bottom: 40px;
-      left: 40px;
-      .video{
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 478px;
-        height: 354px;
-        margin: -177px 0 0 -239px;
-      }
-      .delay-1{
-        transition-delay: .05s;
-      }
-    }
-    .section_right{
-      position: absolute;
-      top: 40px;
-      right: 40px;
-      bottom: 40px;
-      left: 42%;
-      .visuals{
-        display: block;
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 30%;
-        background: #cfd2d2;
-        z-index: 1;
-        cursor:pointer;
-        .picture{
-          display: block;
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          img{
-            position: relative;
-            position: absolute;
-            height: 100%;
-            width: 100%;
-            left: 0;
-          }
-        }
-        .video_container{
-          display: block;
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          .video{
-            opacity: 0;
-            transition: opacity .8s;
-            will-change: opacity;
-            video{
-              width: 100%;
-              height: 100%;
-              opacity: 0.99;
-              object-fit: fill;
-            }
-          }
-          .video:hover{
-            opacity: 1;
-          }
-        }
-      }
-      .delay-1{
-        transition-delay: .05s;
-      }
-      .center_section{
-        position: absolute;
-        top: 50%;
-        left: 10%;
-        margin-top: -80px;
-        width: 200px;
-        height: 150px;
-        z-index: 6;
-        .title_sec{
-          font-size: 65px;
-          width: 400px;
-          margin: 0 0 10px 0px;
-          font-family: cursive;
-          font-weight: 600;
-          font-style: normal;
-          color: rgb(0,0,0);
-        }
-        .top_sec{
-          position: absolute;
-          top: -70px;
-          left: 42px;
-          font-family: Mensch;
-          font-weight: 400;
-          font-size: 14px;
-        }
-        .date_sec{
-          position: absolute;
-          top: 22px;
-          right: calc(100% - 13px);
-          .top{
-            position: absolute;
-            right: 0;
-            bottom: 5px;
-            font-family: cursive
-          }
-          .stroke{
-            display: block;
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 40px;
-            height: 1px;
-            background: #000;
-            transform: scaleX(1);
-          }
-          .bottom{
-            position: absolute;
-            top: 5px;
-            right: 0;
-          }
-        }
-        .arrow{
-          display: block;
-          width: 40px;
-          font-size: 28px;
-          margin: 0 0 0 64px;
-          transition: transform .3s;
-          will-change: transform;
-        }
-        .arrow i{
-          transform: rotate(180deg);
-        }
-        .arrow:hover{
-          transform:translate(5px,0px);
-          cursor: pointer;
-        }
-      }
-    }
+  .center_view{
+    /*width: 100%;*/
   }
 </style>

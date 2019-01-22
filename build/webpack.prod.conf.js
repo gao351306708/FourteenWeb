@@ -78,18 +78,6 @@ const webpackConfig = merge(baseWebpackConfig, {
     }),
     new HtmlWebpackPlugin({
       filename: config.build.faXianShiShuXue,
-      template: 'faXianShiShuXue.html',
-      inject: true,
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true
-      },
-      chunksSortMode: 'dependency',
-      chunks:['manifest','vendor','faXianShiShuXue']
-    }),
-    new HtmlWebpackPlugin({
-      filename: config.build.faXianShiShuXue,
       template: 'manage.html',
       inject: true,
       minify: {

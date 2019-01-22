@@ -23,7 +23,6 @@ module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
     indexApp: './src/index.js',
-    faXianShiShuXue: './src/enter/faXianShiShuXue/index.js',
     manage: './src/enter/manageCenter/index.js',
   },
   output: {
