@@ -83,17 +83,17 @@
     right: 58%;
     bottom: 40px;
     left: 40px;
-  .video{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 478px;
-    height: 354px;
-    margin: -177px 0 0 -239px;
-  }
-  .delay-1{
-    transition-delay: .05s;
-  }
+    .video{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 478px;
+      height: 354px;
+      margin: -177px 0 0 -239px;
+    }
+    .delay-1{
+      transition-delay: .05s;
+    }
   }
   .section_right{
     position: absolute;

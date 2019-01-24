@@ -2,9 +2,12 @@
 <template>
   <div class="amusement">
     <section class="section_left">
+      <div class="video delay-1">
+        <video muted preload="auto" autoplay="true" id="animationVideo3" src="../../../static/sources/BNP_large_gif.mp4"></video>
+      </div>
     </section>
     <section class="section_right" >
-      <a class="visuals delay-1">
+      <a class="visuals delay-1" @click="goToUrl(current)">
           <span class="picture">
             <img :src="partList[current].imgUrl">
           </span>
@@ -30,6 +33,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import {getAllPhotos} from '../../api/unsplash.js'
   export default {
     //data中放入初始默认值
     data() {
@@ -48,6 +52,8 @@
           }
         ],
         current:0,
+        interval:null,
+        pictureList:[]
       }
     },
     beforeMount(){
@@ -59,9 +65,33 @@
       });
     },
     mounted(){
-
+      let len = this.partList.length,_this = this;
+      this.interval = window.setInterval(function(){
+        console.log("setInterval");
+        if(_this.current == len-1){
+          _this.current = 0;
+        }else {
+          _this.current = _this.current + 1;
+        }
+      },4000)
+      $('#animationVideo3').hover(function(){
+        if($(this)[0].paused){
+          $(this)[0].play();
+        }
+      });
+      getAllPhotos(1,20,(data)=>{
+        console.log("getAllPhotos--------->",data);
+      })
     },
     methods:{
+      goToUrl(index){
+        console.log("goToUrl   --->",index);
+//        window.location.href = 'https://unsplash.com/';
+      }
+    },
+    destroyed(){
+      window.clearInterval(this.interval);//清除定时
+      console.log("destroyed   ----   setInterval");
     }
   }
 </script>
@@ -81,6 +111,21 @@
       bottom: 40px;
       right: 58%;
       left: 50px;
+      .video{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 578px;
+        height: 454px;
+        margin: -227px 0 0 -289px;
+        video{
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .delay-1{
+        transition-delay: .05s;
+      }
     }
     .section_right{
       position: absolute;
@@ -119,7 +164,7 @@
         top: 50%;
         left: 10%;
         margin-top: -100px;
-        margin-left: 50px;
+        margin-left: 20px;
         width: 160px;
         z-index: 6;
         .centerPart{
