@@ -37,6 +37,7 @@
     name: 'door',
     data () {
       return {
+        pageName:'door',
         loadingFlag:false,
         video1:null,
         navList:[
@@ -123,9 +124,7 @@
         var scrollFunc = function (e) {
           e = e || window.event;
           let timeStamp = parseInt(e.timeStamp);//滚动的时间戳
-          console.log("scrollFunc---->",timeStamp);
           if (e.wheelDelta) {  //判断浏览器IE，谷歌滑轮事件
-            console.log("scrollFunc---->111111111111111111111111-->",time1,timeStamp-time1);
             if (e.wheelDelta > 0) { //当滑轮向上滚动时
               if(time1 != timeStamp){
                 if(timeStamp-time1<100){
@@ -143,7 +142,6 @@
               }
             }
           } else if (e.detail) {  //Firefox滑轮事件
-            console.log("scrollFunc---->222222222222222222222");
             if (e.detail> 0) { //当滑轮向上滚动时
               _this.scrollHandle('up');
             }
@@ -152,24 +150,26 @@
             }
           }
         };
-        //给页面绑定滑轮滚动事件
+        //给页面绑定滑轮滚动事件,注册事件
         if (document.addEventListener) {
           document.addEventListener('DOMMouseScroll', scrollFunc, false);
         }
-        //滚动滑轮触发scrollFunc方法
+        //滚动滑轮触发scrollFunc方法,IE、chrome、safira
         window.onmousewheel = document.onmousewheel = scrollFunc;
       },
       scrollHandle(direaction){
-        console.log("direaction",direaction);
-        if(direaction == 'up'){
-          if(this.currentNum>1){
-            this.currentNum = this.currentNum-1;
-            this.changePage();
-          }
-        }else {
-          if(this.currentNum < this.navList.length){
-            this.currentNum = this.currentNum+1;
-            this.changePage();
+        if(this.pageName && this.pageName == 'door'){
+          console.log("direaction",direaction);
+          if(direaction == 'up'){
+            if(this.currentNum>1){
+              this.currentNum = this.currentNum-1;
+              this.changePage();
+            }
+          }else {
+            if(this.currentNum < this.navList.length){
+              this.currentNum = this.currentNum+1;
+              this.changePage();
+            }
           }
         }
       },
@@ -190,6 +190,10 @@
           }
         });
       }
+    },
+    destroyed(){
+      this.pageName = '';
+      console.warn('destroyed destroyed   destroyed-----destroyed----destroyed')
     }
   }
 </script>

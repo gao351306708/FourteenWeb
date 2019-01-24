@@ -55,7 +55,7 @@
       bottom: 40px;
       left: 60px;
       right: 60px;
-      background: url("../../../static/images/weekly1.png") no-repeat center;
+      background: url("/static/images/weekly1.png") no-repeat center;
       .section_left{
         position: absolute;
         top: 40px;
