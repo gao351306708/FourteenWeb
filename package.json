@@ -40,6 +40,7 @@
     "vue": "^2.5.17",
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.0.1",
+    "vue-waterfall": "^1.0.6",
     "webpack": "^2.6.1",
     "webpack-hot-middleware": "^2.24.3"
   },

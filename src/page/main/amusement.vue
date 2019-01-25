@@ -1,35 +1,6 @@
 /**娱乐模块**/
 <template>
-  <div class="amusement">
-    <section class="section_left">
-      <div class="video delay-1">
-        <video muted preload="auto" autoplay="true" id="animationVideo3" src="../../../static/sources/BNP_large_gif.mp4"></video>
-      </div>
-    </section>
-    <section class="section_right" >
-      <a class="visuals delay-1" @click="goToUrl(current)">
-          <span class="picture">
-            <img :src="partList[current].imgUrl">
-          </span>
-      </a>
-      <div class="center_section">
-        <div class="centerPart"
-             v-for="(item,index) in partList"
-             :key="index"
-             @click="current=index">
-          <div :class="index==current?'title_sec active': 'title_sec'">{{item.title}}</div>
-          <div class="date_sec" v-if="index==current">
-            <div class="top">{{item.mouth}}</div>
-            <span class="stroke"></span>
-            <div class="bottom">{{item.year}}</div>
-          </div>
-        </div>
-        <div class="arrow">
-          <i class="el-icon-back" style="width: 30px"></i>
-        </div>
-      </div>
-    </section>
-  </div>
+  <router-view></router-view>
 </template>
 
 <script type="text/ecmascript-6">
@@ -37,61 +8,7 @@
   export default {
     //data中放入初始默认值
     data() {
-      return {
-        partList:[
-          {
-            title:'Picture',
-            year:'2018',
-            mouth:'9月',
-            imgUrl:'../../../static/images/amusement1.jpg'
-          },{
-            title:'Video',
-            year:'2019',
-            mouth:'1月',
-            imgUrl:'../../../static/images/amusement2.jpg'
-          }
-        ],
-        current:0,
-        interval:null,
-        pictureList:[]
-      }
-    },
-    beforeMount(){
-      let _this = this;
-      $(".wrapper_door").transition({
-        opacity: 1,
-        duration: 1000,
-        easing: 'linear'
-      });
-    },
-    mounted(){
-      let len = this.partList.length,_this = this;
-      this.interval = window.setInterval(function(){
-        console.log("setInterval");
-        if(_this.current == len-1){
-          _this.current = 0;
-        }else {
-          _this.current = _this.current + 1;
-        }
-      },4000)
-      $('#animationVideo3').hover(function(){
-        if($(this)[0].paused){
-          $(this)[0].play();
-        }
-      });
-      getAllPhotos(1,20,(data)=>{
-        console.log("getAllPhotos--------->",data);
-      })
-    },
-    methods:{
-      goToUrl(index){
-        console.log("goToUrl   --->",index);
-//        window.location.href = 'https://unsplash.com/';
-      }
-    },
-    destroyed(){
-      window.clearInterval(this.interval);//清除定时
-      console.log("destroyed   ----   setInterval");
+      return {}
     }
   }
 </script>

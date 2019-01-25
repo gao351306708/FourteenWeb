@@ -25,7 +25,6 @@ export function getAllPhotos(pageIndex,pageNum,callback) {
     unsplash.photos.listPhotos(pageIndex, pageNum,"latest")
         .then(toJson)
         .then(json => {
-            console.log(json);
             callback(json);
         });
 }

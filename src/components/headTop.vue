@@ -60,6 +60,7 @@
     height: 80px;
     width: 100%;
     z-index: 16;
+    background-color: white;
     .left{
       text-align: left;
       padding-left: 35px;

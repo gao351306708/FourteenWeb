@@ -11,6 +11,8 @@ import AllMost from './../page/main/allmost.vue'
 import Blog from './../page/main/blogs.vue'
 import AboutMe from './../page/main/about.vue'
 import ContactMe from './../page/main/contact.vue'
+import AmusementHome from './../page/main/amusement_home.vue'
+import Picture from './../page/main/amusement_picture.vue'
 
 
 const routes = [
@@ -26,6 +28,17 @@ const routes = [
         path: 'Amusement',
         name: 'Amusement',
         component: Amusement,
+        children:[
+          {
+            path: '',
+            name: 'AmusementHome',
+            component: AmusementHome
+          },{
+            path: 'Picture',
+            name: 'Picture',
+            component: Picture
+          }
+        ]
       },{
         path: 'AllMost',
         name: 'AllMost',

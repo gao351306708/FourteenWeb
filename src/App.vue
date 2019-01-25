@@ -35,4 +35,19 @@ export default {
     max-height: 400px;
     overflow: auto;
   }
+  .search .el-input input{
+    height: 50px !important;
+    line-height: 50px !important ;
+  }
+  .search .el-input .el-input__inner {
+    padding-left: 40px;
+  }
+  .search .el-input .el-input__icon{
+    font-size: 24px;
+    padding: 0 5px;
+    cursor: pointer;
+  }
+  .picture button i{
+    font-size: 24px;
+  }
 </style>

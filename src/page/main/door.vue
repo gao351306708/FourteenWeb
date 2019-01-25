@@ -37,7 +37,7 @@
     name: 'door',
     data () {
       return {
-        pageName:'door',
+//        pageName:this.GLOBAL.getPageName,
         loadingFlag:false,
         video1:null,
         navList:[
@@ -70,6 +70,9 @@
     components:{
       headTop
     },
+    beforeMount(){
+      this.GLOBAL.getPageName = true;
+    },
     mounted() {
       let _this = this;
       setTimeout(function(){
@@ -78,7 +81,7 @@
       this.setNavNum();
       //监听页面事件
       this.windowAddMouseWheel();
-      console.log("55555555555555555555555555555--->",this.$router.currentRoute.name)
+      console.log("55555555555555555555555555555--->",this.$router.currentRoute,this.$router.currentRoute.name)
     },
     watch:{
       'loadingFlag': function(cur,old){
@@ -109,7 +112,7 @@
         this.changePage();
       },
       setNavNum(){
-        let routename = this.$router.currentRoute.name;//当前路由name
+        let routename = this.$router.currentRoute.path.replace('\/','');//当前路由name
         let navList = this.navList;
         for(let i in navList){
           if(routename == navList[i].routename){
@@ -158,7 +161,7 @@
         window.onmousewheel = document.onmousewheel = scrollFunc;
       },
       scrollHandle(direaction){
-        if(this.pageName && this.pageName == 'door'){
+        if(this.GLOBAL.getPageName){
           console.log("direaction",direaction);
           if(direaction == 'up'){
             if(this.currentNum>1){
@@ -192,7 +195,7 @@
       }
     },
     destroyed(){
-      this.pageName = '';
+      this.GLOBAL.getPageName = false;
       console.warn('destroyed destroyed   destroyed-----destroyed----destroyed')
     }
   }
