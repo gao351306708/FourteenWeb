@@ -2,6 +2,7 @@
 <template>
   <div class="aboutMe">
     <head-top></head-top>
+    <div class="closeIcon" @click="exit()"><i class="el-icon-close" style="font-size: 36px"></i></div>
     <div class="section_container">
       <div class="top-section">
         <img src="../../../static/images/aboutHu.jpg">
@@ -24,8 +25,8 @@
         <div class="right">
           <div class="title">我的秘密</div>
           <div class="content">
-            <p>We are born out of</p>
-            <p>After spending years</p>
+            <p>Email:351306708@qq.com</p>
+            <p>Address:BeiJingHaiDian</p>
           </div>
         </div>
       </div>
@@ -105,6 +106,9 @@
       },1000)
     },
     methods:{
+      exit(){
+        this.$router.back();
+      }
     },
     destroyed(){
       window.clearInterval(this.interval2);//清除定时
@@ -122,6 +126,15 @@
     width: 100%;
     height: 100%;
     overflow-x: hidden;
+    .closeIcon{
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      right: 40px;
+      top: 35px;
+      z-index: 20;
+      cursor: pointer;
+    }
     .section_container{
       position: relative;
       top: 80px;

@@ -13,6 +13,7 @@ import AboutMe from './../page/main/about.vue'
 import ContactMe from './../page/main/contact.vue'
 import AmusementHome from './../page/main/amusement_home.vue'
 import Picture from './../page/main/amusement_picture.vue'
+import AearchPicture from './../page/main/amusement_picture_search.vue'
 
 
 const routes = [
@@ -26,17 +27,20 @@ const routes = [
         component: Home,
       },{
         path: 'Amusement',
-        name: 'Amusement',
         component: Amusement,
         children:[
           {
             path: '',
-            name: 'AmusementHome',
+            name: 'Amusement',
             component: AmusementHome
           },{
             path: 'Picture',
             name: 'Picture',
             component: Picture
+          },{
+            path: 'search',
+            name: 'searchPicture',
+            component: AearchPicture
           }
         ]
       },{

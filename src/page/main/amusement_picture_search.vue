@@ -1,26 +1,25 @@
 <template>
-  <div class="Picture">
+  <div class="searchPicture">
     <div class="closeIcon" @click="exit()"><i class="el-icon-close" style="font-size: 36px"></i></div>
+    <div class="section_search">
+      <p class="search">
+        <el-input prefix-icon="el-icon-search"
+                  v-model="searchValue"
+                  placeholder="输入匹配关键字查找"
+                  clearable></el-input>
+      </p>
+    </div>
     <div class="section_container">
-      <div class="section_header">
-        <div class="section_content">
-          <p class="title1">Unsplash</p>
-          <p class="title2">Beautiful, free photos.</p>
-          <p class="title2">Gifted by the world’s most generous community of photographers.</p>
-          <p class="search">
-            <el-input prefix-icon="el-icon-search"
-                      v-model="searchValue"
-                      placeholder="输入匹配关键字查找"
-                      clearable></el-input>
-          </p>
-          <p class="tips_content">Trending searches:business，computer，nature，love，house</p>
-        </div>
+      <div class="searchResult">
+        <div class="section1">{{searchValue + ' pictures'}}</div>
+        <div class="section2">{{searchTotal+ ' free ' +searchValue+ ' pictures'}}</div>
+        <div class="section3">{{searchTotal+ ' Photos '}}<span class="user">{{searchTotal+ ' Users'}}</span></div>
       </div>
       <div class="section_picture">
         <div v-if="pictureList.length>0">
           <Waterfall :line-gap="pictureWidth" :watch="pictureList">
             <WaterfallSlot v-for="(item, index) in pictureList"
-                           :height="(pictureWidth*item.height)/item.width"
+                           :height="(pictureWidth*item.height)/item.width + 100"
                            :width="pictureWidth"
                            :order="index"
                            :key="index"
@@ -38,11 +37,14 @@
                   </div>
                 </div>
               </div>
+              <div class="pictureIntroduce">
+                <p class="description">{{item.description}}</p>
+                <el-tag type="info" v-for="(itemm,index) in item.photo_tags.slice(0,3) " :key="index">{{itemm.title}}</el-tag>
+              </div>
             </WaterfallSlot>
           </Waterfall>
         </div>
         <div v-else>
-          <h1>没有查到。。。</h1>
           <img src="../../../static/images/photosNull.png">
         </div>
       </div>
@@ -66,7 +68,6 @@
         searchTotal:0,
         pictureWidth:400,
         pageNum:1,//页码 默认第一页
-        pageSize:30,//每页查询条数
       }
     },
     components:{
@@ -85,33 +86,35 @@
       let _this = this;
       $(".navigation").hide();
       this.GLOBAL.getPageName = false;
-      $('.search .el-icon-search').on('click',function(){
-        _this.searchPicture();
-      })
       this.pictureWidth = $('.section_picture').width()*0.333333 - 8;
+      this.searchValue = this.$route.query.keyName;
       //默认获取20张图片
-      getAllPhotos(this.pageNum,this.pageSize,(data)=>{
-        console.log("getAllPhotos--------->",this.GLOBAL.getPageName,data);
-        this.pictureList = data;
+      searchPhotos(this.searchValue,this.pageNum,(data)=>{
+        console.log("searchPhotos----searchPhotos----->",this.searchValue,this.pageNum,data);
+        this.searchTotal = data.total
+        this.pictureList = data.results;
       })
       document.onkeyup = function (e) {
         if (window.event)//如果window.event对象存在，就以此事件对象为准
           e = window.event;
-          var code = e.charCode || e.keyCode;
-          if (code == 13) {
-            _this.searchPicture();
-          }
+        var code = e.charCode || e.keyCode;
+        if (code == 13) {
+          _this.searchPicture();
+        }
       }
-      $('.Picture').scroll(function(){
+      $('.search .el-icon-search').on('click',function(){
+        _this.searchPicture();
+      })
+      $('.searchPicture').scroll(function(){
         let scrollH = $(this)[0].scrollHeight;
         let clientH = $(this)[0].clientHeight;
         let scrollTop = $(this).scrollTop();
         if(scrollTop + clientH == scrollH){
           console.log("到底了。。。",scrollH,clientH,scrollTop)
           _this.pageNum = _this.pageNum + 1;
-          getAllPhotos(_this.pageNum,_this.pageSize,(data)=>{
+          searchPhotos(_this.searchValue,_this.pageNum,(data)=>{
             console.log("getAllPhotos--------->",_this.pageNum,_this.pageSize,data);
-            _this.pictureList = _this.pictureList.concat(data);
+            _this.pictureList = _this.pictureList.concat(data.results);
           })
         }
       })
@@ -130,10 +133,7 @@
         return backColor;
       },
       backTotOP(){
-        $('.Picture').scrollTop(0);
-      },
-      scrollFunc(){
-        console.log("1111111111111111111111111111111111111111111");
+        $('.searchPicture').scrollTop(0);
       },
       exit(){
         this.$router.back();
@@ -146,7 +146,11 @@
           });
           return;
         }
-        this.$router.push({path:'search',query:{keyName:this.searchValue}})
+        searchPhotos(this.searchValue,1,(data)=>{
+          console.log("searchPhotos----searchPhotos----->",data);
+          this.searchTotal = data.total
+          this.pictureList = data.results;
+        })
       }
     },
     destroyed(){
@@ -157,7 +161,7 @@
 </script>
 <style scoped lang="less" type="text/less">
   @import '../../assets/mixin.less';
-  .Picture{
+  .searchPicture{
     position: absolute;
     top: 0;
     left: 0;
@@ -184,116 +188,134 @@
       z-index: 20;
       cursor: pointer;
     }
-    .section_container {
+  .section_search{
+    position: fixed;
+    top:80px;
+    height: 100px;
+    width: calc(100% - 90px);
+    padding: 0 45px;
+    z-index: 20;
+    background-color: white;
+    .search{
+      margin: 20px 0;
+    }
+  }
+  .section_container {
+    position: relative;
+    top: 180px;
+    bottom: 40px;
+    padding: 0 45px;
+    .searchResult{
       position: relative;
-      top: 80px;
-      bottom: 40px;
-      padding: 0 45px;
-      .section_header{
-        position: relative;
-        height: 500px;
-        background:url("/static/images/picture-header.jpg") no-repeat;
-        background-size: cover;
-        margin-bottom: 50px;
-        .section_content{
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 50%;
-          min-height: 100px;
-          transform: translate(-50%,-50%);
-          text-align: left;
-          .title1{
-            font-size: 48px;
-            color: white;
-            margin-bottom: 10px;
-          }
-          .title2{
-            font-size: 22px;
-            color: white;
-            margin: 8px 0;
-          }
-          .search{
-            margin: 20px 0;
-          }
-          .tips_content{
-            font-size: 16px;
-            color: hsla(0,0%,100%,.8);
-            margin: 8px;
-          }
-        }
+      max-width: 1320px;
+      padding-left: calc(4px * 3);
+      padding-right: calc(4px * 3);
+      margin: 0 auto;
+      text-align: left;
+      .section1{
+        font-size: 48px;
+        font-weight: bolder;
+        margin: 30px 20px;
       }
-      .section_picture{
-        max-width: 1320px;
-        padding-left: calc(4px * 3);
-        padding-right: calc(4px * 3);
-        margin: 0 auto;
-        .picture{
-          position: relative;
-          float: left;
-          margin: 0 10px;
-          cursor:pointer;
-          width: 100%;
-          height: 100%;
-          .details{
-            position: absolute;
-            display: none;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(154, 150, 150, 0.23);
-            opacity: 0.8;
-          }
-          img{
-            width: 100%;
-            height: 100%;
-          }
-          .top-right{
-            position: absolute;
-            text-align: right;
-            width: 100%;
-            top: 15px;
-            height: 60px;
-            button{
-              margin: 0 8px;
-            }
-            img{
-              float: left;
-              margin-right: 5px;
-            }
-          }
-          .bottom{
-            position: absolute;
-            text-align: left;
-            width: 100%;
-            height: 60px;
-            bottom: 5px;
-            img{
-              float: left;
-              margin-left: 10px;
-              width: 40px;
-              height: 40px;
-              border-radius: 20px;
-            }
-            .username{
-              float: left;
-              color: white;
-              margin: 10px 0 0 10px;
-            }
-            .download{
-              float: right;
-              margin-right: 10px;
-            }
-          }
-          .el-button{
-            padding: 4px 15px;
-            line-height: 24px;
-          }
-        }
-        .myPagination{
-
+      .section2{
+        font-size: 16px;
+        font-weight: bolder;
+        margin: 10px 20px 50px 20px;
+      }
+      .section3{
+        font-size: 18px;
+        font-weight: bolder;
+        margin: 20px 20px 10px 20px;
+        .user{
+          font-weight:100;
+          margin: 0 20px;
+          color: #999;
         }
       }
     }
+  .section_picture{
+    max-width: 1320px;
+    padding-left: calc(4px * 3);
+    padding-right: calc(4px * 3);
+    margin: 0 auto;
+    .pictureIntroduce{
+      position: relative;
+      height: 60px;
+      float: left;
+      margin: 0 10px;
+      width: 100%;
+      text-align: left;
+      .description{
+        white-space: nowrap;
+        margin: 15px 0;
+      }
+      span{
+        margin-right: 10px;
+      }
+    }
+    .picture{
+      position: relative;
+      float: left;
+      margin: 0 10px;
+      cursor:pointer;
+      width: 100%;
+      height: calc(100% - 100px);
+    .details{
+      position: absolute;
+      display: none;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(154, 150, 150, 0.23);
+      opacity: 0.8;
+    }
+    img{
+      width: 100%;
+      height: 100%;
+    }
+    .top-right{
+      position: absolute;
+      text-align: right;
+      width: 100%;
+      top: 15px;
+      height: 60px;
+      button{
+        margin: 0 8px;
+      }
+      img{
+        float: left;
+        margin-right: 5px;
+      }
+    }
+    .bottom{
+      position: absolute;
+      text-align: left;
+      width: 100%;
+      height: 60px;
+      bottom: 5px;
+    img{
+      float: left;
+      margin-left: 10px;
+      width: 40px;
+      height: 40px;
+      border-radius: 20px;
+    }
+    .username{
+      float: left;
+      color: white;
+      margin: 10px 0 0 10px;
+    }
+    .download{
+      float: right;
+      margin-right: 10px;
+    }
+    }
+    .el-button{
+      padding: 4px 15px;
+      line-height: 24px;
+    }
+    }
+  }
+  }
   }
 </style>

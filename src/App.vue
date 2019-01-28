@@ -50,4 +50,7 @@ export default {
   .picture button i{
     font-size: 24px;
   }
+  .searchPicture .search .el-input input{
+    border-radius: 25px;
+  }
 </style>

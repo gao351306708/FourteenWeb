@@ -19,13 +19,6 @@ router.beforeEach((to, from, next) => {
     next(); // 如果即将进入登录路由，则直接放行
   } else {   //进入的不是登录路由
     next();
-    //console.warn("改变路由的时候--",to.meta,sessionStorage.getItem('accessToken'))
-    //if(!sessionStorage.getItem('accessToken')) {
-    //  alert("请重新登录！")
-    //  next({ path: '/' })
-    //} else { //下一跳路由需要登录验证，并且还未登录，则路由定向到 登录路由
-    //  next()
-    //}
   }
 });
 

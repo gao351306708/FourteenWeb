@@ -125,48 +125,11 @@ export const loadMore = (element, callback) => {
     }
   }
 }
-
 /**
- * 显示返回顶部按钮，开始、结束、运动 三个过程中调用函数判断是否达到目标点
- */
-export const showBack = callback => {
-  let requestFram;
-  let oldScrollTop;
-
-  document.addEventListener('scroll',() => {
-    showBackFun();
-  }, false)
-  document.addEventListener('touchstart',() => {
-    showBackFun();
-  },{passive: true})
-
-  document.addEventListener('touchmove',() => {
-    showBackFun();
-  },{passive: true})
-
-  document.addEventListener('touchend',() => {
-    oldScrollTop = document.body.scrollTop;
-    moveEnd();
-  },{passive: true})
-
-  const moveEnd = () => {
-    requestFram = requestAnimationFrame(() => {
-      if (document.body.scrollTop != oldScrollTop) {
-        oldScrollTop = document.body.scrollTop;
-        moveEnd();
-      }else{
-        cancelAnimationFrame(requestFram);
-      }
-      showBackFun();
-    })
-  }
-
-  //判断是否达到目标点
-  const showBackFun = () => {
-    if (document.body.scrollTop > 500) {
-      callback(true);
-    }else{
-      callback(false);
-    }
-  }
+ * 图片预加载，当没有加载出来的时候用默认颜色
+ * **/
+const colorList = ['#CDDC39','#80c1de','#ee6d45','#94d897','#f0b0fb','#c1a49a','#bedc9b','#f6eb89','#98b3fb','#ffc7fb'];
+export const HandlePreImg = ()=>{
+  let random = Math.floor(Math.random()*10);
+  return colorList[random];
 }

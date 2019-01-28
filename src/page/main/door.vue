@@ -81,7 +81,6 @@
       this.setNavNum();
       //监听页面事件
       this.windowAddMouseWheel();
-      console.log("55555555555555555555555555555--->",this.$router.currentRoute,this.$router.currentRoute.name)
     },
     watch:{
       'loadingFlag': function(cur,old){
