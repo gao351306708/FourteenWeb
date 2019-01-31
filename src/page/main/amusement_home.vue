@@ -24,7 +24,7 @@
             <div class="bottom">{{item.year}}</div>
           </div>
         </div>
-        <div class="arrow">
+        <div class="arrow" @click="goToUrl('arrow')">
           <i class="el-icon-back" style="width: 30px"></i>
         </div>
       </div>

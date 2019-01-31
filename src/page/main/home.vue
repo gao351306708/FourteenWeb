@@ -29,7 +29,7 @@
           <div class="bottom">Present</div>
         </div>
         <div class="arrow">
-          <i class="el-icon-back" style="width: 30px"></i>
+          <router-link to="/Amusement/Picture"><i class="el-icon-back" style="width: 30px"></i></router-link>
         </div>
       </div>
     </section>

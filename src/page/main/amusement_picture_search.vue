@@ -179,15 +179,6 @@
       border-radius: 25px;
       cursor: pointer;
     }
-    .closeIcon{
-      position: fixed;
-      width: 40px;
-      height: 40px;
-      right: 40px;
-      top: 35px;
-      z-index: 20;
-      cursor: pointer;
-    }
   .section_search{
     position: fixed;
     top:80px;

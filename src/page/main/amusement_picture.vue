@@ -146,7 +146,7 @@
           });
           return;
         }
-        this.$router.push({path:'search',query:{keyName:this.searchValue}})
+        this.$router.push({path:'Search',query:{keyName:this.searchValue}})
       }
     },
     destroyed(){
@@ -173,15 +173,6 @@
       height: 50px;
       background-color: #2196f37a;
       border-radius: 25px;
-      cursor: pointer;
-    }
-    .closeIcon{
-      position: fixed;
-      width: 40px;
-      height: 40px;
-      right: 40px;
-      top: 35px;
-      z-index: 20;
       cursor: pointer;
     }
     .section_container {

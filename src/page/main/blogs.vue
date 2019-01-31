@@ -1,21 +1,6 @@
 /**技术文档模块**/
 <template>
-  <div class="blog">
-    <div class="section_container">
-      <div class="section_left">
-        <img src="../../../static/images/attachment.jpg">
-      </div>
-      <div class="section_right">
-        <div class="text">
-          <p class="text1">My Blog</p>
-          <p class="text2">Cras congue et risus eget congue. Integer id justo non orci suscipit cursus a scelerisque libero. Fusce in tortor mauris. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas euismod sed magna.</p>
-          <p>
-            <el-button round>进 入</el-button>
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
+  <router-view></router-view>
 </template>
 
 <script type="text/ecmascript-6">
@@ -24,18 +9,6 @@
     data() {
       return {
       }
-    },
-    beforeMount(){
-      let _this = this;
-      $(".wrapper_door").transition({
-        opacity: 1,
-        duration: 1000,
-        easing: 'linear'
-      });
-    },
-    mounted(){
-    },
-    methods:{
     }
   }
 </script>

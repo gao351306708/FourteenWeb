@@ -9,6 +9,9 @@ import Home from './../page/main/home.vue'
 import Amusement from './../page/main/amusement.vue'
 import AllMost from './../page/main/allmost.vue'
 import Blog from './../page/main/blogs.vue'
+import BlogHome from './../page/main/blogs_home.vue'
+import BlogList from './../page/main/blogs_list.vue'
+import BlogDetails from './../page/main/blogs_details.vue'
 import AboutMe from './../page/main/about.vue'
 import ContactMe from './../page/main/contact.vue'
 import AmusementHome from './../page/main/amusement_home.vue'
@@ -38,7 +41,7 @@ const routes = [
             name: 'Picture',
             component: Picture
           },{
-            path: 'search',
+            path: 'Search',
             name: 'searchPicture',
             component: AearchPicture
           }
@@ -49,8 +52,22 @@ const routes = [
         component: AllMost,
       },{
         path: 'Blog',
-        name: 'Blog',
         component: Blog,
+        children:[
+          {
+            path: '',
+            name: 'Blog',
+            component: BlogHome
+          },{
+            path: 'List',
+            name: 'BlogList',
+            component: BlogList,
+          },{
+            path: 'Detail',
+            name: 'BlogDetails',
+            component: BlogDetails
+          }
+        ]
       }
     ]
   },{

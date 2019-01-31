@@ -53,4 +53,7 @@ export default {
   .searchPicture .search .el-input input{
     border-radius: 25px;
   }
+  .blogList .el-pagination .el-icon,.blogList .el-pagination .el-pager li{
+    font-size: 16px !important;
+  }
 </style>
