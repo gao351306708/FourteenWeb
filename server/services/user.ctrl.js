@@ -19,9 +19,8 @@ userRouter.get('/wechat_login', function(req,res, next){
   var router = 'get_wx_access_token';
   // 这是编码后的地址
   var return_uri = encodeURIComponent('http://www.rambogj.club/api/user/'+router);
-  var scope = 'snsapi_login';
-  res.redirect('https://open.weixin.qq.com/connect/qrconnect?appid='+AppID+'&redirect_uri='+return_uri+'&response_type=code&scope='+scope+'&state=STATE123#wechat_redirect');
-
+  var scope = 'snsapi_userinfo';
+  res.redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid='+AppID+'&redirect_uri='+return_uri+'&response_type=code&scope='+scope+'&state=STATE123#wechat_redirect');
 });
 userRouter.get('/get_wx_access_token',async(req, res,next) => {
   // 第二步：通过code换取网页授权access_token
@@ -49,6 +48,10 @@ userRouter.get('/get_wx_access_token',async(req, res,next) => {
               })
             }else{
               console.log(response.statusCode);
+              res.json({
+                code:response.statusCode,
+                data:userinfo
+              })
             }
           }
         );

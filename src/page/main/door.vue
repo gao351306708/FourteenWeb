@@ -86,7 +86,7 @@
     mounted() {
       //调用微信登录接口
       var obj = new WxLogin({
-        self_redirect:false,
+        self_redirect:true,
         id:"login_container",
         appid: "wx68bd8e40de0fba53",
         scope: "snsapi_login",
@@ -115,13 +115,15 @@
     },
     methods:{
       loginClick(){
-        let  url = '/api/user/wechat_login';
+        let  url = 'http://www.rambogj.club/api/user/get_wx_access_token?code=071CiI481ZMHkM1nEd381lVt481CiI4R&state=STATE123';
         let data={
           method: 'GET',
-          mode: "no-cors",
         }
         fetch(url,data).then((res)=>{
-          console.log(res)
+          console.log(res.json());
+          return res.json();
+        }).then((data)=>{
+          console.log(data)
         })
       },
       arrowClick(param){
