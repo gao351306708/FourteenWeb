@@ -8,6 +8,16 @@
       <!--</div>-->
     <!--</div>-->
     <head-top></head-top>
+    <!--<el-button class="login" @click="loginClick">login</el-button>-->
+    <el-popover
+      class="login"
+      placement="bottom"
+      title="登录"
+      width="300"
+      trigger="click">
+      <div id="login_container" style="height: 300px"></div>
+      <el-button slot="reference">login</el-button>
+    </el-popover>
     <nav class="navigation active" router>
       <div class="list">
         <div style="margin-bottom: 8px" @click="arrowClick('pre')">
@@ -74,6 +84,16 @@
       this.GLOBAL.getPageName = true;
     },
     mounted() {
+      //调用微信登录接口
+      var obj = new WxLogin({
+        id:"login_container",
+        appid: "wx7ed662d5bd83f33b",
+        scope: "snsapi_login",
+        redirect_uri: "http://www.rambogj.club",
+        state: "STATE",
+        style: "black",
+        href: ""
+      });
       let _this = this;
       setTimeout(function(){
         _this.loadingFlag = true
@@ -93,6 +113,9 @@
       },
     },
     methods:{
+      loginClick(){
+
+      },
       arrowClick(param){
         if(param == 'pre'){
           if(this.currentNum != 1){
@@ -245,6 +268,12 @@
         from {transform:rotate(0deg) scale(1);}
         to {transform:rotate(360deg) scale(4);}
       }
+    }
+    .login{
+      position: absolute;
+      z-index: 100;
+      right: 10px;
+      top: 10px;
     }
     nav.navigation{
       position: fixed;
