@@ -3,6 +3,14 @@ import fetch_requset from '../config/fetch'
 const API_CONFIG = '/api/user';
 
 /**
+ * [wechatLogin 微信登录]
+ * @return {[type]}  [description]
+ */
+export const wechatLogin = (data) => {
+  const url = `${API_CONFIG}/wechat_login`;
+  return fetch_requset(url,data,'GET')
+}
+/**
  * [doLogin 登录]
  * @return {[type]}  [description]
  */

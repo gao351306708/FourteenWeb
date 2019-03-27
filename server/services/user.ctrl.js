@@ -9,8 +9,54 @@ var fs = require('fs')
 var os = require('os')
 var User = require('../database/user.db.js');
 var Helper = require('../util/helper');
-const userRouter = express.Router()
+const userRouter = express.Router();
+var request = require('request');
+var AppID = 'wx68bd8e40de0fba53';
+var AppSecret = 'c103fc279ba805633f47c66a86c2cb7a';
 
+userRouter.get('/wechat_login', function(req,res, next){
+  // 第一步：用户同意授权，获取code
+  var router = 'get_wx_access_token';
+  // 这是编码后的地址
+  var return_uri = encodeURIComponent('http://www.rambogj.club/api/user/'+router);
+  var scope = 'snsapi_userinfo';
+  res.redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid='+AppID+'&redirect_uri='+return_uri+'&response_type=code&scope='+scope+'&state=STATE#wechat_redirect');
+
+});
+userRouter.get('/get_wx_access_token',async(req, res,next) => {
+  // 第二步：通过code换取网页授权access_token
+  console.log("wechat_req==>",req.query);
+  var code = req.query.code;
+  request.get({
+      url:'https://api.weixin.qq.com/sns/oauth2/access_token?appid='+AppID+'&secret='+AppSecret+'&code='+code+'&grant_type=authorization_code',
+    }, function(error, response, body){
+      if(response.statusCode == 200){
+        // 第三步：拉取用户信息(需scope为 snsapi_userinfo)
+        console.log("获取的数据2==>",JSON.parse(body));
+        var data = JSON.parse(body);
+        var access_token = data.access_token;
+        var openid = data.openid;
+        request.get({url:'https://api.weixin.qq.com/sns/userinfo?access_token='+access_token+'&openid='+openid+'&lang=zh_CN'},
+          function(error, response, body){
+            if(response.statusCode == 200){
+              // 第四步：根据获取的用户信息进行对应操作
+              var userinfo = JSON.parse(body);
+              console.log('获取微信信息成功！');
+              //到这就写完了，你应该拿到微信信息以后去干该干的事情，比如对比数据库该用户有没有关联过你们的数据库，如果没有就让用户关联....等等等...
+              res.json({
+                code:200,
+                data:userinfo
+              })
+            }else{
+              console.log(response.statusCode);
+            }
+          }
+        );
+      }else{
+        console.log(response.statusCode);
+      }
+})
+});
 userRouter.post('/login',async(req, res) => {
   var props = req.body;
   var user = new User({props: props});

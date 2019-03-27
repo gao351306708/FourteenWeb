@@ -8,15 +8,15 @@
       <!--</div>-->
     <!--</div>-->
     <head-top></head-top>
-    <!--<el-button class="login" @click="loginClick">login</el-button>-->
+    <el-button class="login" @click="loginClick">login</el-button>
     <el-popover
-      class="login"
+      class="login2"
       placement="bottom"
       title="登录"
       width="300"
       trigger="click">
       <div id="login_container" style="height: 300px"></div>
-      <el-button slot="reference">login</el-button>
+      <el-button slot="reference">login2</el-button>
     </el-popover>
     <nav class="navigation active" router>
       <div class="list">
@@ -40,7 +40,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {doLogin,doTestLogin,registerUser} from '../../api/user'
+  import {wechatLogin,doTestLogin,registerUser} from '../../api/user'
   import {setStore,getStore,clearStore,setSession,getSession} from '../../config/publicMethod'
   import headTop from '../../components/headTop.vue'
   export default {
@@ -85,15 +85,15 @@
     },
     mounted() {
       //调用微信登录接口
-      var obj = new WxLogin({
-        id:"login_container",
-        appid: "wx7ed662d5bd83f33b",
-        scope: "snsapi_login",
-        redirect_uri: "http://www.rambogj.club",
-        state: "STATE",
-        style: "black",
-        href: ""
-      });
+//      var obj = new WxLogin({
+//        id:"login_container",
+//        appid: "wx68bd8e40de0fba53",
+//        scope: "snsapi_login",
+//        redirect_uri: encodeURIComponent('http://www.rambogj.club/api/user/weChat_Login'),
+//        state: "STATE",
+//        style: "black",
+//        href: ""
+//      });
       let _this = this;
       setTimeout(function(){
         _this.loadingFlag = true
@@ -114,7 +114,14 @@
     },
     methods:{
       loginClick(){
-
+        let  url = '/api/user/wechat_login';
+        let data={
+          method: 'GET',
+          mode: "no-cors",
+        }
+        fetch(url,data).then((res)=>{
+          console.log(res)
+        })
       },
       arrowClick(param){
         if(param == 'pre'){
@@ -273,6 +280,12 @@
       position: absolute;
       z-index: 100;
       right: 10px;
+      top: 10px;
+    }
+    .login2{
+      position: absolute;
+      z-index: 100;
+      right: 100px;
       top: 10px;
     }
     nav.navigation{
