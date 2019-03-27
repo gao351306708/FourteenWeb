@@ -85,15 +85,16 @@
     },
     mounted() {
       //调用微信登录接口
-//      var obj = new WxLogin({
-//        id:"login_container",
-//        appid: "wx68bd8e40de0fba53",
-//        scope: "snsapi_login",
-//        redirect_uri: encodeURIComponent('http://www.rambogj.club/api/user/weChat_Login'),
-//        state: "STATE",
-//        style: "black",
-//        href: ""
-//      });
+      var obj = new WxLogin({
+        self_redirect:false,
+        id:"login_container",
+        appid: "wx68bd8e40de0fba53",
+        scope: "snsapi_login",
+        redirect_uri: encodeURIComponent('http://www.rambogj.club/api/user/get_wx_access_token'),
+        state: "STATE123",
+        style: "black",
+        href: ""
+      });
       let _this = this;
       setTimeout(function(){
         _this.loadingFlag = true
