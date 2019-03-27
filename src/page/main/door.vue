@@ -8,7 +8,19 @@
       <!--</div>-->
     <!--</div>-->
     <head-top></head-top>
-    <el-button class="login" @click="loginClick">login</el-button>
+    <el-popover
+      class="login"
+      placement="bottom"
+      title="登录"
+      width="300"
+      trigger="click">
+      <div style="min-height: 100px">
+        code:<el-input v-model="input1" placeholder="请输入内容"></el-input>
+        state:<el-input v-model="input2" placeholder="请输入内容"></el-input>
+        <el-button slot="reference" @click="loginClick">确定</el-button>
+      </div>
+      <el-button slot="reference">login</el-button>
+    </el-popover>
     <el-popover
       class="login2"
       placement="bottom"
@@ -75,7 +87,9 @@
           }
         ],
         currentNum:1,
-        opacityFlag:false
+        opacityFlag:false,
+        input1:'',
+        input2:''
       }
     },
     components:{
@@ -123,7 +137,7 @@
             'Content-Type': 'application/json'
           },
         }
-        fetch('http://www.rambogj.club/api/user/get_wx_access_token?code=081DniO51g5c6T1Cz1O51Op3O51DniOv&state=STATE123',requestConfig).then((res)=>{
+        fetch(`http://www.rambogj.club/api/user/get_wx_access_token?code=${this.input1}&state=${this.input2}`,requestConfig).then((res)=>{
           console.log(res);
           return res.json();
         }).then((data)=>{
