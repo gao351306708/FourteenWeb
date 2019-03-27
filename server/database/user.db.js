@@ -9,7 +9,15 @@ var User = function(user) {
     this.props = user.props
 };
 
-
+/*用户登录校验*/
+User.prototype.getAllUser = function() {
+  var _sql = '';
+  _sql = `select userid,username from tblStudent`;
+  const res = query_db({sql: _sql, name: 'getAllUser'}).catch((err)=>{
+    console.log("服务端查询出错了。。。",err)
+  })
+  return res
+}
 /*用户登录校验*/
 User.prototype.getUser = function() {
   var _sql = '';

@@ -41,6 +41,7 @@
 
 <script type="text/ecmascript-6">
   import {wechatLogin,doTestLogin,registerUser} from '../../api/user'
+  import {getAllClassesOfCenter,getAllStudentOfClass} from '../../api/manage'
   import {setStore,getStore,clearStore,setSession,getSession} from '../../config/publicMethod'
   import headTop from '../../components/headTop.vue'
   export default {
@@ -115,15 +116,18 @@
     },
     methods:{
       loginClick(){
-        let  url = 'http://www.rambogj.club/api/user/get_wx_access_token?code=071CiI481ZMHkM1nEd381lVt481CiI4R&state=STATE123';
-        let data={
+        let requestConfig = {
           method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
         }
-        fetch(url,data).then((res)=>{
-          console.log(res.json());
+        fetch('http://www.rambogj.club/api/user/get_wx_access_token?code=081DniO51g5c6T1Cz1O51Op3O51DniOv&state=STATE123',requestConfig).then((res)=>{
+          console.log(res);
           return res.json();
         }).then((data)=>{
-          console.log(data)
+          console.log(data);
         })
       },
       arrowClick(param){

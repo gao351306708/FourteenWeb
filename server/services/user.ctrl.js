@@ -18,7 +18,7 @@ userRouter.get('/wechat_login', function(req,res, next){
   // 第一步：用户同意授权，获取code
   var router = 'get_wx_access_token';
   // 这是编码后的地址
-  var return_uri = encodeURIComponent('http://www.rambogj.club/api/user/'+router);
+  var return_uri = encodeURIComponent('http://http://www.rambogj.club/api/user/'+router);
   var scope = 'snsapi_userinfo';
   res.redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid='+AppID+'&redirect_uri='+return_uri+'&response_type=code&scope='+scope+'&state=STATE123#wechat_redirect');
 });
@@ -79,9 +79,9 @@ userRouter.post('/login',async(req, res) => {
 userRouter.get('/getAllUser',async(req, res) => {
       var props = {};
       var user = new User({props: props});
-      const result = await user.getUserAllItems();
+      const result = await user.getAllUser();
       console.log("服务端返回的数据-------111111111111----->>",result)
-      if(!result){
+      if(result){
         res.json({
           code:200,
           data:result
