@@ -8,28 +8,50 @@
       <!--</div>-->
     <!--</div>-->
     <head-top></head-top>
-    <el-popover
-      class="login"
-      placement="bottom"
-      title="登录"
-      width="300"
-      trigger="click">
-      <div style="min-height: 100px">
-        code:<el-input v-model="input1" placeholder="请输入内容"></el-input>
-        state:<el-input v-model="input2" placeholder="请输入内容"></el-input>
-        <el-button slot="reference" @click="loginClick">确定</el-button>
-      </div>
-      <el-button slot="reference">login</el-button>
-    </el-popover>
-    <el-popover
-      class="login2"
-      placement="bottom"
-      title="登录"
-      width="300"
-      trigger="click">
-      <div id="login_container" style="height: 300px"></div>
-      <el-button slot="reference">login2</el-button>
-    </el-popover>
+    <el-row class="allLogin">
+      <el-col :xs="24" :md="6">
+        <el-popover
+          class="login"
+          placement="bottom"
+          title="网页扫码"
+          width="300"
+          trigger="click">
+          <div style="min-height: 100px">
+            code:<el-input v-model="input1" placeholder="请输入内容"></el-input>
+            state:<el-input v-model="input2" placeholder="请输入内容"></el-input>
+            <el-button slot="reference" @click="loginClick('1')">网页扫码</el-button>
+          </div>
+          <el-button slot="reference">login</el-button>
+        </el-popover>
+      </el-col>
+      <el-col :xs="24" :md="9">
+        <el-popover
+          class="login2"
+          placement="bottom"
+          title="自定义login"
+          width="300"
+          trigger="click">
+          <div id="login_container" style="height: 300px"></div>
+          <el-button slot="reference">自定义login</el-button>
+        </el-popover>
+      </el-col>
+      <el-col :xs="24" :md="9">
+        <el-popover
+          class="login2"
+          placement="bottom"
+          title="微信获取信息"
+          width="300"
+          trigger="click">
+          <div style="min-height: 100px">
+            code:<el-input v-model="input3" placeholder="请输入内容"></el-input>
+            encryptedData:<el-input v-model="input4" placeholder="请输入内容"></el-input>
+            iv:<el-input v-model="input5" placeholder="请输入内容"></el-input>
+            <el-button slot="reference" @click="loginClick('2')">点击获取</el-button>
+          </div>
+          <el-button slot="reference">微信获取信息</el-button>
+        </el-popover>
+      </el-col>
+    </el-row>
     <nav class="navigation active" router>
       <div class="list">
         <div style="margin-bottom: 8px" @click="arrowClick('pre')">
@@ -89,7 +111,10 @@
         currentNum:1,
         opacityFlag:false,
         input1:'',
-        input2:''
+        input2:'',
+        input3:'',
+        input4:'',
+        input5:'',
       }
     },
     components:{
@@ -129,7 +154,7 @@
       },
     },
     methods:{
-      loginClick(){
+      loginClick(param){
         let requestConfig = {
           method: 'GET',
           headers: {
@@ -137,7 +162,16 @@
             'Content-Type': 'application/json'
           },
         }
-        fetch(`http://www.rambogj.club/api/user/get_wx_access_token?code=${this.input1}&state=${this.input2}`,requestConfig).then((res)=>{
+        let url='';
+        if(param == '1'){
+          url = `http://www.rambogj.club/api/user/get_wx_access_token?code=${this.input1}&state=${this.input2}`;
+        }else if(param == '2'){
+          let code = '011KfAKr1uobdm00RsJr1KnKKr1KfAKV';
+          let encryptedData = '7RUFgdoSOJcK9kjjSpY8pMps2cFnCtpUlBIJDgGd3AQmpPAKUSAq4pr2JVqYzX33dtTl5l7kb87BF50hYbbORbZHYv4E+2FqhudoPbe524FCHGa3AK7U6BXzUREHOC7q0TpfWzplNdKxTaOawNPninwdyvqXaqNyGdnvfcK2jhvLR0o3R2Q/Qx9iSa+p4Qu4xbPV8wY7XhGCmo2lzyKaoETS7ZdHlo4Owrb2rlVEdvI+7grbx7U+PXsFgUzamFtwZ5TNdG5HPgZ03tFMoy9JVESB2dRzaT/UtzmRvy5L6DbGPurUNVG8SuIUjW+Rwop98ykDyJMnCIh6USptwyZIkA6nxs8HVpcn8Bk9TPfQwzUgrQAf1NjY+tPjJDGV6YOGmytNUFhqy2UU8tDbfFH78tlPO6ttwdwWgrfvqLkEeQvYDfQT4fi9ZWWZhsjhrGsmDqJKRWzqHkaIQuRxdZJcuUIDiPZ6KNDHDFeKFlV72Yc=';
+          let iv = 'DWc6pA0nIIXM2TPfsRC7SA==';
+          url = `/api/user/getUnionId?code=${this.input3}&encryptedData=${this.input4}&iv=${this.input5}`;
+        }
+        fetch(url,requestConfig).then((res)=>{
           console.log(res);
           return res.json();
         }).then((data)=>{
@@ -297,17 +331,13 @@
         to {transform:rotate(360deg) scale(4);}
       }
     }
-    .login{
+    .allLogin{
       position: absolute;
       z-index: 100;
-      right: 10px;
+      right: 20px;
       top: 10px;
-    }
-    .login2{
-      position: absolute;
-      z-index: 100;
-      right: 100px;
-      top: 10px;
+      margin: 0;
+      padding: 0;
     }
     nav.navigation{
       position: fixed;
