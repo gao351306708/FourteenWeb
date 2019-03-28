@@ -1,13 +1,17 @@
 /**首页模块**/
 <template>
   <div class="Home">
-    <section class="section_left">
-      <div class="video delay-1">
-        <video width="478" height="354" muted preload="auto" id="animationVideo1" src="../../../static/sources/Latest_work_fond.mp4"></video>
-      </div>
-    </section>
-    <section class="section_right" >
-      <a class="visuals delay-1">
+    <el-row :gutter="10">
+      <el-col :xs="0" :md="12">
+        <section class="section_left">
+          <div class="video delay-1">
+            <video width="478" height="354" muted preload="auto" id="animationVideo1" src="../../../static/sources/Latest_work_fond.mp4"></video>
+          </div>
+        </section>
+      </el-col>
+      <el-col :xs="24" :md="12">
+        <section class="section_right" >
+          <a class="visuals delay-1">
           <span class="picture">
             <img src="../../../static/images/page_chapitre720x1000.jpg">
           </span>
@@ -16,23 +20,25 @@
               <video muted preload="auto" id="animationVideo2" src="../../../static/sources/texte_animation.mp4"></video>
             </span>
           </span>
-      </a>
-      <div class="center_section">
-        <div class="top_sec">
-          FourteenWeb/<br>
-          Personal Web Site
-        </div>
-        <div class="title_sec">STARTING</div>
-        <div class="date_sec">
-          <div class="top">2019</div>
-          <span class="stroke"></span>
-          <div class="bottom">Present</div>
-        </div>
-        <div class="arrow">
-          <router-link to="/Amusement/Picture"><i class="el-icon-back" style="width: 30px"></i></router-link>
-        </div>
-      </div>
-    </section>
+          </a>
+          <div class="center_section">
+            <div class="top_sec">
+              FourteenWeb/<br>
+              Personal Web Site
+            </div>
+            <div class="title_sec">STARTING</div>
+            <div class="date_sec">
+              <div class="top">2019</div>
+              <span class="stroke"></span>
+              <div class="bottom">Present</div>
+            </div>
+            <div class="arrow">
+              <router-link to="/Amusement/Picture"><i class="el-icon-back" style="width: 30px"></i></router-link>
+            </div>
+          </div>
+        </section>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -78,10 +84,11 @@
     height: 100%;
     overflow: hidden;
   .section_left{
-    position: absolute;
+    position: relative;
+    height: 93vh;
     top: 40px;
-    right: 58%;
-    bottom: 40px;
+    /*right: 58%;*/
+    /*bottom: 40px;*/
     left: 40px;
     .video{
       position: absolute;
@@ -96,11 +103,12 @@
     }
   }
   .section_right{
-    position: absolute;
+    position: relative;
+    height: 93vh;
     top: 40px;
     right: 40px;
-    bottom: 40px;
-    left: 42%;
+    /*bottom: 40px;*/
+    /*left: 42%;*/
   .visuals{
     display: block;
     position: absolute;
@@ -155,7 +163,7 @@
   .center_section{
     position: absolute;
     top: 50%;
-    left: 10%;
+    left: 15%;
     margin-top: -80px;
     width: 200px;
     height: 150px;

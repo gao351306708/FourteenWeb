@@ -1,34 +1,40 @@
 /**娱乐模块**/
 <template>
   <div class="amusement">
-    <section class="section_left">
-      <div class="video delay-1">
-        <video muted preload="auto" autoplay="true" id="animationVideo3" src="../../../static/sources/BNP_large_gif.mp4"></video>
-      </div>
-    </section>
-    <section class="section_right" >
-      <a class="visuals delay-1" @click="goToUrl(current)">
+    <el-row :gutter="10">
+      <el-col :xs="0" :md="12">
+        <section class="section_left">
+          <div class="video delay-1">
+            <video muted preload="auto" autoplay="true" id="animationVideo3" src="../../../static/sources/BNP_large_gif.mp4"></video>
+          </div>
+        </section>
+      </el-col>
+      <el-col :xs="24" :md="12">
+        <section class="section_right" >
+          <a class="visuals delay-1" @click="goToUrl(current)">
           <span class="picture">
             <img :src="partList[current].imgUrl">
           </span>
-      </a>
-      <div class="center_section">
-        <div class="centerPart"
-             v-for="(item,index) in partList"
-             :key="index"
-             @click="current=index">
-          <div :class="index==current?'title_sec active': 'title_sec'">{{item.title}}</div>
-          <div class="date_sec" v-if="index==current">
-            <div class="top">{{item.mouth}}</div>
-            <span class="stroke"></span>
-            <div class="bottom">{{item.year}}</div>
+          </a>
+          <div class="center_section">
+            <div class="centerPart"
+                 v-for="(item,index) in partList"
+                 :key="index"
+                 @click="current=index">
+              <div :class="index==current?'title_sec active': 'title_sec'">{{item.title}}</div>
+              <div class="date_sec" v-if="index==current">
+                <div class="top">{{item.mouth}}</div>
+                <span class="stroke"></span>
+                <div class="bottom">{{item.year}}</div>
+              </div>
+            </div>
+            <div class="arrow" @click="goToUrl('arrow')">
+              <i class="el-icon-back" style="width: 30px"></i>
+            </div>
           </div>
-        </div>
-        <div class="arrow" @click="goToUrl('arrow')">
-          <i class="el-icon-back" style="width: 30px"></i>
-        </div>
-      </div>
-    </section>
+        </section>
+      </el-col>
+    </el-row>
     <router-view></router-view>
   </div>
 </template>
@@ -106,10 +112,11 @@
     height: 100%;
     overflow: hidden;
   .section_left{
-    position: absolute;
+    position: relative;
+    height: 93vh;
     top: 40px;
-    bottom: 40px;
-    right: 58%;
+    /*bottom: 40px;*/
+    /*right: 58%;*/
     left: 50px;
   .video{
     position: absolute;
@@ -128,10 +135,11 @@
   }
   }
   .section_right{
-    position: absolute;
+    position: relative;
+    height: 93vh;
     top: 40px;
-    bottom: 40px;
-    left: 42%;
+    /*bottom: 40px;*/
+    /*left: 42%;*/
     right: 50px;
   .visuals{
     display: block;
@@ -162,7 +170,7 @@
   .center_section{
     position: absolute;
     top: 50%;
-    left: 10%;
+    left: 15%;
     margin-top: -100px;
     margin-left: 20px;
     width: 160px;
