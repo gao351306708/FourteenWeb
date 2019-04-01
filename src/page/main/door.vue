@@ -1,57 +1,65 @@
 <template>
   <el-container class="wrapper_door">
-    <!--<div class="main-loader">-->
-      <!--<div :class="loadingFlag?'loader-1 loading': 'loader-1'">-->
-        <!--<div class="imgRotate" >-->
-          <!--<img src="../../../static/images/loading2.png">-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
+    <div class="main-loader">
+      <div :class="loadingFlag?'loader-1 loading': 'loader-1'">
+        <div class="imgRotate" >
+          <img src="../../../static/images/loading2.png">
+        </div>
+      </div>
+    </div>
     <head-top></head-top>
-    <el-row class="allLogin">
-      <el-col :xs="24" :md="6">
-        <el-popover
-          class="login"
-          placement="bottom"
-          title="网页扫码"
-          width="300"
-          trigger="click">
-          <div style="min-height: 100px">
-            code:<el-input v-model="input1" placeholder="请输入内容"></el-input>
-            state:<el-input v-model="input2" placeholder="请输入内容"></el-input>
-            <el-button slot="reference" @click="loginClick('1')">网页扫码</el-button>
-          </div>
-          <el-button slot="reference">login</el-button>
-        </el-popover>
-      </el-col>
-      <el-col :xs="24" :md="9">
-        <el-popover
-          class="login2"
-          placement="bottom"
-          title="自定义login"
-          width="300"
-          trigger="click">
-          <div id="login_container" style="height: 300px"></div>
-          <el-button slot="reference">自定义login</el-button>
-        </el-popover>
-      </el-col>
-      <el-col :xs="24" :md="9">
-        <el-popover
-          class="login2"
-          placement="bottom"
-          title="微信获取信息"
-          width="300"
-          trigger="click">
-          <div style="min-height: 100px">
-            code:<el-input v-model="input3" placeholder="请输入内容"></el-input>
-            encryptedData:<el-input v-model="input4" placeholder="请输入内容"></el-input>
-            iv:<el-input v-model="input5" placeholder="请输入内容"></el-input>
-            <el-button slot="reference" @click="loginClick('2')">点击获取</el-button>
-          </div>
-          <el-button slot="reference">微信获取信息</el-button>
-        </el-popover>
-      </el-col>
-    </el-row>
+    <div class="allLogin">
+      <div><el-button @click="show = !show"  style="height: 40px">测试按钮</el-button></div>
+      <div v-show="show">
+        <transition name="el-fade-in-linear">
+          <el-row>
+            <el-col :xs="24">
+              <el-popover
+                class="login"
+                placement="bottom"
+                title="网页扫码"
+                width="300"
+                trigger="click">
+                <div style="min-height: 100px">
+                  code:<el-input v-model="input1" placeholder="请输入内容"></el-input>
+                  state:<el-input v-model="input2" placeholder="请输入内容"></el-input>
+                  <el-button slot="reference" @click="loginClick('1')">网页扫码</el-button>
+                </div>
+                <el-button slot="reference">login</el-button>
+              </el-popover>
+            </el-col>
+            <el-col :xs="24">
+              <el-popover
+                class="login2"
+                placement="bottom"
+                title="自定义login"
+                width="300"
+                trigger="click">
+                <div id="login_container" style="height: 300px"></div>
+                <el-button slot="reference">自定义login</el-button>
+              </el-popover>
+            </el-col>
+            <el-col :xs="24">
+              <el-popover
+                class="login2"
+                placement="bottom"
+                title="微信获取信息"
+                width="300"
+                trigger="click">
+                <div style="min-height: 100px">
+                  code:<el-input v-model="input3" placeholder="请输入内容"></el-input>
+                  encryptedData:<el-input v-model="input4" placeholder="请输入内容"></el-input>
+                  iv:<el-input v-model="input5" placeholder="请输入内容"></el-input>
+                  <el-button slot="reference" @click="loginClick('2')">点击获取</el-button>
+                </div>
+                <el-button slot="reference">微信获取信息</el-button>
+              </el-popover>
+            </el-col>
+          </el-row>
+        </transition>
+      </div>
+    </div>
+
     <nav class="navigation active" router>
       <div class="list">
         <div style="margin-bottom: 8px" @click="arrowClick('pre')">
@@ -77,6 +85,7 @@
   import {wechatLogin,doTestLogin,registerUser} from '../../api/user'
   import {getAllClassesOfCenter,getAllStudentOfClass} from '../../api/manage'
   import {setStore,getStore,clearStore,setSession,getSession} from '../../config/publicMethod'
+  import {Debounce} from '../../config/methods'
   import headTop from '../../components/headTop.vue'
   export default {
     name: 'door',
@@ -115,6 +124,7 @@
         input3:'',
         input4:'',
         input5:'',
+        show: false
       }
     },
     components:{
@@ -207,34 +217,31 @@
       },
       windowAddMouseWheel() {
         let _this = this;
-        var time1 = 0;
+        var beforeTime = Date.now();
         var scrollFunc = function (e) {
           e = e || window.event;
-          let timeStamp = parseInt(e.timeStamp);//滚动的时间戳
-          if (e.wheelDelta) {  //判断浏览器IE，谷歌滑轮事件
-            if (e.wheelDelta > 0) { //当滑轮向上滚动时
-              if(time1 != timeStamp){
-                if(timeStamp-time1<100){
-                  _this.scrollHandle('up');
-                }
-                time1 = timeStamp;
+          let el = '';
+          if(e.wheelDelta){
+            el =  e.wheelDelta;//判断浏览器IE，谷歌滑轮事件
+          }else if(e.detail){
+            el =  e.detail;//Firefox滑轮事件
+          }
+          if (el) {
+            let afterTime = Date.now();
+            if (el > 0) { //当滑轮向上滚动时
+              if (afterTime - beforeTime >= 1000) {
+                _this.scrollHandle('up');
               }
+              beforeTime = afterTime;
             }
-            if (e.wheelDelta < 0) { //当滑轮向下滚动时
-              if(time1 != timeStamp){
-                if(timeStamp-time1<100){
-                  _this.scrollHandle('down');
-                }
-                time1 = timeStamp;
+            if (el < 0) { //当滑轮向下滚动时
+              if (afterTime - beforeTime >= 1000) {
+                _this.scrollHandle('down');
               }
+              beforeTime = afterTime;
             }
-          } else if (e.detail) {  //Firefox滑轮事件
-            if (e.detail> 0) { //当滑轮向上滚动时
-              _this.scrollHandle('up');
-            }
-            if (e.detail< 0) { //当滑轮向下滚动时
-              _this.scrollHandle('down');
-            }
+          }else {
+            console.warn("您的浏览器不支持滚动事件")
           }
         };
         //给页面绑定滑轮滚动事件,注册事件
@@ -295,7 +302,7 @@
     opacity:1;
     .main-loader{
       position: fixed;
-      z-index: 15;
+      z-index: 1000;
       pointer-events: none;
       top: 0;
       left: 0;
@@ -303,7 +310,7 @@
       height: 100%;
       overflow: hidden;
       .loader-1{
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         width: 100%;
@@ -319,22 +326,22 @@
       }
       .imgRotate img{
         position: absolute;
-        top:50%;
-        left: 50%;
-        width: 300px;
-        height: 100px;
-        margin: -50px 0 0 -150px;
+        top:40%;
+        left: 38%;
+        width: 30vw;
+        height: 80px;
         animation:rotating 2.5s linear forwards;
       }
       @keyframes rotating{
         from {transform:rotate(0deg) scale(1);}
-        to {transform:rotate(360deg) scale(4);}
+        to {transform:rotate(360deg) scale(3);}
       }
     }
     .allLogin{
       position: absolute;
+      width: 140px;
       z-index: 100;
-      right: 20px;
+      right: 60px;
       top: 10px;
       margin: 0;
       padding: 0;

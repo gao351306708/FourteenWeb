@@ -69,33 +69,6 @@ export const getNowFormatDate = {
   }
 }
 
-//拼接url参数
-export function filterWebUrl(param,role){
-  let endUrl = '';
-  var sChapterID=param.sChapterID,sUnitID=param.sUnitID,sChapterName=param.sChapterName,sUnitName=param.sUnitName,sDirName=param.sDirName;
-  var sCenterID = param.sCenterID,sCenterWeb = param.sCenterWeb,sMainWeb = param.sMainWeb;
-  var InstructorID = param.InstructorID;
-  var sAssignID = param.sAssignID;
-  var sPerformanceID = param.sPerformanceID;//随机的 课的ID
-  var sStudentID=param.sStudentID;
-  var type = param.OutputType;
-  var ExerciseID = sChapterID + sUnitID;
-
-  if(role == '1'){//学生端
-    if(type == 'P'){//手写
-      endUrl = 'http://nwdev.idiil.com.cn/System/General/Print/Print_Preview/PrintAndPreviewForEgrade-test.asp?ExerciseID='+ExerciseID +'-01'
-    }else {//线上
-      endUrl = sCenterWeb+"/SYSTEM/MathInteractive/OnlineBulidDataDeal_1/OnlineBuildDataDeal_1.jsp?sChapterID="+sChapterID+"&sUnitID="+sUnitID+"&sChapterName="+
-        sChapterName+"&sUnitName="+sUnitName+"&sDirName="+sDirName+ "&sCenterID="+sCenterID+"&sCenterWeb="+ sCenterWeb+"&sMainWeb="+
-        sMainWeb+"&InstructorID="+InstructorID+"&sAssignID="+sAssignID+"&sPerformanceID="+sPerformanceID+"&sStudentID="+sStudentID
-    }
-  }else {
-    endUrl = sCenterWeb+"/SYSTEM/MathInteractive/OnlineBuild.jsp?sChapterID="+sChapterID+"&sUnitID="+sUnitID+"&sChapterName="+
-      sChapterName+"&sUnitName="+sUnitName+"&sDirName="+sDirName+ "&sCenterID="+sCenterID+"&sCenterWeb="+ sCenterWeb+"&sMainWeb="+
-      sMainWeb+"&InstructorID="+InstructorID+"&sAssignID="+sAssignID+"&sPerformanceID="+sPerformanceID+"&sStudentID="+sStudentID+"&OutputType="+param.classType
-  }
-  return endUrl
-}
 /*
  * 拼接url参数，新的学生端的,2018/12/11
  * */
@@ -112,4 +85,20 @@ export function filterWebUrl2(param,role){
   endUrl = 'https://nwprodsub.idiil.com.cn/SYSTEM/MathInteractive/OnlineBulidDataDeal_1/OnlineBuildDataDeal_1.jsp?sCenterWeb=https://nwprodsub.idiil.com.cn&sMainWeb=https://nwdev.idiil.com.cn&sInstructorID='+teacherId+'&sStudentID='+StudentID+'&sCenterID='+CenterID;
 
   return endUrl
+}
+/*
+ * 防抖动，处理click\scroll频繁出发事件时
+ * */
+
+export const Debounce =  function(fn, delayTime) {
+  console.warn("Debounce----------进来了")
+  var timeId;
+  var _start = Date.now();
+  //return function () {
+  //  var _now = Date.now(), context = this, args = arguments;
+  //  if (_now - _start >= delayTime) {
+  //    fn.apply(context, args);
+  //    _start = Date.now();
+  //  }
+  //}
 }

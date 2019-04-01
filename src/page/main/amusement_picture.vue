@@ -5,8 +5,8 @@
       <div class="section_header">
         <div class="section_content">
           <p class="title1">Unsplash</p>
-          <p class="title2">Beautiful, free photos.</p>
-          <p class="title2">Gifted by the world’s most generous community of photographers.</p>
+          <p class="title2" v-show="headShow">Beautiful, free photos.</p>
+          <p class="title2" v-show="headShow">Gifted by the world’s most generous community of photographers.</p>
           <p class="search">
             <el-input prefix-icon="el-icon-search"
                       v-model="searchValue"
@@ -67,6 +67,7 @@
         pictureWidth:400,
         pageNum:1,//页码 默认第一页
         pageSize:30,//每页查询条数
+        headShow:true
       }
     },
     components:{
@@ -85,6 +86,7 @@
       let _this = this;
       $(".navigation").hide();
       this.GLOBAL.getPageName = false;
+      this.headShow = $(window).width()<480 ? false:true;
       $('.search .el-icon-search').on('click',function(){
         _this.searchPicture();
       })
@@ -131,9 +133,6 @@
       },
       backTotOP(){
         $('.Picture').scrollTop(0);
-      },
-      scrollFunc(){
-        console.log("1111111111111111111111111111111111111111111");
       },
       exit(){
         this.$router.back();
@@ -182,7 +181,7 @@
       padding: 0 45px;
       .section_header{
         position: relative;
-        height: 500px;
+        height: 45vw;
         background:url("/static/images/picture-header.jpg") no-repeat;
         background-size: cover;
         margin-bottom: 50px;
@@ -190,17 +189,17 @@
           position: absolute;
           top: 50%;
           left: 50%;
-          width: 50%;
+          width: 75%;
           min-height: 100px;
           transform: translate(-50%,-50%);
           text-align: left;
           .title1{
-            font-size: 48px;
+            font-size: 2em;
             color: white;
             margin-bottom: 10px;
           }
           .title2{
-            font-size: 22px;
+            font-size: 1.5em;
             color: white;
             margin: 8px 0;
           }
@@ -208,7 +207,7 @@
             margin: 20px 0;
           }
           .tips_content{
-            font-size: 16px;
+            font-size: 1em;
             color: hsla(0,0%,100%,.8);
             margin: 8px;
           }

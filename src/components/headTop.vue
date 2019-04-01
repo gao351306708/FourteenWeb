@@ -21,9 +21,9 @@
             <i class="el-icon-close" style="font-size: 36px"></i>
           </a>
           <div class="center_container">
-            <p style="margin-top:25%"><span style="width:230px" @click="clickPerson('back')">随便看看</span></p>
-            <p><span style="width:280px" @click="clickPerson('about')">看看你是谁</span></p>
-            <p><span style="width:320px" @click="clickPerson('contact')">我想要私信你</span></p>
+            <p style="margin-top:25%"><span @click="clickPerson('back')">随便看看</span></p>
+            <p><span  @click="clickPerson('about')">看看你是谁</span></p>
+            <p><span  @click="clickPerson('contact')">我想要私信你</span></p>
           </div>
         </div>
       </div>
@@ -149,7 +149,7 @@
     transform: translate(-50%,-50%);
   p{
     text-align: center;
-    font-size: 48px;
+    font-size: 2.5em;
     margin: 30px 0;
     color: white;
     cursor: pointer;
@@ -157,7 +157,6 @@
   p span{
     display: inline-block;
     position: relative;
-    width: 300px;
   }
   p span::before{
     content: "";
@@ -173,7 +172,7 @@
     transition: width .5s;
   }
   p span:hover:before{
-    width:100%
+    width:120%
   }
   }
   .close{

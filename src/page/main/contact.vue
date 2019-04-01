@@ -3,7 +3,7 @@
   <div class="contact">
     <head-top></head-top>
     <div class="section_container">
-      <h1>contact</h1>
+      <h1>还没写呢！</h1>
     </div>
   </div>
 </template>

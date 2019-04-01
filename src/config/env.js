@@ -11,8 +11,7 @@ let routerMode = 'hash';
 if (process.env.NODE_ENV == 'development') {
   baseUrl = '';
 }else{
-  baseUrl = '';
-  //baseUrl = window.location.host;
+  baseUrl = window.location.origin;
 }
 
 export {
