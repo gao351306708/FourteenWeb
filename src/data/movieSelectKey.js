@@ -152,11 +152,11 @@ export const movieSelectKeyList1={
       },{
         id:2,
         name:'免费',
-        key:'18'
+        key:'100001'
       },{
         id:3,
         name:'VIP',
-        key:'19'
+        key:'1'
       }
     ]
   },//资源
@@ -300,11 +300,11 @@ export const movieSelectKeyList=[
       },{
         id:2,
         name:'免费',
-        key:'18'
+        key:'100001'
       },{
         id:3,
         name:'VIP',
-        key:'19'
+        key:'1'
       }
     ]
   },

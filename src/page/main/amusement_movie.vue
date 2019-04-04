@@ -68,6 +68,21 @@
             </el-button>
           </el-col>
         </el-row>
+        <el-row style="margin: 10px 0">
+          <el-col style="width: 80px">
+            <el-tag type="success">{{movieSelectList1.icharge.mainName}}</el-tag>
+          </el-col>
+          <el-col :span="20">
+            <el-button v-for="item in movieSelectList1.icharge.children"
+                       :key="item.id"
+                       round
+                       :class="['tagKeys',{'active':item.key == icharge}]"
+                       size="mini"
+                       @click="clickTag(movieSelectList1.icharge,item)">
+              {{item.name}}
+            </el-button>
+          </el-col>
+        </el-row>
       </div>
       <div class="movieSection">
         <div v-for="(item,index) in movieList" :key="index" class="cardPart" @click="movieGo(item)">

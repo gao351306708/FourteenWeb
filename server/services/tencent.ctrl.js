@@ -32,7 +32,7 @@ tencentRouter.get('/getMovieList',async(req, res) => {
     iarea:reqs.iarea || -1,
     charge:reqs.icharge || -1,
   }
-  let Url = `https://v.qq.com/x/bu/pagesheet/list?_all=1&append=1&channel=movie&listpage=2&offset=${params.offset}&pagesize=${params.pagesize}&sort=${params.sort}&itype=${params.itype}&iarea=${params.iarea}`;
+  let Url = `https://v.qq.com/x/bu/pagesheet/list?_all=1&append=1&channel=movie&listpage=2&offset=${params.offset}&pagesize=${params.pagesize}&sort=${params.sort}&itype=${params.itype}&iarea=${params.iarea}&charge=${params.charge}`;
   https.get(Url,function(ress){
     var chunks = [];
     var size = 0;
