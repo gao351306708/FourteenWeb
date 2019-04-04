@@ -76,7 +76,7 @@
             <div style="padding: 14px;">
               <div class="title">{{item.title}}</div>
               <div class="starts">{{item.starts}}</div>
-              <div class="num">{{item.num}}</div>
+              <div class="num">播放量：{{item.num}}</div>
             </div>
           </el-card>
         </div>

@@ -7,7 +7,6 @@ import fetchJsonp from 'fetch-jsonp'
 
 export default async(url = '', data = {}) => {
 
-  url = baseUrl + url;
   let dataStr = ''; //数据拼接字符串
   Object.keys(data).forEach(key => {
     dataStr += key + '=' + data[key] + '&';
