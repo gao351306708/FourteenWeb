@@ -1,12 +1,12 @@
 <template>
   <el-container class="wrapper_door">
-    <div class="main-loader">
-      <div :class="loadingFlag?'loader-1 loading': 'loader-1'">
-        <div class="imgRotate" >
-          <img src="../../../static/images/loading2.png">
-        </div>
-      </div>
-    </div>
+    <!--<div class="main-loader">-->
+      <!--<div :class="loadingFlag?'loader-1 loading': 'loader-1'">-->
+        <!--<div class="imgRotate" >-->
+          <!--<img src="../../../static/images/loading2.png">-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
     <head-top></head-top>
     <div class="allLogin">
       <div><el-button @click="show = !show"  style="height: 40px">测试按钮</el-button></div>
@@ -132,17 +132,19 @@
     },
     beforeMount(){
       this.GLOBAL.getPageName = true;
+      console.log("--------door---------beforeMount")
     },
     mounted() {
       //调用微信登录接口
+      //https://open.weixin.qq.com/connect/qrconnect?appid=wxbdc5610cc59c1631&redirect_uri=https%3A%2F%2Fpassport.yhd.com%2Fwechat%2Fcallback.do&response_type=code&scope=snsapi_login&state=689b41d29d32eaeba523447f802ec8ec#wechat_redirect
+      //https://open.weixin.qq.com/connect/qrconnect?appid=wx68bd8e40de0fba53&redirect_uri=http%3A%2F%2Fwww.rambogj.club%2Fapi%2Fuser%2Fget_wx_access_token&response_type=code&scope=snsapi_login&state=STATE123
       var obj = new WxLogin({
-        self_redirect:true,
         id:"login_container",
         appid: "wx68bd8e40de0fba53",
         scope: "snsapi_login",
         redirect_uri: encodeURIComponent('http://www.rambogj.club/api/user/get_wx_access_token'),
         state: "STATE123",
-        style: "black",
+        style: "",
         href: ""
       });
       let _this = this;

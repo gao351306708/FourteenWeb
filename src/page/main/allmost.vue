@@ -2,16 +2,21 @@
 <template>
   <div class="allmost">
     <div class="section_container">
-      <h1>allmost</h1>
+      <h2>还没想好。。。</h2>
+      <!--<div id="videoId">-->
+
+      <!--</div>-->
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import {getMovieList} from '../../api/tencent'
   export default {
     //data中放入初始默认值
     data() {
       return {
+        movieList:[]
       }
     },
     computed: {
@@ -25,7 +30,34 @@
       });
     },
     mounted(){
-
+//      var videoSet={
+//        vid:'z002615k57t',
+//        poster:'',//手机端poster图
+//        width:'600',
+//        height:"330"
+//      }
+//      var video = new tvp.VideoInfo();
+//      video.setVid(videoSet.vid);
+//      var player = new tvp.Player();
+//      player.create({
+//        video: video,
+//        modId: "videoId",
+//        width:videoSet.width,
+//        height:videoSet.height,
+//        pic:videoSet.poster,
+//        isHtml5ShowPosterOnEnd:true,
+//        isiPhoneShowPosterOnPause:true,
+//        vodFlashSkin:'http://imgcache.qq.com/minivideo_v1/vd/res/skins/TencentPlayerMiniSkin.swf',//精简皮肤
+//        onwrite: function() {
+//          console.log("播放器显示完毕");
+//        },
+//        onpause:function(){
+//          console.log('暂停了')
+//        },
+//        onallended:function(){
+//          console.log('播放完了')
+//        }
+//      });
     },
     methods:{
     }
@@ -47,6 +79,38 @@
       bottom: 40px;
       left: 50px;
       right: 50px;
+      padding: 40px;
+      .movieSection{
+        display: flex;
+        flex-wrap: wrap;
+        overflow-y:auto ;
+        width: 100%;
+        height: 100%;
+        .cardPart{
+          width: 200px;
+          padding: 1em;
+          text-align: left;
+          .image {
+            width: 100%;
+            display: block;
+          }
+          .title{
+            margin: 5px 0;
+            font-size: 1em;
+            font-weight: bolder;
+          }
+          .starts ,.num{
+            font-size: 0.7em;
+            color: darkgray;
+            margin: 3px 0;
+          }
+          .starts{
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      }
     }
   }
 </style>

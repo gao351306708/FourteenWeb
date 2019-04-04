@@ -28,7 +28,7 @@
                 <div class="bottom">{{item.year}}</div>
               </div>
             </div>
-            <div class="arrow" @click="goToUrl('arrow')">
+            <div class="arrow" @click="goToUrl(current)">
               <i class="el-icon-back" style="width: 30px"></i>
             </div>
           </div>
@@ -47,12 +47,12 @@
       return {
         partList:[
           {
-            title:'Picture',
+            title:'图片',
             year:'2018',
             mouth:'9月',
             imgUrl:'../../../static/images/amusement1.jpg'
           },{
-            title:'Video',
+            title:'影视库',
             year:'2019',
             mouth:'1月',
             imgUrl:'../../../static/images/amusement2.jpg'
@@ -91,8 +91,17 @@
     methods:{
       goToUrl(index){
         console.log("goToUrl   --->",index);
-        this.$router.push({path:'/Amusement/Picture'})
-//        window.location.href = 'https://unsplash.com/';
+        switch (index){
+          case 0:
+//            this.$router.push({path:'/Amusement/Picture'});
+            this.$router.push({path:'/Amusement/Movie'});
+                break;
+          case 1:
+            this.$router.push({path:'/Amusement/Movie'});
+                break;
+          default:
+            this.$router.push({path:'/Amusement/Picture'});
+        }
       }
     },
     destroyed(){
@@ -180,7 +189,7 @@
     height: 100px;
     cursor: pointer;
   .title_sec{
-    font-size: 60px;
+    font-size: 2.5em;
     font-family: -webkit-pictograph;
     text-align: left;
     font-weight: 600;

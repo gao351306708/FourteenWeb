@@ -101,11 +101,17 @@
       return {
         partList:[
           {
-            title:'JavaScript 全栈工程师培训教程',
+            title:'微信小程序开发以及获取用户openid、unionid',
+            date:new Date().toLocaleDateString(),
+            num:240,
+            key:'微信开发',
+            imgUrl:'../../../static/images/wechat.png'
+          },{
+            title:'第三方网页实现微信登录功能',
             date:new Date().toLocaleDateString(),
             num:15,
-            key:'javaScript',
-            imgUrl:'../../../static/images/amusement1.jpg'
+            key:'微信开发',
+            imgUrl:'../../../static/images/wechat.png'
           },{
             title:'React 技术栈系列教程',
             date:new Date().toLocaleDateString(),

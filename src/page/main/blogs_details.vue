@@ -8,23 +8,19 @@
             <strong>{{this.detailItem.title}}</strong>
           </div>
           <div class="content">
-            <p>程序的运行需要内存。只要程序提出要求，操作系统或者运行时（runtime）就必须供给内存。
-
-              对于持续运行的服务进程（daemon），必须及时释放不再用到的内存。否则，内存占用越来越高，轻则影响系统性能，重则导致进程崩溃。
-              不再用到的内存，没有及时释放，就叫做内存泄漏（memory leak）。
-
-              有些语言（比如 C 语言）必须手动释放内存，程序员负责内存管理。</p>
-            <p>
-              垃圾回收机制怎么知道，哪些内存不再需要呢？
-
-              最常使用的方法叫做"引用计数"（reference counting）：语言引擎有一张"引用表"，保存了内存里面所有的资源（通常是各种值）的引用次数。如果一个值的引用次数是0，就表示这个值不再用到了，因此可以将这块内存释放。
+            <p>之前一直想做点微信相关的开发，比如小程序、网站授权微信登录等等，但是这些都需要企业认证等信息，个人的做不了，所以都不了了之。这次项目刚好需要开发微信的相关功能，
+              包括小程序、网站微信授权登录等等，所以在这里也记录下这两周遇到的一些问题，以及给新人一些参考。第一次做微信开发有什么问题大佬们可以指出来，多多赐教！
             </p>
-            <p>
-              三、内存泄漏的识别方法<br>
-              怎样可以观察到内存泄漏呢？
-
-              经验法则是，如果连续五次垃圾回收之后，内存占用一次比一次大，就有内存泄漏。这就要求实时查看内存占用。
-            </p>
+            <h3>准备工作</h3>
+            <p>1、注册微信公众平台（服务号）。<a href="https://mp.weixin.qq.com" target="_blank">https://mp.weixin.qq.com</a></p>
+            <p>1、注册微信公众平台|小程序。<a href="https://mp.weixin.qq.com" target="_blank">https://mp.weixin.qq.com</a></p>
+            <p>2、注册微信开放平台。<a href="https://open.weixin.qq.com/" target="_blank">https://open.weixin.qq.com</a></p>
+            <h3>开始</h3>
+            <p></p>
+            <p></p>
+            <p></p>
+            <p></p>
+            <p></p>
             <p></p>
             <p></p>
           </div>
@@ -84,6 +80,7 @@
     overflow: hidden;
     .section_container{
       position: absolute;
+      width: 100%;
       top: 80px;
       bottom: 40px;
       .mainSection{
@@ -93,9 +90,13 @@
       }
       .content{
         margin-top: 2em;
+        padding: 0 5em;
+        text-align: left;
+        h1,h2,h3,h4,h5{
+          margin: 8px 0;
+        };
         p{
           line-height: 36px;
-          text-align: left;
           text-indent: 2em;
         }
       }

@@ -22,14 +22,12 @@ export default async(url = '', data = {}, type = 'GET', method = 'fetch') => {
   //浏览器支持fetch就用fetch
   if (window.fetch && method == 'fetch') {
     let requestConfig = {
-      //credentials: 'include',
       method: type,
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      mode: "cors",
-      //cache: "force-cache"
+      mode: "no-cors",
     }
 
     if (type == 'POST') {

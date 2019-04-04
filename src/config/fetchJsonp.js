@@ -18,7 +18,7 @@ export default async(url = '', data = {}) => {
   }
   let requestConfig = {
     credentials: 'include',
-    method: type,
+    method: 'GET',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
