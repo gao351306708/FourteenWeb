@@ -31,7 +31,7 @@
     },
     mounted(){
 //      var videoSet={
-//        vid:'z002615k57t',
+//        vid:'z0026lwsaws',
 //        poster:'',//手机端poster图
 //        width:'600',
 //        height:"330"

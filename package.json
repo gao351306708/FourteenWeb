@@ -1,8 +1,8 @@
 {
-  "name": "idiilMathManage",
+  "name": "FourteenWeb",
   "version": "1.0.0",
-  "description": "A Vue.js project",
-  "author": "",
+  "description": "个人网站",
+  "author": "高举",
   "private": true,
   "scripts": {
     "start": "node ./server",
