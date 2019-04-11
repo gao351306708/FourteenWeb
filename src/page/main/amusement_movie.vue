@@ -268,9 +268,10 @@
       flex-wrap: wrap;
       width: 100%;
       /*height: calc(100% - 100px);*/
+      justify-content: space-between;
     .cardPart{
       width: 200px;
-      padding: 1em;
+      padding: 0.8em;
       text-align: left;
     .image {
       width: 100%;
@@ -280,6 +281,9 @@
       margin: 5px 0;
       font-size: 1em;
       font-weight: bolder;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .starts ,.num{
       font-size: 0.7em;
