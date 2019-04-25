@@ -142,7 +142,7 @@
         id:"login_container",
         appid: "wx68bd8e40de0fba53",
         scope: "snsapi_login",
-        redirect_uri: encodeURIComponent('http://www.rambogj.club/api/user/get_wx_access_token'),
+        redirect_uri: encodeURIComponent('http://www.rambogj.club/api/wechat/get_wx_access_token'),
         state: "STATE123",
         style: "",
         href: ""
@@ -176,12 +176,12 @@
         }
         let url='';
         if(param == '1'){
-          url = `http://www.rambogj.club/api/user/get_wx_access_token?code=${this.input1}&state=${this.input2}`;
+          url = `http://www.rambogj.club/api/wechat/get_wx_access_token?code=${this.input1}&state=${this.input2}`;
         }else if(param == '2'){
           let code = '011KfAKr1uobdm00RsJr1KnKKr1KfAKV';
           let encryptedData = '7RUFgdoSOJcK9kjjSpY8pMps2cFnCtpUlBIJDgGd3AQmpPAKUSAq4pr2JVqYzX33dtTl5l7kb87BF50hYbbORbZHYv4E+2FqhudoPbe524FCHGa3AK7U6BXzUREHOC7q0TpfWzplNdKxTaOawNPninwdyvqXaqNyGdnvfcK2jhvLR0o3R2Q/Qx9iSa+p4Qu4xbPV8wY7XhGCmo2lzyKaoETS7ZdHlo4Owrb2rlVEdvI+7grbx7U+PXsFgUzamFtwZ5TNdG5HPgZ03tFMoy9JVESB2dRzaT/UtzmRvy5L6DbGPurUNVG8SuIUjW+Rwop98ykDyJMnCIh6USptwyZIkA6nxs8HVpcn8Bk9TPfQwzUgrQAf1NjY+tPjJDGV6YOGmytNUFhqy2UU8tDbfFH78tlPO6ttwdwWgrfvqLkEeQvYDfQT4fi9ZWWZhsjhrGsmDqJKRWzqHkaIQuRxdZJcuUIDiPZ6KNDHDFeKFlV72Yc=';
           let iv = 'DWc6pA0nIIXM2TPfsRC7SA==';
-          url = `/api/user/getUnionId?code=${this.input3}&encryptedData=${this.input4}&iv=${this.input5}`;
+          url = `/api/wechat/getUnionId?code=${this.input3}&encryptedData=${this.input4}&iv=${this.input5}`;
         }
         fetch(url,requestConfig).then((res)=>{
           console.log(res);

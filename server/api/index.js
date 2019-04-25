@@ -4,6 +4,7 @@ const classRouter = require('../services/classes.ctrl.js')
 const manageRouter = require('../services/manage.ctrl.js')
 const fileDeal = require('../services/upload.ctrl.js');
 const tencentRouter = require('../services/tencent.ctrl.js');
+const wechatRouter = require('../services/wechat.ctrl.js');
 const apiRouter = express.Router()
 
 
@@ -12,5 +13,6 @@ apiRouter.use('/classes', classRouter)
 apiRouter.use('/file', fileDeal)
 apiRouter.use('/manage', manageRouter);
 apiRouter.use('/tencent', tencentRouter);
+apiRouter.use('/wechat', wechatRouter);
 
-module.exports = apiRouter
+module.exports = apiRouter;
