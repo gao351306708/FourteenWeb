@@ -9,7 +9,7 @@
           </div>
         </section>
       </el-col>
-      <el-col :xs="24" :md="12">
+      <!-- <el-col :xs="24" :md="12">
         <section class="section_right" >
           <a class="visuals delay-1" @click="goToUrl(current)">
           <span class="picture">
@@ -33,7 +33,7 @@
             </div>
           </div>
         </section>
-      </el-col>
+      </el-col> -->
     </el-row>
     <router-view></router-view>
   </div>
