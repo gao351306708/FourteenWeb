@@ -41,22 +41,32 @@ tencentRouter.get('/getMovieList',async(req, res) => {
       size += chunk.length;
     });
     ress.on('end',function(){
-      var Movie = [];
-      var html = iconv.decode(Buffer.concat(chunks),'utf-8');
-      var $ = cheerio.load(html, {decodeEntites: false});//cheerio模块开始处理 DOM处理
-      $('.list_item').each(function(){
-        let item = {};
-        let ele = $(this);
-        item.dataset = $(this)[0].firstChild.next.attribs['data-float'];
-        item.title = $(this)[0].firstChild.next.attribs['title'];
-        item.imgUrl = $(this).find('img')[0].attribs['src'];
-        item.alt = $(this).find('img')[0].attribs['alt'];
-        item.starts =  $(this).find('.figure_desc')[0].attribs['title'];
-        item.num =  $(this).find('.figure_count')[0].lastChild.data;
-        Movie.push(item);
-      });
-      console.log(Movie)
-      res.json({movies:Movie})
+      try{
+        var Movie = [];
+        var html = iconv.decode(Buffer.concat(chunks),'utf-8');
+        var $ = cheerio.load(html, {decodeEntites: false});//cheerio模块开始处理 DOM处理
+        $('.list_item').each(function(){
+          let item = {};
+          let ele = $(this);
+          item.dataset = $(this)[0].firstChild.next.attribs['data-float'];
+          item.title = $(this)[0].firstChild.next.attribs['title'];
+          item.imgUrl = $(this).find('img') ? $(this).find('img')[0].attribs['src'] : '';
+          item.alt = $(this).find('img') ? $(this).find('img')[0].attribs['alt'] : '';
+          item.starts =  $(this).find('.figure_detail') ? $(this).find('.figure_detail')[0].attribs['title'] : '';
+          item.num =  $(this).find('.figure_count') ? $(this).find('.figure_count')[0].lastChild.data : '';
+          Movie.push(item);
+        });
+        res.json({code:200,movies:Movie});
+
+      }catch(e){
+        //TODO handle the exception
+        res.json({
+          code: 500,
+          movies: []
+        });
+        throw new Error('错误信息:' + e);
+      }
+
     })
   })
 

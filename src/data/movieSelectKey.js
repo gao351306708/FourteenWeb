@@ -151,11 +151,11 @@ export const movieSelectKeyList1={
         key:'-1'
       },{
         id:2,
-        name:'免费',
+        name:'VIP',
         key:'100001'
       },{
         id:3,
-        name:'VIP',
+        name:'免费',
         key:'1'
       }
     ]

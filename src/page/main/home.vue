@@ -28,9 +28,9 @@
             </div>
             <div class="title_sec">STARTING</div>
             <div class="date_sec">
-              <div class="top">2019</div>
+              <div class="top">{{year}}</div>
               <span class="stroke"></span>
-              <div class="bottom">Present</div>
+              <div class="bottom">{{mouth}}</div>
             </div>
             <div class="arrow">
               <router-link to="/Amusement/Picture"><i class="el-icon-back" style="width: 30px"></i></router-link>
@@ -47,6 +47,13 @@
     //data中放入初始默认值
     data() {
       return {
+        year:new Date().getFullYear(),
+      }
+    },
+    computed:{
+      mouth(){
+        let date = new Date();
+        return (date.getMonth()+1);
       }
     },
     beforeMount(){
