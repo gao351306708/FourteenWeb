@@ -89,7 +89,6 @@
 </template>
 <script type="text/ecmascript-6">
   import headTop from '../../components/headTop'
-  import {getAllManagerList} from '../../api/manage'
   export default{
     data(){
       return{
@@ -119,10 +118,7 @@
     },
     methods:{
       async getAllUserList(){
-        let result = await getAllManagerList();
-        this.allData = result.data;
-        this.currentData = this.allData.slice(0,this.pageSize);
-        console.log("所有的中心列表",result,this.allData)
+        console.log("所有的中心列表",this.allData)
       },
       handleEdit(index, row) {
         console.log(index, row);

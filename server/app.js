@@ -26,6 +26,7 @@ app.use(fileUpload());
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ limit:'100mb',extended: false }));//// 解析表单post数据，请求数据参数的大小
 app.use(express.static('uploadFiles'));//设置dist为根目录
+app.use(express.static('sources'));//设置dist为根目录
 
 //热更新模块
 console.log("process.env.NODE_ENV====>>",process.env.NODE_ENV);

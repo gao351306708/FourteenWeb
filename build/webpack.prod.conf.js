@@ -76,18 +76,6 @@ const webpackConfig = merge(baseWebpackConfig, {
       chunksSortMode: 'dependency',
       chunks:['manifest','vendor','indexApp']
     }),
-    new HtmlWebpackPlugin({
-      filename: config.build.faXianShiShuXue,
-      template: 'manage.html',
-      inject: true,
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true
-      },
-      chunksSortMode: 'dependency',
-      chunks:['manifest','vendor','manage']
-    }),
     // keep module.id stable when vendor modules does not change
     new webpack.HashedModuleIdsPlugin(),
     // enable scope hoisting

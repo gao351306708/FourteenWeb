@@ -3,15 +3,18 @@
     <el-header class="door">
       <el-row>
         <el-col :span="4"><img src="../../../static/images/logo.png"></el-col>
-        <el-col :span="20"><div class="loginButton"></div></el-col>
+        <el-col :span="20">
+          <div class="loginButton"></div>
+        </el-col>
       </el-row>
     </el-header>
     <el-main>
-      <!--<img src="../../../static/images/homeBanner_manage.jpg" class="HomeBanner" />-->
       <section class="form_contianer">
         <div class="senctionblock">
           <el-row>
-            <el-col :span="24"><div class="loginButton">管理员登录</div></el-col>
+            <el-col :span="24">
+              <div class="loginButton">管理员登录</div>
+            </el-col>
           </el-row>
           <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="80px" class="demo-ruleForm">
             <el-form-item label="用户名" prop="name">
@@ -29,72 +32,57 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {doLogin,registerUser} from '../../api/user'
-  import {getClassInfo} from '../../api/classes'
-  import {setStore,getStore,clearStore,setSession,getSession} from '../../config/publicMethod'
-  export default {
-    name: 'door',
-    data () {
-      var validatePass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入密码'));
-        } else {
-          callback();
-        }
-      };
-      return {
-        btnChangeName:'登录',
-        ruleForm: {
-          name:'',
-          pass:'',
-        },
-        rules: {
-          name: [
-            { required: true, message: '请输入用户名', trigger: 'blur' },
-          ],
-          pass: [
-            {required: true,  validator: validatePass, trigger: 'blur' }
-          ],
-        }
-      }
-    },
-    methods:{
-      async loginEnter(formName){
-        this.$refs[formName].validate(async(valid) => {
-          if (valid) {
-            let params = this.ruleForm;
-            params.role = '3';//角色 3为管理员
-            let result = await doLogin(params);
-            console.log("登录结果------->",params,result)
-            if(result.code == 200){
-              if(result.data[0]){
-                setSession('accessToken',true);//登录标志
-                setStore('manageUser',result.data[0])
-                this.$router.replace('home');
-              }else {
-                alert("用户名或密码错误")
-              }
-            }
-          } else {
-            console.error('error login submit!!');
-            return false;
-          }
-        });
-      },
-      registerSubmitForm(formName){
-        this.$refs[formName].validate(async(valid) => {
-          if (valid) {
-            console.log("角色------->",this.ruleForm)
-            const data = await registerUser(this.ruleForm)
-            console.log("注册结果------->",data)
-          } else {
-            console.error('error submit!!');
-            return false;
-          }
-        });
+export default {
+  name: 'door',
+  data () {
+    var validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'))
+      } else {
+        callback()
       }
     }
+    return {
+      btnChangeName: '登录',
+      ruleForm: {
+        name: '',
+        pass: ''
+      },
+      rules: {
+        name: [{
+          required: true,
+          message: '请输入用户名',
+          trigger: 'blur'
+        } ],
+        pass: [{
+          required: true,
+          validator: validatePass,
+          trigger: 'blur'
+        }]
+      }
+    }
+  },
+  methods: {
+    async loginEnter (formName) {
+      this.$refs[formName].validate(async (valid) => {
+        if (valid) {
+          this.$router.replace('home')
+        } else {
+          console.error('error login submit!!')
+          return false
+        }
+      })
+    },
+    registerSubmitForm (formName) {
+      this.$refs[formName].validate(async (valid) => {
+        if (valid) {
+          console.log('角色------->', this.ruleForm)
+          console.log('注册结果------->', data)
+        }
+      })
+    }
   }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

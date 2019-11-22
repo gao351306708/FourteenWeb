@@ -7,8 +7,6 @@ Vue.use(Router)
 import Door from '../page/manageCenter/door'
 import Home from '../page/manageCenter/home.vue'
 import defaultPage from './../page/manageCenter/default'
-import TeacherManage from '../page/manageCenter/TeacherManage.vue'
-import StudentManage from '../page/manageCenter/StudentManage.vue'
 import CenterManage from '../page/manageCenter/CenterManage.vue'
 
 
@@ -25,16 +23,6 @@ const routes = [
         path:'',
         name:'defaultPage',
         component:defaultPage,
-      },{
-        path: 'teacherManage',
-        name: 'teacherManage',
-        component: TeacherManage,
-        meta:['班级管理']
-      },{
-        path: 'studentManage',
-        name: 'studentManage',
-        component: StudentManage,
-        meta:['学生管理']
       },{
         path: 'centerManage',
         name: 'centerManage',

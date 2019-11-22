@@ -17,7 +17,7 @@
           </span>
           <span class="video_container">
             <span class="video">
-              <video muted preload="auto" id="animationVideo2" src="../../../static/sources/texte_animation.mp4"></video>
+              <!-- <video muted preload="auto" id="animationVideo2" src="@/sources/video/texte_animation.mp4"></video> -->
             </span>
           </span>
           </a>
@@ -43,42 +43,41 @@
 </template>
 
 <script type="text/ecmascript-6">
-  export default {
-    //data中放入初始默认值
-    data() {
-      return {
-        year:new Date().getFullYear(),
-      }
-    },
-    computed:{
-      mouth(){
-        let date = new Date();
-        return (date.getMonth()+1);
-      }
-    },
-    beforeMount(){
-      let _this = this;
-      $(".wrapper_door").transition({
-        opacity: 1,
-        duration: 1000,
-        easing: 'linear'
-      });
-    },
-    mounted(){
-      var video2 = document.getElementById('animationVideo2');
-      var video1 = document.getElementById('animationVideo1');
-      if(video1.paused){
-        video1.play();
-      }
-      $('.video_container .video').hover(function(){
-        if(video2.paused){
-          video2.play();
-        }
-      })
-    },
-    methods:{
+export default {
+  // data中放入初始默认值
+  data () {
+    return {
+      year: new Date().getFullYear()
     }
+  },
+  computed: {
+    mouth () {
+      let date = new Date()
+      return (date.getMonth() + 1)
+    }
+  },
+  beforeMount () {
+    $('.wrapper_door').transition({
+      opacity: 1,
+      duration: 1000,
+      easing: 'linear'
+    })
+  },
+  mounted () {
+    var video2 = document.getElementById('animationVideo2')
+    var video1 = document.getElementById('animationVideo1')
+    if (video1.paused) {
+      video1.play()
+    }
+    $('.video_container .video').hover(function () {
+      if (video2.paused) {
+        video2.play()
+      }
+    })
+  },
+  methods: {
   }
+}
 </script>
 
 <style scoped lang="less" type="text/less">

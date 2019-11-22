@@ -24,7 +24,6 @@
             <el-menu-item index="/home/teacherManage">班级管理</el-menu-item>
             <el-menu-item index="/home/studentManage">学生管理</el-menu-item>
           </el-submenu>
-          <el-menu-item v-if="isTrue" index="/home/centerManage"><i class="el-icon-menu"></i>总中心管理</el-menu-item>
         </el-menu>
       </el-col>
       <el-col :span="21" style="height: 100%;overflow: hidden;">
@@ -45,21 +44,10 @@
     },
     computed: {
     },
-    beforeMount(){
-      let userInfo = JSON.parse(getStore('manageUser'));
-      console.log('传过来的参数--1111》》',userInfo)
-      if(userInfo.permissionLevel == '1'){
-        this.isTrue = true;
-      }
-    },
     mounted(){
       //进入首页的时候存储一个课程列表
-      this.getCourseList();
     },
     methods:{
-      async getCourseList(){
-        console.log("---getCourseList----->>")
-      },
       handleCommand(command) {
         if(command == 'exit'){
           clearSession();
