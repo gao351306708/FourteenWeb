@@ -1,6 +1,6 @@
 <template>
   <div class="Picture">
-    <div class="closeIcon" @click="exit()"><i class="el-icon-close" style="font-size: 36px"></i></div>
+    <backButton></backButton>
     <div class="section_container">
       <div class="section_header">
         <div class="section_content">
@@ -58,6 +58,7 @@
   import Waterfall from 'vue-waterfall/lib/waterfall'
   import WaterfallSlot from 'vue-waterfall/lib/waterfall-slot'
   import {HandlePreImg} from '../../config/publicMethod'
+  import backButton from '@/components/backButton.vue'
   export default{
     data(){
       return{
@@ -72,7 +73,8 @@
     },
     components:{
       Waterfall,
-      WaterfallSlot
+      WaterfallSlot,
+      backButton
     },
     beforeMount(){
       let _this = this;
@@ -133,9 +135,6 @@
       },
       backTotOP(){
         $('.Picture').scrollTop(0);
-      },
-      exit(){
-        this.$router.back();
       },
       searchPicture(){
         if(!this.searchValue){

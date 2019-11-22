@@ -10,16 +10,16 @@
         </section>
       </el-col>
       <el-col :xs="24" :md="12">
-        <section class="section_right" >
+        <section class="section_right">
           <a class="visuals delay-1">
-          <span class="picture">
-            <img src="../../../static/images/page_chapitre720x1000.jpg">
-          </span>
-          <span class="video_container">
-            <span class="video">
-              <!-- <video muted preload="auto" id="animationVideo2" src="@/sources/video/texte_animation.mp4"></video> -->
+            <span class="picture">
+              <img src="../../../static/images/page_chapitre720x1000.jpg">
             </span>
-          </span>
+            <span class="video_container">
+              <span class="video">
+                <!-- <video muted preload="auto" id="animationVideo2" src="@/sources/video/texte_animation.mp4"></video> -->
+              </span>
+            </span>
           </a>
           <div class="center_section">
             <div class="top_sec">
@@ -43,41 +43,44 @@
 </template>
 
 <script type="text/ecmascript-6">
-export default {
-  // data中放入初始默认值
-  data () {
-    return {
-      year: new Date().getFullYear()
-    }
-  },
-  computed: {
-    mouth () {
-      let date = new Date()
-      return (date.getMonth() + 1)
-    }
-  },
-  beforeMount () {
-    $('.wrapper_door').transition({
-      opacity: 1,
-      duration: 1000,
-      easing: 'linear'
-    })
-  },
-  mounted () {
-    var video2 = document.getElementById('animationVideo2')
-    var video1 = document.getElementById('animationVideo1')
-    if (video1.paused) {
-      video1.play()
-    }
-    $('.video_container .video').hover(function () {
-      if (video2.paused) {
-        video2.play()
+  import Bus from '@/js/bus.js'
+  export default {
+    // data中放入初始默认值
+    data() {
+      return {
+        year: new Date().getFullYear()
       }
-    })
-  },
-  methods: {
+    },
+    computed: {
+      mouth() {
+        let date = new Date()
+        return (date.getMonth() + 1)
+      }
+    },
+    beforeMount() {
+      $('.wrapper_door').transition({
+        opacity: 1,
+        duration: 1000,
+        easing: 'linear'
+      })
+    },
+    mounted() {
+      setTimeout(()=>{
+        Bus.$emit('colseLoading');
+      },2000)
+      var video2 = document.getElementById('animationVideo2')
+      var video1 = document.getElementById('animationVideo1')
+      if (video1.paused) {
+        video1.play()
+      }
+      $('.video_container .video').hover(function() {
+        if (video2.paused) {
+          video2.play()
+        }
+      })
+    },
+    methods: {}
   }
-}
 </script>
 
 <style scoped lang="less" type="text/less">

@@ -2,7 +2,7 @@
 <template>
   <div class="aboutMe">
     <head-top></head-top>
-    <div class="closeIcon" @click="exit()"><i class="el-icon-close" style="font-size: 36px"></i></div>
+    <backButton></backButton>
     <div class="section_container">
       <div class="top-section">
         <img src="../../../static/images/aboutHu.jpg">
@@ -47,7 +47,7 @@
 
       </div>
       <div class="bottom-section">
-        <div class="headerContent">My Interest</div>
+        <div class="headerContent">我一般在玩得东西</div>
         <div class="partSection">
           <el-row :gutter="10">
             <el-col :xs="24" :md="8">
@@ -96,6 +96,7 @@
 
 <script type="text/ecmascript-6">
   import headTop from '../../components/headTop.vue'
+  import backButton from '../../components/backButton.vue'
   export default {
     //data中放入初始默认值
     data() {
@@ -108,7 +109,8 @@
       }
     },
     components:{
-      headTop
+      headTop,
+      backButton
     },
     beforeMount(){
       let _this = this;

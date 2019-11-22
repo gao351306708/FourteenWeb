@@ -1,6 +1,6 @@
 <template>
   <div class="searchPicture">
-    <div class="closeIcon" @click="exit()"><i class="el-icon-close" style="font-size: 36px"></i></div>
+    <backButton></backButton>
     <div class="section_search">
       <p class="search">
         <el-input prefix-icon="el-icon-search"
@@ -60,6 +60,7 @@
   import Waterfall from 'vue-waterfall/lib/waterfall'
   import WaterfallSlot from 'vue-waterfall/lib/waterfall-slot'
   import {HandlePreImg} from '../../config/publicMethod'
+  import backButton from '@/components/backButton.vue'
   export default{
     data(){
       return{
@@ -72,7 +73,8 @@
     },
     components:{
       Waterfall,
-      WaterfallSlot
+      WaterfallSlot,
+      backButton
     },
     beforeMount(){
       let _this = this;

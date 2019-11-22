@@ -1,7 +1,7 @@
 /**博客列表页**/
 <template>
   <div class="blogList">
-    <div class="closeIcon" @click="$router.back()"><i class="el-icon-close" style="font-size: 36px"></i></div>
+    <backButton></backButton>
     <div class="section_container">
       <el-row :gutter="10" class="section_All">
         <el-col :xs="24" :md="18" style="height: 100%">
@@ -95,8 +95,12 @@
 
 <script type="text/ecmascript-6">
   import {getAllPhotos} from '../../api/unsplash.js'
+  import backButton from '@/components/backButton.vue'
   export default {
     //data中放入初始默认值
+    components:{
+      backButton
+    },
     data() {
       return {
         partList:[

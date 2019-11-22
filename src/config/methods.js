@@ -68,24 +68,6 @@ export const getNowFormatDate = {
     return currentdate;
   }
 }
-
-/*
- * 拼接url参数，新的学生端的,2018/12/11
- * */
-export function filterWebUrl2(param,role){
-  let endUrl = '';
-  let teacherId = param.teacherId;
-  let CenterID = param.CenterID;
-  let CenterWeb = param.CenterWeb;
-  let ClassID = param.ClassID;
-  let CourseType = param.CourseType;
-  let MainWeb = param.MainWeb;
-  let StudentID = param.StudentID;
-
-  endUrl = 'https://nwprodsub.idiil.com.cn/SYSTEM/MathInteractive/OnlineBulidDataDeal_1/OnlineBuildDataDeal_1.jsp?sCenterWeb=https://nwprodsub.idiil.com.cn&sMainWeb=https://nwdev.idiil.com.cn&sInstructorID='+teacherId+'&sStudentID='+StudentID+'&sCenterID='+CenterID;
-
-  return endUrl
-}
 /*
  * 防抖动，处理click\scroll频繁出发事件时
  * */

@@ -1,7 +1,7 @@
 /**博客首页**/
 <template>
   <div class="blogDetails">
-    <div class="closeIcon" @click="exit()"><i class="el-icon-close" style="font-size: 36px"></i></div>
+    <backButton></backButton>
     <el-row class="section_container">
       <el-col :span="24" class="mainSection">
           <div class="header_section">
@@ -31,6 +31,7 @@
 
 <script type="text/ecmascript-6">
   import {getAllPhotos} from '../../api/unsplash.js'
+  import backButton from '@/components/backButton.vue'
   export default {
     //data中放入初始默认值
     data() {
@@ -39,6 +40,9 @@
         interval:null,
         detailItem:''
       }
+    },
+    components:{
+      backButton
     },
     beforeMount(){
       let _this = this;
@@ -58,9 +62,6 @@
       goToUrl(index){
         console.log("goToUrl   --->",index);
       },
-      exit(){
-        this.$router.back();
-      }
     },
     destroyed(){
       $(".navigation").show();

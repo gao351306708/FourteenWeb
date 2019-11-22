@@ -16,7 +16,7 @@ import AboutMe from './../page/main/about.vue'
 import ContactMe from './../page/main/contact.vue'
 import AmusementHome from './../page/main/amusement_home.vue'
 import Picture from './../page/main/amusement_picture.vue'
-import AearchPicture from './../page/main/amusement_picture_search.vue'
+import SearchPicture from './../page/main/amusement_picture_search.vue'
 import Movie from './../page/main/amusement_movie.vue'
 
 
@@ -44,7 +44,7 @@ const routes = [
           },{
             path: 'Search',
             name: 'searchPicture',
-            component: AearchPicture
+            component: SearchPicture
           },{
             path: 'Movie',
             name: 'Movie',

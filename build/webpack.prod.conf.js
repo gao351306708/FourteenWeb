@@ -63,7 +63,6 @@ const webpackConfig = merge(baseWebpackConfig, {
     new HtmlWebpackPlugin({
       filename: config.build.index,
       template: 'index.html',
-      //template: 'src/server/views/index.html',
       inject: true,
       minify: {
         removeComments: true,
@@ -75,6 +74,17 @@ const webpackConfig = merge(baseWebpackConfig, {
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency',
       chunks:['manifest','vendor','indexApp']
+    }),
+    new HtmlWebpackPlugin({
+      filename: config.build.manage,
+      template: 'manage.html',
+      inject: true,
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true
+      },
+      chunks:['manifest','vendor','manage']
     }),
     // keep module.id stable when vendor modules does not change
     new webpack.HashedModuleIdsPlugin(),
