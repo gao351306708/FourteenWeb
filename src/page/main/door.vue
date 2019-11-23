@@ -307,6 +307,7 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
+      pointer-events: none;
       .loader-1{
         position: fixed;
         top: 0;
