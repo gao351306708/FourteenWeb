@@ -36,24 +36,30 @@ export default {
     overflow: auto;
   }
   .search .el-input input{
-    height: 50px !important;
-    line-height: 50px !important ;
+    height: 3rem !important;
+    line-height: 3rem !important ;
   }
   .search .el-input .el-input__inner {
     padding-left: 40px;
   }
   .search .el-input .el-input__icon{
-    font-size: 24px;
+    font-size: 1.5rem;
     padding: 0 5px;
     cursor: pointer;
   }
   .picture button i{
-    font-size: 24px;
+    font-size: 1.5rem;
   }
   .searchPicture .search .el-input input{
     border-radius: 25px;
   }
   .blogList .el-pagination .el-icon,.blogList .el-pagination .el-pager li{
-    font-size: 16px !important;
+    font-size: 1rem !important;
+  }
+  .el-button--text{
+    color: #606266;
+  }
+  .Movie .el-button--mini, .el-button--mini.is-round{
+    padding: 0.5rem !important;
   }
 </style>

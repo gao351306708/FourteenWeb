@@ -2,14 +2,14 @@
 <template>
   <div class="Home">
     <el-row :gutter="10">
-      <el-col :xs="0" :md="12">
+      <el-col :xs="0" :sm="12">
         <section class="section_left">
           <div class="video delay-1">
             <video width="478" height="354" muted preload="auto" id="animationVideo1" src="../../../static/sources/Latest_work_fond.mp4"></video>
           </div>
         </section>
       </el-col>
-      <el-col :xs="24" :md="12">
+      <el-col :xs="24" :sm="12" >
         <section class="section_right">
           <a class="visuals delay-1">
             <span class="picture">
@@ -17,7 +17,7 @@
             </span>
             <span class="video_container">
               <span class="video">
-                <!-- <video muted preload="auto" id="animationVideo2" src="@/sources/video/texte_animation.mp4"></video> -->
+                <video muted preload="auto" id="animationVideo2" src="/video/texte_animation.mp4"></video>
               </span>
             </span>
           </a>
@@ -86,7 +86,7 @@
 <style scoped lang="less" type="text/less">
   @import '../../assets/mixin.less';
   .Home{
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     width: 100%;
@@ -94,10 +94,7 @@
     overflow: hidden;
   .section_left{
     position: relative;
-    height: 93vh;
-    top: 40px;
-    /*right: 58%;*/
-    /*bottom: 40px;*/
+    height: 85vh;
     left: 40px;
     .video{
       position: absolute;
@@ -113,59 +110,54 @@
   }
   .section_right{
     position: relative;
-    height: 93vh;
-    top: 40px;
+    height: 85vh;
     right: 40px;
-    /*bottom: 40px;*/
-    /*left: 42%;*/
-  .visuals{
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 30%;
-    background: #cfd2d2;
-    z-index: 1;
-    cursor:pointer;
-  .picture{
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  img{
-    position: relative;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    left: 0;
-  }
-  }
-  .video_container{
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  .video{
-    opacity: 0;
-    transition: opacity .8s;
-    will-change: opacity;
-  video{
-    width: 100%;
-    height: 100%;
-    opacity: 0.99;
-    object-fit: fill;
-  }
-  }
-  .video:hover{
-    opacity: 1;
-  }
-  }
-  }
+    .visuals{
+      display: block;
+      position: absolute;
+      right: 0;
+      left: 25%;
+      height: 100%;
+      background: #cfd2d2;
+      z-index: 1;
+      cursor:pointer;
+      .picture{
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      img{
+        position: relative;
+        height: 100%;
+        width: 100%;
+        left: 0;
+      }
+    }
+    .video_container{
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    .video{
+      opacity: 0;
+      transition: opacity .8s;
+      will-change: opacity;
+      video{
+        width: 100%;
+        height: 100%;
+        opacity: 0.99;
+        object-fit: fill;
+      }
+    }
+    .video:hover{
+      opacity: 1;
+    }
+    }
+    }
   .delay-1{
     transition-delay: .05s;
   }
@@ -173,14 +165,14 @@
     position: absolute;
     top: 50%;
     left: 15%;
-    margin-top: -80px;
-    width: 200px;
-    height: 150px;
+    margin-top: -5rem;
+    width: 12.5rem;
+    height: 9.375rem;
     z-index: 6;
   .title_sec{
-    font-size: 65px;
-    width: 400px;
-    margin: 0 0 10px 0px;
+    font-size: 4.0625rem;
+    width: 25rem;
+    margin: 0 0 0.625rem 0px;
     font-family: cursive;
     font-weight: 600;
     font-style: normal;
@@ -188,20 +180,20 @@
   }
   .top_sec{
     position: absolute;
-    top: -70px;
-    left: 42px;
+    top: -4.375rem;
+    left: 2.625rem;
     font-family: Mensch;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 0.875rem;
   }
   .date_sec{
     position: absolute;
-    top: 22px;
+    top: 1.375rem;
     right: calc(100% - 13px);
   .top{
     position: absolute;
     right: 0;
-    bottom: 5px;
+    bottom: 0.3125rem;
     font-family: cursive
   }
   .stroke{
@@ -223,7 +215,7 @@
   .arrow{
     display: block;
     width: 40px;
-    font-size: 28px;
+    font-size: 1.75rem;
     margin: 0 0 0 64px;
     transition: transform .3s;
     will-change: transform;

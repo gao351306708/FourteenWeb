@@ -25,7 +25,15 @@ export function getAllPhotos(pageIndex,pageNum,callback) {
     unsplash.photos.listPhotos(pageIndex, pageNum,"latest")
         .then(toJson)
         .then(json => {
-            callback(json);
+            callback({
+              code:200,
+              data:json
+            });
+        }).catch((error)=>{
+            callback({
+              code:500,
+              data:[]
+            })
         });
 }
 //Get a list of photos uploaded by a user.

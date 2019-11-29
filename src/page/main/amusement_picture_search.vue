@@ -206,17 +206,17 @@
       margin: 0 auto;
       text-align: left;
       .section1{
-        font-size: 48px;
+        font-size: 3rem;
         font-weight: bolder;
         margin: 30px 20px;
       }
       .section2{
-        font-size: 16px;
+        font-size: 0.875rem;
         font-weight: bolder;
         margin: 10px 20px 50px 20px;
       }
       .section3{
-        font-size: 18px;
+        font-size: 1.125rem;
         font-weight: bolder;
         margin: 20px 20px 10px 20px;
         .user{

@@ -11,7 +11,12 @@ import {bodyUrlencoded} from '../config/methods'
 export const getVideoList = (data) => fetch('/api/');
 
 
-/*https://v.qq.com/x/bu/pagesheet/list?_all=1&append=1&channel=movie&listpage=2&offset=150&pagesize=30&sort=21
+/*
+https://v.qq.com/x/bu/pagesheet/list?_all=1&append=1&channel=movie&listpage=2&offset=150&pagesize=30&sort=21
+//https://node.video.qq.com/x/api/float_vinfo2?cid=j3czmhisqin799r
+//http://v.qq.com/txp/iframe/player.html?vid=t0029dmt201
+//https://v.qq.com/x/bu/pagesheet/list?_all=1&append=0&channel=movie&listpage=2&offset=0&pagesize=30&sort=18&charge=-1&iarea=-1&itype=100004
+//http://localhost:1004/api/tencent/getMovieList?pagesize=30&offset=0&sort=undefined&itype=-1&iarea=-1&charge=-1
 * 查找视频列表信息
 * 参数：
 * pagesize:30,//每次查找数目

@@ -27,7 +27,7 @@
                            style="padding: 5px 10px;" >
               <div class="picture" :style="HandlePreColor()">
                 <img :src="item.urls.regular">
-                <div class="details">
+                <div v-if="pictureDetails" class="details">
                   <div class="top-right">
                     <el-button><img style="width: 24px;height: 24px" src="../../../static/images/heart2.png"/>{{item.likes}}</el-button>
                   </div>
@@ -42,8 +42,8 @@
           </Waterfall>
         </div>
         <div v-else>
-          <h1>没有查到。。。</h1>
-          <img src="../../../static/images/photosNull.png">
+          <h1>loading。。。</h1>
+          <img width="70%" src="../../../static/images/photosNull.png">
         </div>
       </div>
     </div>
@@ -65,7 +65,6 @@
         searchValue:"",
         pictureList:[],
         searchTotal:0,
-        pictureWidth:400,
         pageNum:1,//页码 默认第一页
         pageSize:30,//每页查询条数
         headShow:true
@@ -84,6 +83,16 @@
         easing: 'linear'
       });
     },
+    computed:{
+      pictureWidth(){
+        let windowW = window.innerWidth;
+        return windowW>860 ? ($('.section_picture').width()*0.333333 - 8) : ($('.section_picture').width()*0.5-8);
+      },
+      pictureDetails(){
+        let windowW = window.innerWidth;
+        return windowW>860 ? true : false;
+      }
+    },
     mounted(){
       let _this = this;
       $(".navigation").hide();
@@ -92,11 +101,11 @@
       $('.search .el-icon-search').on('click',function(){
         _this.searchPicture();
       })
-      this.pictureWidth = $('.section_picture').width()*0.333333 - 8;
       //默认获取20张图片
       getAllPhotos(this.pageNum,this.pageSize,(data)=>{
-        console.log("getAllPhotos--------->",this.GLOBAL.getPageName,data);
-        this.pictureList = data;
+        if(data.code === 200){
+          this.pictureList = data.data;
+        }
       })
       document.onkeyup = function (e) {
         if (window.event)//如果window.event对象存在，就以此事件对象为准
@@ -114,7 +123,6 @@
           console.log("到底了。。。",scrollH,clientH,scrollTop)
           _this.pageNum = _this.pageNum + 1;
           getAllPhotos(_this.pageNum,_this.pageSize,(data)=>{
-            console.log("getAllPhotos--------->",_this.pageNum,_this.pageSize,data);
             _this.pictureList = _this.pictureList.concat(data);
           })
         }
@@ -165,48 +173,48 @@
     overflow-y: scroll;
     .buttonToTop{
       position: fixed;
-      bottom: 20px;
-      right: 30px;
-      width: 50px;
+      bottom: 1.25rem;
+      right: 1.875rem;
+      width: 32px;
       height: 50px;
-      background-color: #2196f37a;
+      background-color: #d0dce67a;
       border-radius: 25px;
       cursor: pointer;
     }
     .section_container {
       position: relative;
-      top: 80px;
-      bottom: 40px;
-      padding: 0 45px;
+      top: 3.5rem;
+      bottom: 2.5rem;
+      padding: 0 3rem;
       .section_header{
         position: relative;
         height: 45vw;
         background:url("/static/images/picture-header.jpg") no-repeat;
         background-size: cover;
-        margin-bottom: 50px;
+        margin-bottom: 3rem;
         .section_content{
           position: absolute;
           top: 50%;
-          left: 50%;
+          left: 45%;
           width: 75%;
-          min-height: 100px;
+          min-height: 6.25rem;
           transform: translate(-50%,-50%);
           text-align: left;
           .title1{
-            font-size: 2em;
+            font-size: 2rem;
             color: white;
-            margin-bottom: 10px;
+            margin-bottom: 0.625rem;
           }
           .title2{
-            font-size: 1.5em;
+            font-size: 1.5rem;
             color: white;
             margin: 8px 0;
           }
           .search{
-            margin: 20px 0;
+            margin: 1.25rem 0;
           }
           .tips_content{
-            font-size: 1em;
+            font-size: 1rem;
             color: hsla(0,0%,100%,.8);
             margin: 8px;
           }
@@ -241,37 +249,41 @@
             position: absolute;
             text-align: right;
             width: 100%;
-            top: 15px;
-            height: 60px;
+            top: 1rem;
+            height: 3.75rem;
             button{
-              margin: 0 8px;
+              margin: 0 0.5rem;
             }
             img{
               float: left;
-              margin-right: 5px;
+              margin-right: 0.3125rem;
             }
           }
           .bottom{
             position: absolute;
             text-align: left;
             width: 100%;
-            height: 60px;
-            bottom: 5px;
+            height: 3.75rem;
+            bottom: 0.3125rem;
             img{
               float: left;
-              margin-left: 10px;
-              width: 40px;
-              height: 40px;
-              border-radius: 20px;
+              margin-left: 0.625rem;
+              width: 2.5rem;
+              height: 2.5rem;
+              border-radius: 1.25rem;
             }
             .username{
               float: left;
               color: white;
-              margin: 10px 0 0 10px;
+              margin: 0.625rem 0 0 0.625rem;
+              width: 6.25rem;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
             }
             .download{
               float: right;
-              margin-right: 10px;
+              margin-right: 0.625rem;
             }
           }
           .el-button{

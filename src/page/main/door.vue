@@ -14,7 +14,7 @@
         <div class="progressClassHoleTop">
           <div class="inHole"></div>
         </div>
-        <div class="progressClassGun"></div>
+        <div :class="{progressClassGun:true,active:gunStart}"></div>
         <div class="progressClassTop"></div>
         <div class="ball"></div>
         <el-progress :percentage="percentage" color="#daa520" class="progressClassMid"></el-progress>
@@ -25,7 +25,7 @@
       </div>
     </div>
     <head-top></head-top>
-    <nav class="navigation active" router>
+   <nav :class="{navigation:true,active:true,top2:clientWidth<860}" router>
       <div class="list">
         <div style="margin-bottom: 8px" @click="arrowClick('pre')">
           <i class="el-icon-back arrowUp" ></i>
@@ -54,12 +54,14 @@
     name: 'door',
     data () {
       return {
-        switchlong:true,
-        isLoading:false,
-        loadingTime:true,
+        switchlong:true,//开关下拉动画
+        isLoading:false,//中间加载中线条
+        loadingTime:true,//拉幕开始标志
+        gunStart:false,//开枪开始标志
         video1:null,
         percentage:0,
         timer:null,
+        clientWidth:document.body.clientWidth,
         navList:[
           {
             title:'首页',
@@ -112,6 +114,10 @@
       this.setNavNum();
       //监听页面事件
       this.windowAddMouseWheel();
+      window.onresize = () => {
+          let screenWidth = document.body.clientWidth
+          this.clientWidth = screenWidth
+      }
     },
     watch:{
       'loadingTime': function(cur,old){
@@ -122,6 +128,9 @@
           }
         }
       },
+      'clientWidth':function(cur,old){
+        console.log('window宽度变化了-->',cur)
+      }
     },
     methods:{
       colseLoading(){
@@ -140,21 +149,23 @@
       ballScroll(){
         let _this = this;
         let ball = document.querySelector('.ball');
+        if(!ball) return;
         let windowH =  document.documentElement.clientHeight;
         let windowW =  document.documentElement.clientWidth;
-        let end1 = windowH-152;
+        let ballFlyWidth = windowW-50;//球在上方飞到开关时水平的距离
+        let ballFlyheight = 250-100;//球飞到开关时下落的高度
+        let end1 = windowH-152;//球落在斜坡上时
         let originTop = ball.offsetTop;
         let originLeft = ball.offsetLeft;
         let topReset = -30;
+        let vt = 0;//自由落体速度
         let timer = setInterval(()=>{
           if(ball.offsetTop > end1){//到达斜坡上
-            originLeft -=2;
-            ball.style.left = originLeft + 'px';
             if(ball.offsetTop < windowH-30){//到达底部
-              originTop +=2;
+              originTop +=4;
               ball.style.top = originTop + 'px';
             }
-            if(ball.offsetLeft <50){//到达洞口
+            if(ball.offsetLeft <60){//到达洞口
               originTop +=2;
               ball.style.top = originTop + 'px';
               if(ball.offsetTop > windowH){//掉进底部洞里
@@ -164,10 +175,13 @@
                     ball.style.top = topReset + 'px';
                     topReset +=2;
                   }else{
-                    document.querySelector('.progressClassGun').className += ' active'; //在原来的后面加这个，打枪
+                    if(!_this.gunStart){
+                      _this.gunStart = true;//在原来的后面加这个，打枪
+                    }
+                    // clearInterval(timer2);
                     ball.style.top = topReset + 'px';
                     topReset +=1;
-                    originLeft +=10;
+                    originLeft += (ballFlyWidth/ballFlyheight)*1;
                     ball.style.left = originLeft + 'px';
                     if(ball.offsetLeft > windowW-100){
                       clearInterval(timer2)
@@ -179,10 +193,17 @@
                     }
                   }
                 },10)
+              }else{
+                originLeft -=2;
+                ball.style.left = originLeft + 'px';
               }
+            }else{
+              originLeft -=4;
+              ball.style.left = originLeft + 'px';
             }
           }else{
-            originTop +=2;
+            vt = vt+0.1;//模拟个自由落体的感觉
+            originTop +=vt;
             ball.style.top = originTop + 'px';
           }
         },10);
@@ -307,7 +328,7 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      pointer-events: none;
+      pointer-events: none;//事件可穿透
       .loader-1{
         position: fixed;
         top: 0;
@@ -331,7 +352,7 @@
         height: 18px;
       }
       .progressClassGun.active{
-        width: 28px;
+        width: 35px;
         transition: width 0.05s ease-in;
       }
       .progressClassTop{
@@ -403,7 +424,7 @@
       .switch-wrapper{
         position: absolute;
         background: #3e5163;
-        right: 6%;
+        right: 100px;
         z-index: 105;
         transform-origin: center top;
         .line{
@@ -477,9 +498,9 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      top: calc(50% - 120px);
       bottom: calc(50% - 120px);
-      left: 15px;
+      top:calc(50% - 120px);
+      left: 0.875rem;
       width: 40px;
       z-index: 14;
       opacity: 1;
@@ -504,7 +525,7 @@
           border: 1px solid #d5d5d5;
           width: 100%;
           text-align: center;
-          font-size: 14px;
+          font-size: 0.875rem;
           overflow: hidden;
           text-overflow: ellipsis;
           span{
@@ -539,7 +560,7 @@
         cursor: pointer;
       }
       .arrowDown{
-        font-size: 22px;
+        font-size: 1.375rem;
         transform: rotate(-90deg);
         color: darkgray;
         cursor: pointer;
@@ -548,9 +569,15 @@
     .header_section{
       text-align: left;
     }
+    .top2{
+      top:calc(100% - 120px) !important;
+    }
   }
   .center_view{
-    /*width: 100%;*/
+    position: relative;
+    width: 100%;
+    top: 80px;
+    height: calc(100vh - 80px);
   }
   @keyframes changelong{
     0%{height: 250px;}

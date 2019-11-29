@@ -82,23 +82,24 @@
     .section_container{
       position: absolute;
       width: 100%;
-      top: 80px;
+      top: 20px;
       bottom: 40px;
+      overflow-y: auto;
       .mainSection{
         padding: 20px 50px;
       .header_section{
-        font-size: 2em;
+        font-size: 2rem;
       }
       .content{
-        margin-top: 2em;
-        padding: 0 5em;
+        margin-top: 2rem;
+        padding: 0 2rem;
         text-align: left;
         h1,h2,h3,h4,h5{
           margin: 8px 0;
         };
         p{
-          line-height: 36px;
-          text-indent: 2em;
+          line-height: 2.25rem;
+          text-indent: 2rem;
         }
       }
       }

@@ -57,59 +57,52 @@
     overflow: hidden;
   .section_container{
     position: absolute;
-    top: 80px;
-    bottom: 40px;
-    left: 60px;
-    right: 60px;
+    height: 98%;
+    left: 3.75rem;
+    right: 3.75rem;
     background: url("/static/images/weekly1.png") no-repeat center;
     .section_left{
       position: absolute;
       top: 40px;
       bottom: 40px;
       left: 100px;
-      /*right: 50%;*/
-    img{
-      position: absolute;
-      height: 100%;
-      left: 50px;
+      img{
+        position: absolute;
+        height: 100%;
+        left: 50px;
+      }
     }
+    .section_right{
+      .text{
+        position: absolute;
+        padding: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+      p{
+        margin: 15px 0;
+        text-align: left;
+      }
+      .text1{
+        color: #ffffff;
+        font-size: 3rem;
+      }
+      .text2{
+        font-size: 1.5rem;
+        line-height: 34px;
+        color: #f2ece2cf;
+      }
+      }
+      .el-button.is-round{
+        background-color: transparent;
+        color: #fff;
+        border: 2px solid #fff;
+        padding: 12px 32px;
+      }
+      .el-button.is-round:hover{
+        background-color: #fff;
+        color: #ff895d;
+      }
     }
-  .section_right{
-    /*position: relative;*/
-    /*top: 20px;*/
-    /*bottom: 20px;*/
-    /*left: 50%;*/
-    /*right: 50px;*/
-  .text{
-    position: absolute;
-    padding: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-  p{
-    margin: 15px 0;
-    text-align: left;
-  }
-  .text1{
-    color: #ffffff;
-    font-size: 48px;
-  }
-  .text2{
-    font-size: 24px;
-    line-height: 34px;
-    color: #f2ece2cf;
-  }
-  }
-  .el-button.is-round{
-    background-color: transparent;
-    color: #fff;
-    border: 2px solid #fff;
-    padding: 12px 32px;
-  }
-  .el-button.is-round:hover{
-    background-color: #fff;
-    color: #ff895d;
-  }
-  }
   }
   }
 </style>

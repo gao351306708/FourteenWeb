@@ -2,48 +2,48 @@
 <template>
   <div class="Movie">
     <back-button></back-button>
-    <div class="backTop" @click="backToTop()">返回顶部</div>
+    <el-button icon="el-icon-arrow-up" circle class="backTop" @click="backToTop()"></el-button>
     <div class="section_container">
       <div class="selectSection">
-        <el-row style="margin: 10px 0">
-          <el-col style="width: 80px">
+        <el-row type="flex" style="margin: 10px 0">
+          <el-col class="tagName">
             <el-tag type="success">{{movieSelectList1.isort.mainName}}</el-tag>
           </el-col>
-          <el-col :span="20">
-            <el-button v-for="item in movieSelectList1.isort.children" :key="item.id" round :class="['tagKeys',{'active':item.key == isort}]"
+          <el-col :span="20" class="tagKey">
+            <el-button type="text" v-for="item in movieSelectList1.isort.children" :key="item.id" round :class="['tagKeys',{'active':item.key == isort}]"
               size="mini" @click="clickTag(movieSelectList1.isort,item)">
               {{item.name}}
             </el-button>
           </el-col>
         </el-row>
-        <el-row style="margin: 10px 0">
-          <el-col style="width: 80px">
+        <el-row type="flex" style="margin: 10px 0">
+          <el-col class="tagName">
             <el-tag type="success">{{movieSelectList1.itype.mainName}}</el-tag>
           </el-col>
-          <el-col :span="20">
-            <el-button v-for="item in movieSelectList1.itype.children" :key="item.id" round :class="['tagKeys',{'active':item.key == itype}]"
+          <el-col :span="20" class="tagKey">
+            <el-button type="text" v-for="item in movieSelectList1.itype.children" :key="item.id" round :class="['tagKeys',{'active':item.key == itype}]"
               size="mini" @click="clickTag(movieSelectList1.itype,item)">
               {{item.name}}
             </el-button>
           </el-col>
         </el-row>
-        <el-row style="margin: 10px 0">
-          <el-col style="width: 80px">
+        <el-row type="flex" style="margin: 10px 0">
+          <el-col class="tagName">
             <el-tag type="success">{{movieSelectList1.iarea.mainName}}</el-tag>
           </el-col>
-          <el-col :span="20">
-            <el-button v-for="item in movieSelectList1.iarea.children" :key="item.id" round :class="['tagKeys',{'active':item.key == iarea}]"
+          <el-col :span="20" class="tagKey">
+            <el-button type="text" v-for="item in movieSelectList1.iarea.children" :key="item.id" round :class="['tagKeys',{'active':item.key == iarea}]"
               size="mini" @click="clickTag(movieSelectList1.iarea,item)">
               {{item.name}}
             </el-button>
           </el-col>
         </el-row>
-        <el-row style="margin: 10px 0">
-          <el-col style="width: 80px">
+        <el-row type="flex" style="margin: 10px 0">
+          <el-col class="tagName">
             <el-tag type="success">{{movieSelectList1.icharge.mainName}}</el-tag>
           </el-col>
-          <el-col :span="20">
-            <el-button v-for="item in movieSelectList1.icharge.children" :key="item.id" round :class="['tagKeys',{'active':item.key == icharge}]"
+          <el-col :span="20" class="tagKey">
+            <el-button type="text" v-for="item in movieSelectList1.icharge.children" :key="item.id" round :class="['tagKeys',{'active':item.key == icharge}]"
               size="mini" @click="clickTag(movieSelectList1.icharge,item)">
               {{item.name}}
             </el-button>
@@ -51,7 +51,7 @@
         </el-row>
       </div>
       <div class="movieSection">
-        <div v-for="(item,index) in movieList" :key="index" class="cardPart" @click="movieGo(item)">
+        <div v-for="(item,index) in movieList" :key="index" :class="{cardPart:true,minWidth:!clientWidth}" @click="movieGo(item)">
           <el-card :body-style="{ padding: '0px' }">
             <img :src="item.imgUrl" class="image">
             <div style="padding: 14px;">
@@ -94,7 +94,9 @@
       backButton,
     },
     computed: {
-
+      clientWidth(){
+        return window.innerWidth>860 ? true : false;
+      }
     },
     beforeMount() {
       $(".wrapper_door").transition({
@@ -195,7 +197,7 @@
   }
 </script>
 
-<style scoped lang="less" type="text/less">
+<style lang="less" type="text/less">
   @import '../../assets/mixin.less';
   .Movie{
     position: absolute;
@@ -208,68 +210,74 @@
       position: absolute;
       bottom: 2%;
       right: 4%;
-      width: 46px;
-      height: 46px;
-      padding: 8px;
-      border-radius: 30px;
-      background-color: darkseagreen;
+      // width: 46px;
+      // height: 46px;
+      background-color: #e1e1e1;
       z-index: 101;
-      cursor: pointer;
     }
   .section_container{
     position: absolute;
     overflow-x:hidden ;
     overflow-y: auto;
-    top: 50px;
-    bottom: 40px;
-    left: 50px;
-    right: 50px;
-    padding: 40px 40px 0 40px;
+    top: 3.125rem;
+    bottom: 2.5rem;
+    left: 3.125rem;
+    right: 3.125rem;
     .selectSection{
-      width: 100%;
       min-height: 100px;
       text-align: left;
-      padding: 0 20px;
-      .tagKeys{
-        margin: 0 5px;
+      padding: 0 1.25rem;
+      .tagName{
+        width: 3.125rem;
+        margin-right: 0.625rem;
       }
-      .tagKeys.active{
-        color: #31baff;
+      .tagKey{
+        overflow-y: hidden;
+        white-space: nowrap;
+        overflow-x: auto;
+        .tagKeys{
+          margin: 0 0.3125rem;
+        }
+        .tagKeys.active{
+          color: #31baff;
+        }
       }
     }
     .movieSection{
       display: flex;
       flex-wrap: wrap;
       width: 100%;
-      /*height: calc(100% - 100px);*/
-      justify-content: space-between;
-    .cardPart{
-      width: 200px;
-      padding: 0.8em;
-      text-align: left;
-    .image {
-      width: 100%;
-      display: block;
-    }
-    .title{
-      margin: 5px 0;
-      font-size: 1em;
-      font-weight: bolder;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .starts ,.num{
-      font-size: 0.7em;
-      color: darkgray;
-      margin: 3px 0;
-    }
-    .starts{
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    }
+      //justify-content: space-around;
+      .cardPart{
+        width: 200px;
+        padding: 10px;
+        text-align: left;
+        .image {
+          width: 100%;
+          display: block;
+        }
+        .title{
+          margin: 5px 0;
+          font-size: 1em;
+          font-weight: bolder;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .starts ,.num{
+          font-size: 0.7em;
+          color: darkgray;
+          margin: 3px 0;
+        }
+        .starts{
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+      .minWidth{
+        width: calc(50% - 20px) !important;
+      }
     }
   }
   }

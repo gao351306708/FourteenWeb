@@ -214,20 +214,20 @@
     overflow: hidden;
   .section_container {
     position: relative;
-    top: 80px;
-    bottom: 40px;
-    padding: 0 45px;
+    top: 0px;
+    bottom: 2.5rem;
+    padding: 0 2.8125rem;
     height: 100%;
     overflow: auto;
   .section_All{
-    margin-bottom: 150px;
-    margin-top: 50px;
+    margin-bottom: 9.375rem;
+    margin-top: 3.125rem;
   .section_right{
     background-color: #e1f2f4;
-    padding: 15px;
+    padding: 0.9375rem;
   .userInfo,.newBlogs,.popularBlogs,.catgoriesBlogs{
     text-align: left;
-    margin: 10px 0;
+    margin: 0.625rem 0;
   .henggang{
     height: 5px;
     width: 26px;
@@ -283,38 +283,39 @@
   }
   }
   .section_left{
-    padding: 10px 20px;
+    padding: 0.625rem 1.25rem;
     .header_section{
       font-size: 28px;
       text-align: left;
-      margin: 20px 10px;
+      margin: 1.25rem 0.625rem;
     }
     .list_section{
       .listPart{
         display: flex;
-        height: 150px;
+        height: 8rem;
         border: 1px solid #e1e1e1;
-        margin: 25px 10px;
+        margin: 1rem 0.625rem;
         img{
-          width: 20%;
+          width: 6rem;
+          height: 6rem;
         }
         .content{
           text-align: left;
-          padding: 10px 30px;
+          padding: 0.5rem 1.5rem;
           .content_top{
-            margin: 15px 0;
-            font-size: 1.3em;
+            margin: 0.5rem 0;
+            font-size: 1em;
         }
         .content_mid{
-          margin: 10px 0;
+          margin: 0.625rem 0;
           .viewsNum{
             font-size: 1em;
           }
         }
         .content_bottom{
-          margin-top: 18px;
+          margin-top: 0.2rem;
           span{
-            font-size: 1.2em;
+            font-size: 1em;
             text-decoration: underline;
             cursor: pointer;
           }
