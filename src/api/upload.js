@@ -1,6 +1,9 @@
 /*
  * 文件上传接口
  * */
+import fetch_requset from '../config/fetch'
+const API_CONFIG = '/api/file';
+
 export const uploadFile = (data,callback)=>{
   const url = '/api/file/upload';
   return fetch(url,{method:'POST',body:data}).then((response) => {
@@ -23,4 +26,10 @@ export const uploadFile = (data,callback)=>{
 export const downloadFile = (data,callback)=>{
   const url = '/api/file/download';
 }
-
+/*
+* 读取文件数据
+* */
+export const loadFileData = (data)=>{
+  const url = `${API_CONFIG}/readFiles`;
+  return fetch_requset(url,data,'GET')
+}

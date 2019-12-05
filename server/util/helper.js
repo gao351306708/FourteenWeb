@@ -82,7 +82,7 @@ var helper = {
       console.log("文件不存在")
     }
   },
-  // 为每一个学生创建上传文件的目录，用来存放上传文件
+  // 创建上传文件的目录，用来存放上传文件
   createFolder: function (dirpath,name) {
     const new_dir = dirpath+'/'+name;
     //判断文件是否存在，没有则创建

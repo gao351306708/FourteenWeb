@@ -2,11 +2,7 @@
 <template>
   <div class="allmost">
     <div class="section_container">
-      <h2>还没想好。。。</h2>
-      <!--<div id="videoId">-->
-
-      <!--</div>-->
-
+      <div>.......</div>
     </div>
   </div>
 </template>
@@ -16,10 +12,15 @@
     //data中放入初始默认值
     data() {
       return {
-        movieList:[]
+        fileList:[],
+        //filename:'default/词汇表.xlsx',
+        labelPosition: 'right',
+        formLabelAlign: {
+          number: '',
+          type: '',
+          filename:''
+        }
       }
-    },
-    computed: {
     },
     beforeMount(){
       let _this = this;
@@ -28,10 +29,6 @@
         duration: 1000,
         easing: 'linear'
       });
-    },
-    mounted(){
-    },
-    methods:{
     }
   }
 </script>
@@ -52,37 +49,6 @@
       left: 50px;
       right: 50px;
       padding: 40px;
-      .movieSection{
-        display: flex;
-        flex-wrap: wrap;
-        overflow-y:auto ;
-        width: 100%;
-        height: 100%;
-        .cardPart{
-          width: 200px;
-          padding: 1em;
-          text-align: left;
-          .image {
-            width: 100%;
-            display: block;
-          }
-          .title{
-            margin: 5px 0;
-            font-size: 1em;
-            font-weight: bolder;
-          }
-          .starts ,.num{
-            font-size: 0.7em;
-            color: darkgray;
-            margin: 3px 0;
-          }
-          .starts{
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-        }
-      }
     }
   }
 </style>

@@ -18,6 +18,7 @@ import AmusementHome from './../page/main/amusement_home.vue'
 import Picture from './../page/main/amusement_picture.vue'
 import SearchPicture from './../page/main/amusement_picture_search.vue'
 import Movie from './../page/main/amusement_movie.vue'
+import Demo from './../page/main/demo/uploadAndGetRandom.vue'
 
 
 const routes = [
@@ -83,6 +84,10 @@ const routes = [
     path: '/Contact',
     name: 'ContactMe',
     component: ContactMe
+  },{
+    path: '/demo',
+    name: 'Demo',
+    component: Demo
   }
 ]
 export default new Router({
