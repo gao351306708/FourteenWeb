@@ -11,14 +11,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      //'/':{
-      //  target:'http://127.0.0.1:8888',
-      //  secure:false,//如果是https，需要配置此值
-      //  changeOrigin:true,
-      //  //pathRewrite:{
-      //  //  '^/api':''
-      //  //}
-      //}
+      '/api':{
+       target:'http://www.rambogj.club:8088',//服务端的接口地址
+       changeOrigin:true,
+       pathRewrite:{
+        '^/api':''
+       }
+      }
     },
 
     // Various Dev Server settings

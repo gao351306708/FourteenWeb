@@ -2,11 +2,10 @@
  * Module dependencies.
  */
 var app = require('./app');
-var config = require('../config')
 var debug = require('debug')('mathonline:server');
 
 // default port where dev server listens for incoming traffic
-var port = process.env.PORT || config.dev.port
+var port = 8088;
 /**
  * Create HTTP server.
  */
