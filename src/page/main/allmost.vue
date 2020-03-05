@@ -4,12 +4,19 @@
     <div class="section_container">
       <div>.......</div>
     </div>
+    <div class="Footer">
+       <FooterBottom></FooterBottom>
+    </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import FooterBottom from '@/components/footerBottom.vue'
   export default {
     //data中放入初始默认值
+    components:{
+      FooterBottom
+    },
     data() {
       return {
         fileList:[],
@@ -49,6 +56,11 @@
       left: 50px;
       right: 50px;
       padding: 40px;
+    }
+    .Footer{
+      position: fixed;
+      width: 100%;
+      bottom: 0;
     }
   }
 </style>

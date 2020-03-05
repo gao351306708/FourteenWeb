@@ -32,7 +32,9 @@
         </div>
         <a v-for="(item,index) in navList"
            :class="['num'+(index+1),{'active':(index+1)==currentNum}]"
-            @click="navClick(index)">
+            @click="navClick(index)"
+            :key="index"
+            >
           <div class="bannerSection"><span>{{item.title}}</span></div>
         </a>
         <div @click="arrowClick('next')">
@@ -49,6 +51,7 @@
 <script type="text/ecmascript-6">
   import {setStore,getStore,clearStore,setSession,getSession} from '../../config/publicMethod'
   import headTop from '../../components/headTop.vue'
+  import FooterBottom from '@/components/footerBottom.vue'
   import Bus from '@/js/bus.js'
   export default {
     name: 'door',
@@ -96,7 +99,8 @@
       }
     },
     components:{
-      headTop
+      headTop,
+      FooterBottom
     },
     created () {
         Bus.$on('colseLoading', this.colseLoading);
@@ -590,5 +594,10 @@
     75%{transform: rotate(15deg);}
     100%{transform: rotate(0deg);}
     // to{transform: rotate(15deg);}
+  }
+  .Footer{
+    position: fixed;
+    width: 100%;
+    bottom: 0;
   }
 </style>
