@@ -2,7 +2,7 @@
 <template>
   <div class="Movie">
     <back-button></back-button>
-    <el-button icon="el-icon-arrow-up" circle class="backTop" @click="backToTop()"></el-button>
+    <BackTop :scrollerName="'.section_container'"></BackTop>
     <div class="section_container">
       <div class="selectSection">
         <el-row type="flex" style="margin: 10px 0">
@@ -51,7 +51,7 @@
         </el-row>
       </div>
       <div class="movieSection">
-        <div v-for="(item,index) in movieList" :key="index" :class="{cardPart:true,minWidth:!clientWidth}" @click="movieGo(item)">
+        <div v-for="(item,index) in movieList" :key="index" :class="{cardPart:true,movieWidth:true}" @click="movieGo(item)">
           <el-card :body-style="{ padding: '0px' }">
             <img :src="item.imgUrl" class="image">
             <div style="padding: 14px;">
@@ -92,11 +92,6 @@
     },
     components: {
       backButton,
-    },
-    computed: {
-      clientWidth(){
-        return window.innerWidth>860 ? true : false;
-      }
     },
     beforeMount() {
       $(".wrapper_door").transition({
@@ -185,9 +180,6 @@
             break;
         };
         this.getMovieListOfKey();
-      },
-      backToTop() {
-        $('.section_container').scrollTop(0);
       }
     },
     destroyed() {
@@ -206,23 +198,13 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
-    .backTop{
-      position: absolute;
-      bottom: 2%;
-      right: 4%;
-      // width: 46px;
-      // height: 46px;
-      background-color: #e1e1e1;
-      z-index: 101;
-    }
   .section_container{
     position: absolute;
     overflow-x:hidden ;
     overflow-y: auto;
     top: 3.125rem;
     bottom: 2.5rem;
-    left: 3.125rem;
-    right: 3.125rem;
+    padding: 0 3.125rem;
     .selectSection{
       min-height: 100px;
       text-align: left;
@@ -247,7 +229,7 @@
       display: flex;
       flex-wrap: wrap;
       width: 100%;
-      //justify-content: space-around;
+      justify-content: space-around;
       .cardPart{
         width: 200px;
         padding: 10px;
@@ -274,9 +256,6 @@
           overflow: hidden;
           text-overflow: ellipsis;
         }
-      }
-      .minWidth{
-        width: calc(50% - 20px) !important;
       }
     }
   }

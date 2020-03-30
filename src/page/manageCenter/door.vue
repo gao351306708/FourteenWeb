@@ -95,7 +95,7 @@ export default {
     margin: 15px 0;
   }
   .el-main{
-    padding: 0;
+    padding: 0 !important;
   }
   .senctionblock{
     position: relative;

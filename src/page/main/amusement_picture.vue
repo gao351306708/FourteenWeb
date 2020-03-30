@@ -5,18 +5,18 @@
       <div class="section_header">
         <div class="section_content">
           <p class="title1">Unsplash</p>
-          <p class="title2" v-show="headShow">Beautiful, free photos.</p>
-          <p class="title2" v-show="headShow">Gifted by the world’s most generous community of photographers.</p>
+          <p class="title2" v-show="headShow">好看且免费的照片.</p>
+          <p class="title2" v-show="headShow">来自全世界上最优秀的摄影师社区。</p>
           <p class="search">
             <el-input prefix-icon="el-icon-search"
                       v-model="searchValue"
-                      placeholder="输入匹配关键字查找"
+                      placeholder="输入匹配关键字查找，（英文、中文、或字母等）"
                       clearable></el-input>
           </p>
-          <p class="tips_content">Trending searches:business，computer，nature，love，house</p>
+          <p class="tips_content">热门搜索:商业、计算机、自然、爱、美女等</p>
         </div>
       </div>
-      <div class="section_picture">
+      <div class="section_picture" v-loading="loading">
         <div v-if="pictureList.length>0">
           <Waterfall :line-gap="pictureWidth" :watch="pictureList">
             <WaterfallSlot v-for="(item, index) in pictureList"
@@ -34,7 +34,7 @@
                   <div class="bottom">
                     <img :src="item.user.profile_image.medium">
                     <div class="username">{{item.user.name}}</div>
-                    <div class="download"><el-button icon="el-icon-download"></el-button></div>
+                    <div class="download"><el-button icon="el-icon-download" @click="downloadHandle(item)"></el-button></div>
                   </div>
                 </div>
               </div>
@@ -42,19 +42,15 @@
           </Waterfall>
         </div>
         <div v-else>
-          <h1>loading。。。</h1>
           <img width="70%" src="../../../static/images/photosNull.png">
         </div>
       </div>
     </div>
-    <div class="buttonToTop" @click="backTotOP()">
-      <i class="el-icon-arrow-up"></i>
-      <p>顶部</p>
-    </div>
+    <BackTop :scrollerName="'.Picture'"></BackTop>
   </div>
 </template>
 <script type="text/ecmascript-6">
-  import {getAllPhotos,searchPhotos} from '../../api/unsplash.js'
+  import {getAllPhotos,searchPhotos,downloadPhoto} from '../../api/unsplash.js'
   import Waterfall from 'vue-waterfall/lib/waterfall'
   import WaterfallSlot from 'vue-waterfall/lib/waterfall-slot'
   import {HandlePreImg} from '../../config/publicMethod'
@@ -67,7 +63,8 @@
         searchTotal:0,
         pageNum:1,//页码 默认第一页
         pageSize:30,//每页查询条数
-        headShow:true
+        headShow:true,
+        loading:true,//加载数据标志
       }
     },
     components:{
@@ -93,6 +90,9 @@
         return windowW>860 ? true : false;
       }
     },
+    created(){
+       this.getPicture();
+    },
     mounted(){
       let _this = this;
       $(".navigation").hide();
@@ -100,12 +100,6 @@
       this.headShow = $(window).width()<480 ? false:true;
       $('.search .el-icon-search').on('click',function(){
         _this.searchPicture();
-      })
-      //默认获取20张图片
-      getAllPhotos(this.pageNum,this.pageSize,(data)=>{
-        if(data.code === 200){
-          this.pictureList = data.data;
-        }
       })
       document.onkeyup = function (e) {
         if (window.event)//如果window.event对象存在，就以此事件对象为准
@@ -115,16 +109,21 @@
             _this.searchPicture();
           }
       }
+      //页面滚动到底部是加载新的数据
       $('.Picture').scroll(function(){
         let scrollH = $(this)[0].scrollHeight;
         let clientH = $(this)[0].clientHeight;
         let scrollTop = $(this).scrollTop();
         if(scrollTop + clientH == scrollH){
           console.log("到底了。。。",scrollH,clientH,scrollTop)
-          _this.pageNum = _this.pageNum + 1;
-          getAllPhotos(_this.pageNum,_this.pageSize,(data)=>{
-            _this.pictureList = _this.pictureList.concat(data);
-          })
+          _this.getPicture();
+          // const pageNum = _this.pageNum + 1;
+          // getAllPhotos(pageNum,_this.pageSize,(data)=>{
+          //    if(data.code === 200){
+          //       const newData = _this.pictureList.concat(data.data);
+          //       Object.assign(_this,{pictureList:newData,pageNum})
+          //     }
+          // })
         }
       })
     },
@@ -137,6 +136,28 @@
       });
     },
     methods:{
+      //查询图片
+      getPicture(){
+        let _this = this;
+        getAllPhotos(this.pageNum,this.pageSize,(data)=>{
+          if(data.code === 200){
+            let newData = [];
+            let pageNum = _this.pageNum;
+            if(pageNum <= 1){//第一页
+              newData = data.data;
+              pageNum++;
+            }else{
+              pageNum++;
+              newData = _this.pictureList.concat(data.data);
+            }
+            Object.assign(_this,{
+              pictureList:newData,
+              loading:false,
+              pageNum
+            })
+          }
+        })
+      },
       HandlePreColor(){
         let backColor = {backgroundColor:HandlePreImg()};
         return backColor;
@@ -153,6 +174,13 @@
           return;
         }
         this.$router.push({path:'Search',query:{keyName:this.searchValue}})
+      },
+      downloadHandle(item){
+        console.log("下载",item)
+        let id = item.id;
+        downloadPhoto(id,(res)=>{
+          console.log("下载成功")
+        })
       }
     },
     destroyed(){
@@ -171,16 +199,6 @@
     height: 100%;
     overflow-x: hidden;
     overflow-y: scroll;
-    .buttonToTop{
-      position: fixed;
-      bottom: 1.25rem;
-      right: 1.875rem;
-      width: 32px;
-      height: 50px;
-      background-color: #d0dce67a;
-      border-radius: 25px;
-      cursor: pointer;
-    }
     .section_container {
       position: relative;
       top: 3.5rem;

@@ -5,15 +5,15 @@
       <p class="search">
         <el-input prefix-icon="el-icon-search"
                   v-model="searchValue"
-                  placeholder="输入匹配关键字查找"
+                  placeholder="输入匹配关键字查找，（英文、中文、或字母等）"
                   clearable></el-input>
       </p>
     </div>
     <div class="section_container">
       <div class="searchResult">
-        <div class="section1">{{searchValue + ' pictures'}}</div>
-        <div class="section2">{{searchTotal+ ' free ' +searchValue+ ' pictures'}}</div>
-        <div class="section3">{{searchTotal+ ' Photos '}}<span class="user">{{searchTotal+ ' Users'}}</span></div>
+        <div class="section1">{{searchValue + '图片'}}</div>
+        <div class="section2">{{searchTotal+ ' 张免费的 ' +searchValue+ ' 图片'}}</div>
+        <div class="section3">{{searchTotal+ ' 张照片 '}}<span class="user">{{searchTotal+ ' 个作者'}}</span></div>
       </div>
       <div class="section_picture">
         <div v-if="pictureList.length>0">
@@ -22,7 +22,7 @@
                            :height="(pictureWidth*item.height)/item.width + 100"
                            :width="pictureWidth"
                            :order="index"
-                           :key="index"
+                           :key="item.id"
                            style="padding: 5px 10px;" >
               <div class="picture" :style="HandlePreColor()">
                 <img :src="item.urls.regular">
@@ -39,7 +39,7 @@
               </div>
               <div class="pictureIntroduce">
                 <p class="description">{{item.description}}</p>
-                <el-tag type="info" v-for="(itemm,index) in item.photo_tags.slice(0,3) " :key="index">{{itemm.title}}</el-tag>
+                <el-tag type="info" v-for="(itemm,index) in item.tags.slice(0,3) " :key="index">{{itemm.title}}</el-tag>
               </div>
             </WaterfallSlot>
           </Waterfall>
@@ -93,8 +93,7 @@
       //默认获取20张图片
       searchPhotos(this.searchValue,this.pageNum,(data)=>{
         console.log("searchPhotos----searchPhotos----->",this.searchValue,this.pageNum,data);
-        this.searchTotal = data.total
-        this.pictureList = data.results;
+        Object.assign(_this,{searchTotal:data.total,pictureList:data.results})
       })
       document.onkeyup = function (e) {
         if (window.event)//如果window.event对象存在，就以此事件对象为准
@@ -113,10 +112,11 @@
         let scrollTop = $(this).scrollTop();
         if(scrollTop + clientH == scrollH){
           console.log("到底了。。。",scrollH,clientH,scrollTop)
-          _this.pageNum = _this.pageNum + 1;
-          searchPhotos(_this.searchValue,_this.pageNum,(data)=>{
+          const pageNum =  _this.pageNum + 1;
+          searchPhotos(_this.searchValue,pageNum,(data)=>{
             console.log("getAllPhotos--------->",_this.pageNum,_this.pageSize,data);
-            _this.pictureList = _this.pictureList.concat(data.results);
+            const pictureList = _this.pictureList.concat(data.results);
+            Object.assign(_this,{pictureList,pageNum})
           })
         }
       })
@@ -241,6 +241,8 @@
       .description{
         white-space: nowrap;
         margin: 15px 0;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
       }
       span{
         margin-right: 10px;

@@ -497,8 +497,8 @@
       margin: 0;
       padding: 0;
     }
-    nav.navigation{
-      position: fixed;
+    .navigation{
+      position: absolute;
       display: flex;
       flex-direction: column;
       justify-content: center;

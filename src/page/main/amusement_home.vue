@@ -231,12 +231,14 @@
     transition: transform .3s;
     will-change: transform;
   }
-  .arrow i{
+  .arrow i{ 
+    color: black;
     transform: rotate(180deg);
   }
   .arrow:hover{
     transform:translate(5px,0px);
     cursor: pointer;
+    color: brown;
   }
   }
   }
