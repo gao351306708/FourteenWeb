@@ -232,6 +232,7 @@
       justify-content: space-around;
       .cardPart{
         width: 200px;
+        min-height: 200px;
         padding: 10px;
         text-align: left;
         .image {

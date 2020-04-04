@@ -1,12 +1,7 @@
 <template>
   <el-container>
     <el-header class="door">
-      <el-row>
-        <el-col :span="4"><img src="../../../static/images/logo.png"></el-col>
-        <el-col :span="20">
-          <div class="loginButton"></div>
-        </el-col>
-      </el-row>
+      <span class="manageTile">后台管理系统</span>
     </el-header>
     <el-main>
       <section class="form_contianer">
@@ -64,9 +59,12 @@ export default {
   },
   methods: {
     async loginEnter (formName) {
-      this.$refs[formName].validate(async (valid) => {
+      this.$refs[formName].validate(async (valid,values) => {
         if (valid) {
-          this.$router.replace('home')
+          if(this.ruleForm.name == 'admin' && this.ruleForm.pass == 'gaoju123456'){
+            sessionStorage.setItem("accessToken",true);
+            this.$router.replace('home');
+          }
         } else {
           console.error('error login submit!!')
           return false
@@ -89,7 +87,15 @@ export default {
 <style scoped lang="less" type="text/less">
   @import '../../assets/mixin.less';
   .door{
+    display: flex;
+    align-items: center;
     background-color: #337cac;
+    .logo{
+      height: 48px;
+    }
+    .manageTile{
+      font-size: 24px;
+    }
   }
   .form_contianer .el-row{
     margin: 15px 0;

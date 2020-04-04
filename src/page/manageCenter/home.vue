@@ -4,10 +4,11 @@
       <el-col :span="12"><div class="header-left">管理员系统</div></el-col>
       <el-col :span="12">
         <div class="header-right">
-          <el-dropdown trigger="click" @command="handleCommand">
-            <el-button type="info" round size="small" class="el-dropdown-link">
+          <el-avatar :size="36" :src="headUrl ? headUrl: require('@/assets/img/head-black.png') "></el-avatar>
+          <el-dropdown trigger="click" @command="handleCommand" class="dropdownCss">
+            <span class="el-dropdown-link">
               菜单<i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
+            </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="exit">退出</el-dropdown-item>
               <el-dropdown-item command="res">返回</el-dropdown-item>
@@ -17,16 +18,24 @@
       </el-col>
     </el-row>
     <el-row style="height: 100%;">
-      <el-col :span="3"  style="min-height: 100%; background-color: #324057;">
+      <el-col :span="4"  style="min-height: 100%; background-color: #324057;">
         <el-menu default-active="1" background-color="rgb(50, 64, 87)" text-color="#bfcbd9" hover-text-color="red" active-text-color="#20a0ff" router>
           <el-submenu index="1">
-            <template slot="title"><i class="el-icon-menu"></i><span>中心管理</span></template>
-            <el-menu-item index="/home/teacherManage">班级管理</el-menu-item>
-            <el-menu-item index="/home/studentManage">学生管理</el-menu-item>
+            <template slot="title"><i class="el-icon-menu"></i><span>个人中心管理</span></template>
+            <el-menu-item index="/home/userManage">个人信息</el-menu-item>
+          </el-submenu>
+          <el-submenu index="2">
+            <template slot="title"><i class="el-icon-menu"></i><span>应用管理</span></template>
+            <el-menu-item index="/home/blog">博客</el-menu-item>
+          </el-submenu>
+          <el-submenu index="3">
+            <template slot="title"><i class="el-icon-menu"></i><span>统计管理</span></template>
+            <el-menu-item index="/home/statistics/statisticsInterview">访问统计</el-menu-item>
+            <el-menu-item index="/home/statistics/statisticsModules">模块浏览统计</el-menu-item>
           </el-submenu>
         </el-menu>
       </el-col>
-      <el-col :span="21" style="height: 100%;overflow: hidden;">
+      <el-col :span="20" style="height: 100%;overflow: hidden;">
         <router-view></router-view>
       </el-col>
     </el-row>
@@ -34,12 +43,13 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {setStore,getStore,clearStore,setSession,clearSession} from '../../config/publicMethod'
+  import {setStore,getStore,clearStore,setSession,clearSession} from '../../utils/publicMethod'
   export default {
     //data中放入初始默认值
     data() {
       return {
-        isTrue:false
+        isTrue:false,
+        headUrl:""
       }
     },
     computed: {
@@ -61,10 +71,12 @@
 <style scoped lang="less" type="text/less">
   @import '../../assets/mixin.less';
   .header-css{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     color: white;
     width: 100%;
-    height: 50px;
-    line-height: 50px;
+    height: 60px;
     background-color: rgb(50, 64, 87);
     border-bottom: 1px solid hsla(0,0%,100%,.1);
   .header-left{
@@ -73,6 +85,8 @@
     margin-left: 40px;
   }
   .header-right{
+    display: flex;
+    align-items: center;
     float: right;
     margin-right: 20px;
   }
@@ -84,5 +98,10 @@
     -webkit-transition: border-color .3s,color .3s !important;
     transition: border-color .3s,color .3s !important;
     background-color: #232e3fa3 !important;
+  }
+  .dropdownCss{
+    color: white;
+    margin-left: 15px;
+    cursor: pointer;
   }
 </style>

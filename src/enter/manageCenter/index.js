@@ -7,6 +7,8 @@ import App from './App'
 import router from '../../router/manageCenter'
 import ElementUI from 'element-ui'
 import '../../../node_modules/element-ui/lib/theme-chalk/index.css'
+import "@/assets/pub.less"
+import "@/assets/common.less"
 
 Vue.config.debug = true
 Vue.config.productionTip = false;
@@ -18,7 +20,6 @@ router.beforeEach((to, from, next) => {
     next();
   } else {
     if(!sessionStorage.getItem('accessToken')) {
-      alert("请重新登录！")
       next({ path: '/' })
     } else {
       next()

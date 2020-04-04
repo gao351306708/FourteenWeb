@@ -53,7 +53,7 @@
   import {getAllPhotos,searchPhotos,downloadPhoto} from '../../api/unsplash.js'
   import Waterfall from 'vue-waterfall/lib/waterfall'
   import WaterfallSlot from 'vue-waterfall/lib/waterfall-slot'
-  import {HandlePreImg} from '../../config/publicMethod'
+  import {HandlePreImg} from '../../utils/publicMethod'
   import backButton from '@/components/backButton.vue'
   export default{
     data(){

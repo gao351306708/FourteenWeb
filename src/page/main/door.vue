@@ -49,10 +49,10 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {setStore,getStore,clearStore,setSession,getSession} from '../../config/publicMethod'
+  import {setStore,getStore,clearStore,setSession,getSession} from '../../utils/publicMethod'
   import headTop from '../../components/headTop.vue'
   import FooterBottom from '@/components/footerBottom.vue'
-  import Bus from '@/js/bus.js'
+  import Bus from '@/js/bus.js';//全局数据处理器
   export default {
     name: 'door',
     data () {
@@ -89,12 +89,6 @@
           }
         ],
         currentNum:1,
-        opacityFlag:false,
-        input1:'',
-        input2:'',
-        input3:'',
-        input4:'',
-        input5:'',
         show: false
       }
     },
