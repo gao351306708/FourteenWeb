@@ -4,9 +4,6 @@
  **/
 
 var express = require('express');
-var path = require('path')
-var fs = require('fs')
-var os = require('os')
 var User = require('../database/user.db.js');
 var Helper = require('../util/helper');
 const userRouter = express.Router();

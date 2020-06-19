@@ -2,33 +2,90 @@
  * 数据库连接基本信息设置，使用连接池来达到资源复用
  * Created by gaoju on 2018/10/30.
  */
-var mysql = require('mysql')
-//建立连接池
-const pool = mysql.createPool({
-  host: '192.168.11.231',
-  port: 3306,
-  user: 'root',
-  password: 'IDIILCenter',
-  database: 'mathonlinedb',// mathonlinedb
-})
-console.log("database connecting......")
+var mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 
-module.exports = (opt) => {
-  return new Promise((resolve, reject) => {
-    pool.getConnection((err, connection) => {
-      if (err) {
-        reject(err)
-      } else {
-        connection.query(opt.sql, (err, rows) => {
-          if (err) {
-            console.log(`${opt.name} err: + ${err}`);
-            reject(err)
-          } else {
-            resolve(rows)
-          }
-          connection.release()
-        })
-      }
-    })
-  })
+//数据库链接基本配置
+const mongodbConfig = {
+  "host": "localhost",
+  "port": "27017",
+  "db": "managementWeb"
+};
+
+/**
+ * 配置 MongoDb options
+ */
+function getMongodbConfig() {
+  let options = {
+      useNewUrlParser: true,
+      poolSize: 5, // 连接池中维护的连接数
+      reconnectTries: Number.MAX_VALUE,
+      keepAlive: 120,
+  }
+  return options;
+};
+
+/**
+ * 拼接 MongoDb Uri
+ *
+ */
+function getMongoUrl() {
+  let mongoUrl = 'mongodb://';
+  mongoUrl += `${mongodbConfig.host}:${mongodbConfig.port}`;
+  mongoUrl += `/${mongodbConfig.db}`;
+
+  return mongoUrl;
+};
+/**
+ * 创建 Mongo 连接，内部维护了一个连接池，全局共享
+ */
+const mongoClient = mongoose.createConnection(
+  getMongoUrl(), 
+  getMongodbConfig()
+);
+
+
+/**
+ * Mongo 连接成功回调
+ */
+mongoClient.on('connected', function() {
+  console.log(new Date().getTime())
+  console.log('Mongoose连接至 ：' + getMongoUrl());
+});
+
+/**
+* Mongo 连接失败回调
+*/
+mongoClient.on('error', function(err) {
+  console.log('Mongoose 连接失败，原因: ' + err);
+});
+/**
+* Mongo 关闭连接回调
+*/
+mongoClient.on('disconnected', function() {
+  console.log('Mongoose 连接关闭');
+});
+
+/**
+* 关闭 Mongo 连接
+*/
+function close() {
+  mongoClient.close();
 }
+
+
+module.exports = {
+  mongoClient: mongoClient,
+  close: close,
+};
+
+// var MongoClient = require('mongodb').MongoClient;
+// var url = "mongodb://localhost:27017/managementWeb";
+ 
+// MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
+//   if (err) throw err;
+//   console.log("数据库已创建!");
+//   db.close();
+// });
+
+// module.exports = mongoClient;

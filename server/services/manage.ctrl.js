@@ -4,47 +4,54 @@
  **/
 
 var express = require('express');
-var Manage = require('../database/manage.db.js');
-var Helper = require('../util/helper');
+var manageModel = require('../database/manage.db.js');
 const manageRouter = express.Router();
+
 
 /*
  * 查询访问记录
  * */
 manageRouter.post('/interviewQuery',async(req, res) => {
-  var props = req.body;
-  var manage = new Manage({props: props});
-  const result = await manage.interviewQuery();
-  if(result){
-    res.json({
-      code:200,
-      data:result
-    })
-  }else {
-    res.json({
-      code:500,
-      message:'数据获取出错~~'
-    })
-  }
+  let params = {};
+  manageModel.find(params,function(err,doc){
+    if(err) {
+        res.json({
+          code:500,
+          message:err.message
+        });
+    }else {
+      res.json({
+        code:200,
+        data:doc
+      });
+    }
+  });
 })
-/*
- * 更新访问记录
- * */
-manageRouter.post('/interviewUpdate',async(req, res) => {
-  var props = req.body;
-  var manage = new Manage({props: props});
-  const result = await manage.interviewUpdate();
-  if(result){
-    res.json({
-      code:200,
-      data:result
+ // 更新访问数
+manageRouter.post('/updateInterview',function(req,res,next){
+    let params = {
+        useName: req.cookies.username
+    };
+    let updateParams = {
+        useName: req.body.name,
+        sex: req.body.sex,
+        image: req.body.image,
+        delivery: req.body.delivery,
+        desc: req.body.desc
+    }
+    manageModel.update(params, {$set: updateParams},function(err,doc){
+        if(err) {
+            res.json({
+              code:500,
+              message:err.message
+            });
+        }else {
+          res.json({
+            code:200,
+            data:doc
+          });
+        }
     })
-  }else {
-    res.json({
-      code:500,
-      message:'数据获取出错~~'
-    })
-  }
-})
+ });
 
 module.exports = manageRouter;
