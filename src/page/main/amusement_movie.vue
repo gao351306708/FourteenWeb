@@ -76,7 +76,7 @@
     movieSelectKeyList1
   } from '../../data/movieSelectKey'
   export default {
-    //data中放入初始默认值
+    name:"movie",
     data() {
       return {
         movieList: [],

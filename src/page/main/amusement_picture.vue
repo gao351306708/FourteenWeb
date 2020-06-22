@@ -51,11 +51,13 @@
 </template>
 <script type="text/ecmascript-6">
   import {getAllPhotos,searchPhotos,downloadPhoto} from '../../api/unsplash.js'
+    import {updateInterview} from '@/api/manage.js'
   import Waterfall from 'vue-waterfall/lib/waterfall'
   import WaterfallSlot from 'vue-waterfall/lib/waterfall-slot'
   import {HandlePreImg} from '../../utils/publicMethod'
   import backButton from '@/components/backButton.vue'
   export default{
+    name:"picture",
     data(){
       return{
         searchValue:"",
@@ -92,6 +94,7 @@
     },
     created(){
        this.getPicture();
+       updateInterview({name:this.$route.name});//更新访问记录
     },
     mounted(){
       let _this = this;

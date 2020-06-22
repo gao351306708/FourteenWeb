@@ -4,10 +4,11 @@
  */
 
 var mongoose = require('mongoose');
+const {mongoClient} = require('../database/dbconfig.js');;
 var Schema = mongoose.Schema;
 
 var ManageSchema = new Schema({
-    id: String,//id 自增
-    interviewTime:String,//访问时间
+    name:String,//访问页面名字
+    datetime:Date,//访问时间
 });
-module.exports = mongoose.model('Manage',ManageSchema);
+module.exports = mongoClient.model('Interview',ManageSchema,"interview");

@@ -50,6 +50,7 @@
 
 <script type="text/ecmascript-6">
   import {setStore,getStore,clearStore,setSession,getSession} from '../../utils/publicMethod'
+  import {getInterview,updateInterview} from '@/api/manage.js'
   import headTop from '../../components/headTop.vue'
   import FooterBottom from '@/components/footerBottom.vue'
   import Bus from '@/js/bus.js';//全局数据处理器
@@ -97,11 +98,15 @@
       FooterBottom
     },
     created () {
+      //添加监听器，网页加载完之后启动开屏动画
         Bus.$on('colseLoading', this.colseLoading);
+        updateInterview({name:"door"});//更新访问记录
+        const data = getInterview();
     },
     beforeMount(){
       this.GLOBAL.getPageName = true;
-      if(this.$route.path === '/'){
+      if(this.$route.path === '/' && !this.GLOBAL.unsplashLoading){
+        sessionStorage.setItem("unsplashLoading","true");//添加开屏动画标志
         this.isLoading = true;
         this.timer = setInterval(()=>{
           this.percentage += 1;

@@ -3,21 +3,14 @@
  * Created by gaoju on 2018/8/14.
  */
 import { baseUrl } from './env'
-//import {bodyUrlencoded} from './methods'
+import {bodyUrlencoded} from './methods'
 
 export default async(url = '', data = {}, type = 'GET', method = 'fetch') => {
   type = type.toUpperCase();
   url = baseUrl + url;
-
+  const dataStr = bodyUrlencoded(data);
   if (type == 'GET') {
-    let dataStr = ''; //数据拼接字符串
-    Object.keys(data).forEach(key => {
-      dataStr += key + '=' + data[key] + '&';
-    })
-    if (dataStr !== '') {
-      dataStr = dataStr.substr(0, dataStr.lastIndexOf('&'));
-      url = url + '?' + dataStr;
-    }
+    url = url + '?' + dataStr;
   }
   //浏览器支持fetch就用fetch
   if (window.fetch && method == 'fetch') {
@@ -27,7 +20,7 @@ export default async(url = '', data = {}, type = 'GET', method = 'fetch') => {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      mode: "no-cors",
+      mode: "cors",
     }
 
     if (type == 'POST') {

@@ -22,7 +22,7 @@ export function toJson(str){
   return _str;
 }
 export function bodyUrlencoded(body){
-  if(body){
+  if(body && JSON.stringify(body)!=="{}"){
     let data = Object.entries(body);
     let str = `${data[0][0]}=${data[0][1]}`;
     data.forEach((item,i) => {
