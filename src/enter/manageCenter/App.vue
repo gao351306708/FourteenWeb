@@ -24,14 +24,11 @@ export default {
   .el-submenu__title:hover{
     background-color: #232e3fa3 !important;
   }
-  .el-table th{
-    text-align: center;
-  }
   .el-submenu .el-menu-item{
     min-width: 100px !important;
   }
   .el-dialog__body{
-    max-height: 400px;
+    max-height: 500px;
     overflow: auto;
   }
   .el-table__expanded-cell[class*=cell]{

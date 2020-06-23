@@ -19,16 +19,13 @@
               :default-time="['00:00:00', '23:59:59']">
             </el-date-picker>
           </el-form-item>
-          <el-form-item label="状态">
-            <el-select v-model="formInline.status" placeholder="状态">
-              <el-option label="显示" value="1"></el-option>
-              <el-option label="隐藏" value="0"></el-option>
-            </el-select>
-          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="onSearch">查询</el-button>
           </el-form-item>
         </el-form>
+      </div>
+      <div class="addContent">
+        <el-button @click="addHandle">新增</el-button>
       </div>
       <div class="middleSection">
        <el-table
@@ -44,29 +41,28 @@
           width="50">
         </el-table-column>
         <el-table-column
-          prop="date"
-          label="日期"
-          width="150">
-        </el-table-column>
-        <el-table-column
           prop="title"
           label="标题"
           >
         </el-table-column>
         <el-table-column
-          prop="type"
-          label="类别"
-          width="120">
+          label="标签类别"
+          width="300">
+          <template slot-scope="scope">
+            <el-tag v-for="tag in scope.row.tag" :key="tag">{{tag}}</el-tag>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="status"
-          label="状态"
-          width="120">
+          label="创建日期"
+          width="150">
+          <template slot-scope="scope">
+            <div>{{scope.row.createTime|YYMMDDhhmmss}}</div>
+          </template>
         </el-table-column>
         <el-table-column
           fixed="right"
           label="操作"
-          width="100">
+          width="150">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row,'edit')" type="text" size="small">编辑</el-button>
             <el-button @click="handleClick(scope.row,'remove')" type="text" size="small">删除</el-button>
@@ -76,80 +72,189 @@
       </div>
     </section>
     <!--弹框编辑-->
-    <el-dialog title="编辑" :visible.sync="dialogFormVisible">
-      <el-form :model="form">
+    <el-dialog 
+      :title="dialogTile" 
+      :visible.sync="dialogFormVisible">
+      <el-form :model="form" ref="form" :rules="rules">
         <el-form-item label="标题" :label-width="formLabelWidth">
           <el-input v-model="form.title" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="显示状态" :label-width="formLabelWidth">
-          <el-select v-model="form.status" placeholder="请选择活动区域">
-            <el-option label="显示" value="1"></el-option>
-            <el-option label="隐藏" value="0"></el-option>
-          </el-select>
+        <el-form-item label="类型" :label-width="formLabelWidth">
+          <el-checkbox-group v-model="form.tag" @change="handleCheckedCitiesChange">
+            <el-checkbox v-for="tag in tagOptions" :label="tag" :key="tag">{{tag}}</el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+        <el-form-item label="文章内容" :label-width="formLabelWidth">
+          <quill-editor 
+              v-model="form.content" 
+              ref="myQuillEditor" 
+              :options="editorOption" 
+              @change="onEditorChange($event)">
+          </quill-editor>
+        </el-form-item>
+        <el-form-item label="相关链接" :label-width="formLabelWidth">
+          <el-input
+            type="textarea"
+            :rows="2"
+            placeholder="请输入相关链接"
+            v-model="form.textarea">
+          </el-input>
+          <div style="height:20px;color:red">***多条链接请用英文逗号,隔开***</div>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        <el-button @click="Dialoghandle('cancel','form')">取 消</el-button>
+        <el-button type="primary" @click="Dialoghandle('confirm','form')">确 定</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 <script type="text/ecmascript-6">
+  import {addBlog,deleteBlog,updateBlog,queryBlogList,queryBlogDetail} from '@/api/manage.js'
+  import { quillEditor } from "vue-quill-editor"; //调用编辑器
+  import 'quill/dist/quill.core.css';
+  import 'quill/dist/quill.snow.css';
+  import 'quill/dist/quill.bubble.css';
+  import moment from "moment"
   export default{
     name:"blog",
     data(){
       return{
-        message:"blog",
         formInline: {
           title: '',
           data1: '',
           data2: '',
-          status: ''
+          type: ''
         },
-        tableData:[{
-          date: '2016-05-02',
-          title: '王小虎',
-          type: '上海',
-          status: '普陀区',
-        }, {
-          date: '2016-05-04',
-          title: '王小虎',
-          type: '上海',
-          status: '普陀区',
-        }, {
-          date: '2016-05-01',
-          title: '王小虎',
-          type: '上海',
-          status: '普陀区',
-        }, {
-          date: '2016-05-03',
-          title: '王小虎',
-          type: '上海',
-          status: '普陀区',
-        }],
+        tableData:[],
+        typeOption:[
+          {label:"JavaScript",value:1},
+          {label:"css",value:2},
+          {label:"html5",value:3},
+          {label:"vue",value:4},
+          {label:"react",value:5},
+          {label:"node",value:6},
+          {label:"webpack",value:7},
+          {label:"mongodb",value:8}
+        ],
+        tagOptions : ['JavaScript', 'css', 'html5', 'vue', 'react', 'node', 'webpack', 'mongodb'],
+        checkedTags :[],
         dialogFormVisible: false,
+        dialogType:"add",//弹框类型 新增、编辑
         form: {
           title: '',
-          status: '',
+          content:'',
+          tag: [],
+          textarea:""
         },
-        formLabelWidth: '120px'
+        rules: {
+          title: [
+            { required: true,message: '请输入邮箱地址', trigger: 'blur' }
+          ]
+        },
+        formLabelWidth: '120px',
+        content:"",//富文本
+        editorOption:{},
       }
     },
+    components:{
+      quillEditor
+    },
+    computed:{
+      editor(){
+        return this.$refs.myQuillEditor.quill;
+      },
+      dialogTile(){
+        switch (this.dialogType){
+          case "add":
+            return "新增";
+          case "edit":
+            return "编辑";
+          default:
+            return "新增";
+        } 
+      }
+    },
+    filters:{
+      YYMMDDhhmmss(val){
+        let time = Number(val);
+        return moment(time).format("YYYY-MM-DD HH:mm")
+      }
+    },
+    mounted(){
+      this.getList();
+    },
     methods:{
+      async getList(){
+        let res = await queryBlogList();
+        if(res.code == 200){
+          this.tableData = res.data;
+        }
+      },
       handleClick(item,key){
         if(key == 'edit'){
-          Object.assign(this,{dialogFormVisible:true});
+          let formValue = item;
+          formValue.textarea = item.links.join(',');//编辑的时候回显编辑的内容
+          Object.assign(this,{dialogFormVisible:true,dialogType:"edit",form:formValue});
         }
         if(key == 'remove'){
+          deleteBlog({id:item._id});
           this.$message({
             message: key + '成功',
             type: 'success'
           });
         }
       },
+      //编辑框确定按钮
+      Dialoghandle(value,formName){
+        let _this = this;
+        if(value == 'confirm'){
+           this.$refs[formName].validate((valid) => {
+            if (valid) {
+              let params = _this.form;
+              params.links = params.textarea && params.textarea.split(',');
+              console.log(params)
+              addBlog(params).then((res)=>{
+                _this.$message({
+                  message: '添加成功',
+                  type: 'success'
+                });
+              })
+            } else {
+              console.log('error submit!!');
+              return false;
+            }
+          });
+        }else{
+          this.$refs[formName].resetFields();
+        }
+        Object.assign(this,{dialogFormVisible:false});
+      },
+      //新增
+      addHandle(){
+        Object.assign(this,{dialogFormVisible:true,dialogType:"add"});
+        this.resetForm();
+      },
+      //重置表单
+      resetForm(){
+        this.form = {
+          title: '',
+          content:'',
+          tag: [],
+          textarea:""
+        },
+        this.$refs["form"] && this.$refs["form"].resetFields();
+      },
       onSearch() {
         console.log('submit!');
+      },
+      //编辑文本
+      onEditorChange(value){
+        console.log("编辑文本-->",value)
+      },
+      //先择的标签tags
+      handleCheckedCitiesChange(value){
+        console.log("标签tags-->",value)
       }
     }
   }
@@ -163,6 +268,12 @@
       flex-wrap: wrap;
       padding: 15px 0;
     }
+  }
+  .addContent{
+    margin: 10px 0;
+  }
+  /deep/.el-dialog__body{
+    max-height: 500px;
   }
 }
 </style>

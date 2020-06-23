@@ -61,7 +61,7 @@ export default {
     async loginEnter (formName) {
       this.$refs[formName].validate(async (valid,values) => {
         if (valid) {
-          if(this.ruleForm.name == 'admin' && this.ruleForm.pass == 'gaoju123456'){
+          if(this.ruleForm.name == 'admin' && this.ruleForm.pass == '111111'){
             sessionStorage.setItem("accessToken",true);
             this.$router.replace('home');
           }

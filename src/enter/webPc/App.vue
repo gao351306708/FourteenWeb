@@ -25,9 +25,6 @@ export default {
   .el-submenu__title:hover{
     background-color: #232e3fa3 !important;
   }
-  .el-table th{
-    text-align: center;
-  }
   .el-submenu .el-menu-item{
     min-width: 100px !important;
   }
