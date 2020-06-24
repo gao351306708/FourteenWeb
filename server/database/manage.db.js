@@ -1,6 +1,8 @@
 /**
  * 查询用户管理信息基本信息
  * Created by gaoju on 2017/11/15.
+ * Schema 自定义的表结构
+ * model(m,n,p) model参数 m 为自定义集合名，n 定义得schema结构。p 最终能生成的collection，如果不传入则默认是小写m的复数格式
  */
 
 var mongoose = require('mongoose');
@@ -24,8 +26,13 @@ var BlogSchema = new Schema({
     interviewNum:Number,//访问数
     tag:Array,//标签
     links:Array,//相关链接
+},{
+    timestamps: {
+        createdAt: 'created',
+        updatedAt: 'updated'
+    }
 });
-const BlogModel = mongoClient.model('Blog',BlogSchema);
+const BlogModel = mongoClient.model('Blog',BlogSchema,"blog");
 module.exports ={
     InterviewModel,
     BlogModel

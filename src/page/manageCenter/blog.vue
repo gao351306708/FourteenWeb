@@ -6,13 +6,13 @@
     </el-breadcrumb>
     <section class="tableContent">
       <div class="topSection">
-        <el-form :inline="true" :model="formInline" class="demo-form-inline">
+        <el-form :inline="true" :model="formInline" ref="formInline" class="demo-form-inline">
           <el-form-item label="标题">
             <el-input v-model="formInline.title" placeholder="标题"></el-input>
           </el-form-item>
           <el-form-item label="日期">
             <el-date-picker
-              v-model="formInline.date1"
+              v-model="formInline.datetime"
               type="daterange"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
@@ -20,6 +20,7 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item>
+            <el-button type="primary" @click="onSearch('reset')">重置</el-button>
             <el-button type="primary" @click="onSearch">查询</el-button>
           </el-form-item>
         </el-form>
@@ -122,9 +123,7 @@
       return{
         formInline: {
           title: '',
-          data1: '',
-          data2: '',
-          type: ''
+          datetime: [],
         },
         tableData:[],
         typeOption:[
@@ -186,7 +185,13 @@
     },
     methods:{
       async getList(){
-        let res = await queryBlogList();
+        const {title,datetime} = this.formInline;
+        let params = {
+          key:title,
+          startTime: datetime[0] ? new Date(datetime[0]) : "",
+          endTime:datetime[0] ? new Date(datetime[1]) : ""
+        }
+        let res = await queryBlogList(params);
         if(res.code == 200){
           this.tableData = res.data;
         }
@@ -198,10 +203,16 @@
           Object.assign(this,{dialogFormVisible:true,dialogType:"edit",form:formValue});
         }
         if(key == 'remove'){
-          deleteBlog({id:item._id});
-          this.$message({
-            message: key + '成功',
-            type: 'success'
+          deleteBlog({id:item._id}).then((res)=>{
+            this.$message({
+              message: key + '删除成功',
+              type: 'success'
+            });
+          }).catch((err)=>{
+            this.$message({
+              message: key + '删除失败',
+              type: 'error'
+            });
           });
         }
       },
@@ -214,12 +225,22 @@
               let params = _this.form;
               params.links = params.textarea && params.textarea.split(',');
               console.log(params)
-              addBlog(params).then((res)=>{
-                _this.$message({
-                  message: '添加成功',
-                  type: 'success'
-                });
-              })
+              if(_this.dialogType == 'add'){//添加文章
+                addBlog(params).then((res)=>{
+                  _this.$message({
+                    message: '添加成功',
+                    type: 'success'
+                  });
+                  this.getList();
+                })
+              }else if(_this.dialogType == 'edit'){//编辑文章
+                updateBlog(params).then((res)=>{
+                  _this.$message({
+                    message: '编辑成功',
+                    type: 'success'
+                  });
+                })
+              }
             } else {
               console.log('error submit!!');
               return false;
@@ -245,12 +266,15 @@
         },
         this.$refs["form"] && this.$refs["form"].resetFields();
       },
-      onSearch() {
-        console.log('submit!');
+      onSearch(val) {
+        console.log('submit!',this.formInline);
+        if(val == 'reset'){
+          Object.assign(this,{formInline:{title:"",datetime:[]}});
+        }
+        this.getList();
       },
       //编辑文本
       onEditorChange(value){
-        console.log("编辑文本-->",value)
       },
       //先择的标签tags
       handleCheckedCitiesChange(value){

@@ -4,6 +4,7 @@
  */
 import { baseUrl } from './env'
 import {bodyUrlencoded} from './methods'
+import { Notification } from 'element-ui';
 
 export default async(url = '', data = {}, type = 'GET', method = 'fetch') => {
   type = type.toUpperCase();
@@ -30,10 +31,32 @@ export default async(url = '', data = {}, type = 'GET', method = 'fetch') => {
     }
     console.log('请求的参数：：：',url,requestConfig)
     try {
-      const response = await fetch(url, requestConfig);
-      const responseJson = await response.json();
-      return responseJson
+      return new Promise((resolve,reject)=>{
+        fetch(url, requestConfig).then((response)=>{
+          if (response.status >= 200 && response.status < 300) {
+            return response.json();
+          }
+          const error = new Error(response.statusText);
+          error.response = response;
+          throw error;
+        }).then((res)=>{
+          console.log("res->",res)
+          resolve(res)
+        }).catch((error)=>{
+          console.error("接口返回报错：",error)
+          Notification.error({
+            title: '请求接口返回报错：',
+            message: error
+          });
+          reject(error)
+        });
+      })
     } catch (error) {
+      console.error("请求报错：",error)
+      Notification.error({
+        title: '请求出错报错',
+        message: error
+      });
       throw new Error(error)
     }
   } else {  // 如果浏览器不支持fetch

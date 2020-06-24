@@ -58,7 +58,7 @@ manageRouter.post('/addBlog',function(req,res,next){
     content:params.content,//内容文本
     createTime:new Date().getTime(),//创建时间
     updateTime:new Date().getTime(),//发布时间
-    interviewNum:0,//访问数
+    interviewNum:params.interview || 0,//访问数
     tag:params.tag,//标签
     links:params.links,//相关链接
   })
@@ -103,9 +103,9 @@ manageRouter.post('/updateBlog',function(req,res,next){
     contnet:params.contnet,
     tag:params.tag,
     links:params.links,
-    updateTime:new Date().getTime()
+    // updateTime:new Date().getTime()
   }
-  BlogModel.updateOne({id:params.id},{$set:newValue},function(err,doc){
+  BlogModel.updateOne({_id:params.id},{$set:newValue},function(err,doc){
       if(err) {
           res.json({
             code:500,
@@ -122,20 +122,26 @@ manageRouter.post('/updateBlog',function(req,res,next){
 });
 //查询文章列表
 manageRouter.get('/queryBlogList',function(req,res,next){
-  let params = req.query;
-  BlogModel.find(params,function(err,doc){
-      if(err) {
-          res.json({
-            code:500,
-            message:err.message
-          });
-      }else {
+  let query = req.query;
+  let params={
+    key:query.key,
+    start : query.startTime || new Date(2020, 1, 1),
+    end : query.endTime || new Date(),
+  }
+  let queryRes= new RegExp(params.key, 'i');//正则模糊查询参数
+  BlogModel.find({title:queryRes,created:{$gte:params.start,$lte:params.end}},).sort({"created":-1}).exec(function(err,doc){
+    if(err) {
         res.json({
-          code:200,
-          data:doc
+          code:500,
+          message:err.message
         });
-      }
-  })
+    }else {
+      res.json({
+        code:200,
+        data:doc
+      });
+    }
+})
 });
 //查询文章
 manageRouter.get('/queryBlogDetail',function(req,res,next){
