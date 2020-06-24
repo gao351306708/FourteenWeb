@@ -11,16 +11,17 @@
             </div>
             <div class="list_section">
               <div class="listPart" v-for="(item,index) in partList" :key="index">
-                <img :src="item.imgUrl">
+                <!-- <img :src="item.imgUrl"> -->
                 <div class="content">
                   <div class="content_top">
                     <strong>{{item.title}}</strong>
                   </div>
-                  <div class="content_mid">
-                    <span class="viewsNum">浏览次数：{{item.num}}</span>
-                  </div>
                   <div class="content_bottom">
-                    <span @click="getDetails(item)">更多</span>
+                    <div class="more" @click="getDetails(item)">更多</div>
+                    <div class="content_mid">
+                      <span class="viewsNum">浏览次数：{{item.interviewNum}}</span>
+                      <span class="viewsNum">创建日期：{{item.createTime|YYYYMMDD}}</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -94,8 +95,9 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {getAllPhotos} from '../../api/unsplash.js'
   import backButton from '@/components/backButton.vue'
+  import {queryBlogList} from '@/api/manage.js'
+  import moment from 'moment'
   export default {
     //data中放入初始默认值
     components:{
@@ -103,45 +105,7 @@
     },
     data() {
       return {
-        partList:[
-          {
-            title:'微信小程序开发以及获取用户openid、unionid',
-            date:new Date().toLocaleDateString(),
-            num:240,
-            key:'微信开发',
-            imgUrl:'../../../static/images/wechat.png'
-          },{
-            title:'第三方网页实现微信登录功能',
-            date:new Date().toLocaleDateString(),
-            num:15,
-            key:'微信开发',
-            imgUrl:'../../../static/images/wechat.png'
-          },{
-            title:'React 技术栈系列教程',
-            date:new Date().toLocaleDateString(),
-            num:675,
-            key:'React',
-            imgUrl:'../../../static/images/aboutHu2.jpg'
-          },{
-            title:'React Router 使用教程',
-            date:new Date().toLocaleDateString(),
-            num:5,
-            key:'React',
-            imgUrl:'../../../static/images/attachment.jpg'
-          },{
-            title:'JavaScript 模块的循环加载',
-            date:new Date().toLocaleDateString(),
-            num:15,
-            key:'JavaScript',
-            imgUrl:'../../../static/images/amusement1.jpg'
-          },{
-            title:'快速排序（Quicksort）的Javascript实现',
-            date:new Date().toLocaleDateString(),
-            num:18,
-            key:'Javascript',
-            imgUrl:'../../../static/images/amusement2.jpg'
-          }
-        ],
+        partList:[],
         categoryList:[
           {
             name:'javaScript',
@@ -163,6 +127,9 @@
         currentDate: new Date()
       }
     },
+    created(){
+      this.getBlogList();
+    },
     mounted(){
       let _this = this;
       $(".navigation").hide();
@@ -181,6 +148,18 @@
       })
     },
     methods:{
+      getBlogList(){
+        let params = {
+          key:this.searchValue
+        }
+        queryBlogList(params).then((res)=>{
+          if(res.code == 200){
+            this.partList = res.data;
+          }
+        }).catch((err)=>{
+          
+        });
+      },
       getKeyTile(name){
         this.searchName = name;
         console.log("getKeyTile   --->",name);
@@ -193,7 +172,13 @@
       getDetails(item){
         console.log("getDetails   --->",item);
         this.details = item;
-        this.$router.push({name:'BlogDetails',params:{detailItem:this.details}})
+        this.$router.push({name:'BlogDetails',query:{id:item._id}})
+      }
+    },
+    filters:{
+      YYYYMMDD(val){
+        let time = Number(val);
+        return moment(time).format("YYYY-MM-DD HH:mm")
       }
     },
     destroyed(){
@@ -292,7 +277,7 @@
     .list_section{
       .listPart{
         display: flex;
-        height: 8rem;
+        min-height: 6rem;
         border: 1px solid #e1e1e1;
         margin: 1rem 0.625rem;
         img{
@@ -302,22 +287,25 @@
         .content{
           text-align: left;
           padding: 0.5rem 1.5rem;
+          width: 100%;
           .content_top{
             margin: 0.5rem 0;
             font-size: 1em;
         }
-        .content_mid{
-          margin: 0.625rem 0;
-          .viewsNum{
-            font-size: 1em;
-          }
-        }
         .content_bottom{
+          display: flex;
+          justify-content: space-between;
           margin-top: 0.2rem;
-          span{
+          .more{
             font-size: 1em;
             text-decoration: underline;
             cursor: pointer;
+          }
+          .content_mid{
+            .viewsNum{
+              font-size: 1em;
+              margin-left: 2em;
+            }
           }
         }
 

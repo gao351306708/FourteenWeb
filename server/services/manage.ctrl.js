@@ -4,6 +4,7 @@
  **/
 
 var express = require('express');
+var ObjectID = require('mongodb').ObjectID;
 const {InterviewModel,BlogModel} = require('../database/manage.db.js');
 const { param } = require('./tencent.ctrl.js');
 const manageRouter = express.Router();
@@ -80,7 +81,7 @@ manageRouter.post('/addBlog',function(req,res,next){
   //删除文章
 manageRouter.post('/deleteBlog',function(req,res,next){
     let params = req.body;
-    BlogModel.remove({_id:params.id},function(err,doc){
+    BlogModel.remove({_id:ObjectID(params.id)},function(err,doc){
         if(err) {
             res.json({
               code:500,
@@ -103,9 +104,9 @@ manageRouter.post('/updateBlog',function(req,res,next){
     contnet:params.contnet,
     tag:params.tag,
     links:params.links,
-    // updateTime:new Date().getTime()
+    updateTime:new Date().getTime()
   }
-  BlogModel.updateOne({_id:params.id},{$set:newValue},function(err,doc){
+  BlogModel.updateOne({_id:ObjectID(params.id)},{$set:newValue},function(err,doc){
       if(err) {
           res.json({
             code:500,
@@ -146,7 +147,14 @@ manageRouter.get('/queryBlogList',function(req,res,next){
 //查询文章
 manageRouter.get('/queryBlogDetail',function(req,res,next){
   let params = req.query;
-  BlogModel.find({id:params.id},function(err,doc){
+  BlogModel.update({_id:ObjectID(params.id)},{$inc:{"interviewNum":1}},function(err,doc){
+    if(err) {
+      console.error(err)
+    }else {
+      console.log(doc)
+    }
+  });
+  BlogModel.find({_id:ObjectID(params.id)},function(err,doc){
       if(err) {
           res.json({
             code:500,

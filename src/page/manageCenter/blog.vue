@@ -224,6 +224,7 @@
             if (valid) {
               let params = _this.form;
               params.links = params.textarea && params.textarea.split(',');
+              params.id = _this.form._id;
               console.log(params)
               if(_this.dialogType == 'add'){//添加文章
                 addBlog(params).then((res)=>{
