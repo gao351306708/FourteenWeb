@@ -36,16 +36,11 @@ export default {
       }
     });
   },
-  mounted() {
-    $(".navigation").hide();
-  },
+  mounted() {},
   methods: {
     goToUrl(index) {
       console.log("goToUrl   --->", index);
     }
-  },
-  destroyed() {
-    $(".navigation").show();
   }
 };
 </script>
@@ -89,6 +84,9 @@ export default {
         }
       }
     }
+  }
+  /deep/ img {
+    max-width: 100% !important;
   }
 }
 </style>

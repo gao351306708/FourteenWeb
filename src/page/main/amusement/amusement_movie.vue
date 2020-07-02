@@ -114,7 +114,6 @@ export default {
     backButton
   },
   mounted() {
-    $(".navigation").hide();
     //https://node.video.qq.com/x/api/float_vinfo2?cid=j3czmhisqin799r
     //http://v.qq.com/txp/iframe/player.html?vid=t0029dmt201
     //https://v.qq.com/x/bu/pagesheet/list?_all=1&append=0&channel=movie&listpage=2&offset=0&pagesize=30&sort=18&charge=-1&iarea=-1&itype=100004
@@ -193,9 +192,6 @@ export default {
       }
       this.getMovieListOfKey();
     }
-  },
-  destroyed() {
-    $(".navigation").show();
   }
 };
 </script>

@@ -11,7 +11,6 @@
             </div>
             <div class="list_section">
               <div class="listPart" v-for="(item,index) in partList" :key="index">
-                <!-- <img :src="item.imgUrl"> -->
                 <div class="content">
                   <div class="content_top">
                     <strong>{{item.title}}</strong>
@@ -32,7 +31,14 @@
         <el-col :xs="24" :md="6" style="height: 100%">
           <div class="section_right">
             <div class="search">
-              <el-input suffix-icon="el-icon-search" v-model="searchValue" placeholder="输入匹配关键字查找"></el-input>
+              <el-input
+                v-model="searchValue"
+                placeholder="输入匹配关键字查找"
+                clearable
+                @change="searchBlogs"
+              >
+                <el-button slot="append" icon="el-icon-search" @click="searchBlogs"></el-button>
+              </el-input>
             </div>
             <div class="userInfo">
               <el-card :body-style="{ padding: '0px' }">
@@ -46,7 +52,7 @@
                     </span>
                     <span>
                       访问
-                      <strong>126</strong>
+                      <strong>{{interview}}</strong>
                     </span>
                     <span>
                       喜欢
@@ -100,7 +106,7 @@
 
 <script type="text/ecmascript-6">
 import backButton from "@/components/backButton.vue";
-import { queryBlogList } from "@/api/manage.js";
+import { queryBlogList, getInterview } from "@/api/manage.js";
 import moment from "moment";
 export default {
   //data中放入初始默认值
@@ -109,7 +115,7 @@ export default {
   },
   data() {
     return {
-      partList: [],
+      partList: [], //最新文章列表
       categoryList: [
         {
           name: "javaScript",
@@ -130,54 +136,40 @@ export default {
       ],
       searchValue: "",
       searchName: "",
-      detailName: "",
-      currentDate: new Date()
+      interview: 0 //访问数
     };
   },
   created() {
-    this.getBlogList();
-  },
-  mounted() {
-    let _this = this;
-    $(".navigation").hide();
-
-    document.onkeyup = function(e) {
-      if (window.event)
-        //如果window.event对象存在，就以此事件对象为准
-        e = window.event;
-      var code = e.charCode || e.keyCode;
-      if (code == 13) {
-        _this.searchBlogs(_this.searchValue);
+    //获取访问数
+    getInterview().then(res => {
+      if (res.code == 200) {
+        this.interview = res.data;
       }
-    };
-    $(".search .el-icon-search").on("click", function() {
-      _this.searchBlogs(_this.searchValue);
     });
   },
+  mounted() {
+    //获取文章列表
+    this.getBlogList();
+  },
   methods: {
-    getBlogList() {
+    async getBlogList() {
+      const { searchValue } = this;
       let params = {
-        key: this.searchValue
+        key: searchValue
       };
-      queryBlogList(params)
-        .then(res => {
-          if (res.code == 200) {
-            this.partList = res.data;
-          }
-        })
-        .catch(err => {});
+      let res = await queryBlogList(params);
+      if (res.code == 200) {
+        this.partList = res.data;
+      }
     },
+    //个人分类查询
     getKeyTile(name) {
       this.searchName = name;
-      console.log("getKeyTile   --->", name);
-      this.searchBlogs(name);
     },
-    searchBlogs(name) {
-      console.log("searchBlogs   --->", name);
-      this.searchName = name;
+    searchBlogs() {
+      this.getBlogList();
     },
     getDetails(item) {
-      console.log("getDetails   --->", item);
       this.details = item;
       this.$router.push({ name: "BlogDetails", query: { id: item._id } });
     }
@@ -187,9 +179,6 @@ export default {
       let time = Number(val);
       return moment(time).format("YYYY-MM-DD HH:mm");
     }
-  },
-  destroyed() {
-    $(".navigation").show();
   }
 };
 </script>

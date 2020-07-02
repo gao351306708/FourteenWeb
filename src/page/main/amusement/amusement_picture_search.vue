@@ -94,7 +94,6 @@ export default {
   },
   mounted() {
     let _this = this;
-    $(".navigation").hide();
     this.pictureWidth = $(".section_picture").width() * 0.333333 - 8;
     this.searchValue = this.$route.query.keyName;
     //默认获取20张图片
@@ -179,9 +178,6 @@ export default {
         this.pictureList = data.results;
       });
     }
-  },
-  destroyed() {
-    $(".navigation").show();
   }
 };
 </script>

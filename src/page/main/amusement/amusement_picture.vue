@@ -101,7 +101,6 @@ export default {
   },
   mounted() {
     let _this = this;
-    $(".navigation").hide();
     this.headShow = $(window).width() < 480 ? false : true;
     $(".search .el-icon-search").on("click", function() {
       _this.searchPicture();
@@ -196,9 +195,6 @@ export default {
         console.log("下载成功");
       });
     }
-  },
-  destroyed() {
-    $(".navigation").show();
   }
 };
 </script>
@@ -243,6 +239,18 @@ export default {
         }
         .search {
           margin: 1.25rem 0;
+          /deep/ .el-input input {
+            height: 3rem !important;
+            line-height: 3rem !important ;
+          }
+          /deep/ .el-input .el-input__inner {
+            padding-left: 40px;
+          }
+          /deep/ .el-input .el-input__icon {
+            font-size: 1.5rem;
+            padding: 0 5px;
+            cursor: pointer;
+          }
         }
         .tips_content {
           font-size: 1rem;
@@ -321,8 +329,6 @@ export default {
           padding: 4px 15px;
           line-height: 24px;
         }
-      }
-      .myPagination {
       }
     }
   }
