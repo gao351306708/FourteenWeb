@@ -1,13 +1,19 @@
 <template>
   <div id="app" class="fillcontain">
     <router-view/>
+    <!-- 启动动画 -->
+    <Translation></Translation>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'App'
-}
+  import Translation from '@/components/translation.vue'
+  export default {
+    name: 'App',
+    components:{
+      Translation
+    }
+  }
 </script>
 
 <style lang="less">

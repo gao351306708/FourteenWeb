@@ -101,7 +101,7 @@ manageRouter.post('/updateBlog',function(req,res,next){
   let params = req.body;
   let newValue={
     title:params.title,
-    contnet:params.contnet,
+    content:params.content,
     tag:params.tag,
     links:params.links,
     updateTime:new Date().getTime()

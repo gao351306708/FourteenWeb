@@ -198,8 +198,9 @@
       },
       handleClick(item,key){
         if(key == 'edit'){
-          let formValue = item;
-          formValue.textarea = item.links.join(',');//编辑的时候回显编辑的内容
+          this.resetForm();//先重置之前的内容
+          let formValue = Object.assign({},item);
+          formValue.textarea = item.links ? item.links.join(',') : "";//编辑的时候回显编辑的内容
           Object.assign(this,{dialogFormVisible:true,dialogType:"edit",form:formValue});
         }
         if(key == 'remove'){

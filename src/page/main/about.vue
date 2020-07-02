@@ -5,11 +5,14 @@
     <backButton></backButton>
     <div class="section_container">
       <div class="top-section">
-        <img src="../../../static/images/aboutHu.jpg">
+        <img src="../../../static/images/aboutHu.jpg" />
         <div class="context-section">
           <p style="font-size:2em">我</p>
           <p style="font-size: 1.2em">不知道说什么</p>
-          <p style="font-size: 1.2em">{{content2}}<span class="guangbiao">|</span></p>
+          <p style="font-size: 1.2em">
+            {{content2}}
+            <span class="guangbiao">|</span>
+          </p>
         </div>
       </div>
       <div class="middle-section">
@@ -22,7 +25,10 @@
                 <p style="font-size: 0.8em">怀有一颗放荡不羁的心，做着一丝不苟的事</p>
                 <p style="font-size: 0.9em">在大部分事上无所要求达到即可，但有时却会最求极致完美</p>
                 <p style="font-size: 1em">曾几何时</p>
-                <p style="font-size: 1.1em">唉！。。。<span style="font-size: 10px">此处略去10000字</span></p>
+                <p style="font-size: 1.1em">
+                  唉！。。。
+                  <span style="font-size: 10px">此处略去10000字</span>
+                </p>
                 <p style="font-size: 1.2em">为什么有这个网站呢？</p>
                 <p style="font-size: 1em">说来话长</p>
                 <p style="font-size: 1em">从前，有个小伙子想跟着老爸做建设祖国的美事，所以高考之后想报考搬砖行业；</p>
@@ -39,12 +45,17 @@
               <div class="content">
                 <p>Email: 351306708@qq.com</p>
                 <p>Address: 北京市海淀区</p>
-                <p>gitHub: <a href="https://github.com/gao351306708/FourteenWeb.git" target="_blank">https://github.com/gao351306708/FourteenWeb.git</a></p>
+                <p>
+                  gitHub:
+                  <a
+                    href="https://github.com/gao351306708/FourteenWeb.git"
+                    target="_blank"
+                  >https://github.com/gao351306708/FourteenWeb.git</a>
+                </p>
               </div>
             </div>
           </el-col>
         </el-row>
-
       </div>
       <div class="bottom-section">
         <div class="headerContent">我一般在玩得东西</div>
@@ -83,7 +94,7 @@
               <div class="part3">
                 <div class="top-title">Instagram</div>
                 <div class="content">
-                  <img src="../../../static/images/aboutHu2.jpg">
+                  <img src="../../../static/images/aboutHu2.jpg" />
                 </div>
               </div>
             </el-col>
@@ -95,209 +106,204 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import headTop from '../../components/headTop.vue'
-  import backButton from '../../components/backButton.vue'
-  export default {
-    //data中放入初始默认值
-    data() {
-      return {
-        context:'要是喜欢你就随便再看看哈',
-        contextList:[],
-        content2:'',
-        interval2:null,
-        num:0
-      }
-    },
-    components:{
-      headTop,
-      backButton
-    },
-    beforeMount(){
-      let _this = this;
-      $(".wrapper_door").transition({
-        opacity: 1,
-        duration: 1000,
-        easing: 'linear'
-      });
-    },
-    mounted(){
-      let str = '',_this = this;
-      for (let ii in this.context){
-        console.log(ii,this.context[ii])
-        this.contextList.push(this.context[ii])
-      }
-      this.interval2 = window.setInterval(function(){
-        console.log("setInterval");
-        _this.content2 = _this.content2 + _this.contextList[_this.num];
-        _this.num = _this.num+1;
-        if(_this.num > _this.contextList.length-1){
-          window.clearInterval(_this.interval2);//清除定时
-          $('.guangbiao').removeClass()
-        }
-      },1000)
-    },
-    methods:{
-      exit(){
-        this.$router.back();
-      }
-    },
-    destroyed(){
-      window.clearInterval(this.interval2);//清除定时
-      console.log("destroyed   ----   interval2");
+import headTop from "../../components/headTop.vue";
+import backButton from "../../components/backButton.vue";
+export default {
+  //data中放入初始默认值
+  data() {
+    return {
+      context: "要是喜欢你就随便再看看哈",
+      contextList: [],
+      content2: "",
+      interval2: null,
+      num: 0
+    };
+  },
+  components: {
+    headTop,
+    backButton
+  },
+  mounted() {
+    let str = "",
+      _this = this;
+    for (let ii in this.context) {
+      console.log(ii, this.context[ii]);
+      this.contextList.push(this.context[ii]);
     }
+    this.interval2 = window.setInterval(function() {
+      console.log("setInterval");
+      _this.content2 = _this.content2 + _this.contextList[_this.num];
+      _this.num = _this.num + 1;
+      if (_this.num > _this.contextList.length - 1) {
+        window.clearInterval(_this.interval2); //清除定时
+        $(".guangbiao").removeClass();
+      }
+    }, 1000);
+  },
+  methods: {
+    exit() {
+      this.$router.back();
+    }
+  },
+  destroyed() {
+    window.clearInterval(this.interval2); //清除定时
+    console.log("destroyed   ----   interval2");
   }
+};
 </script>
 
 <style scoped lang="less" type="text/less">
-  @import '../../assets/mixin.less';
-  .aboutMe{
+@import "../../assets/mixin.less";
+.aboutMe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  .closeIcon {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden;
-    .closeIcon{
-      position: absolute;
-      width: 40px;
-      height: 40px;
-      right: 40px;
-      top: 35px;
-      z-index: 20;
-      cursor: pointer;
-    }
-    .section_container{
+    width: 40px;
+    height: 40px;
+    right: 40px;
+    top: 35px;
+    z-index: 20;
+    cursor: pointer;
+  }
+  .section_container {
+    position: relative;
+    top: 80px;
+    bottom: 40px;
+    padding: 0 45px;
+    .top-section {
       position: relative;
-      top: 80px;
-      bottom: 40px;
-      padding: 0 45px;
-      .top-section{
-        position: relative;
-        /*height: calc(100vh - 110px - 40px - 50px);*/
-        background: #161616;
-        overflow: hidden;
-        img{
-          width: 100%;
+      /*height: calc(100vh - 110px - 40px - 50px);*/
+      background: #161616;
+      overflow: hidden;
+      img {
+        width: 100%;
+      }
+      .context-section {
+        position: absolute;
+        top: 20%;
+        left: 20%;
+        max-width: 70%;
+        text-align: left;
+        color: white;
+        p {
+          margin: 8px 0;
         }
-        .context-section{
-          position: absolute;
-          top:20%;
-          left: 20%;
-          max-width: 70%;
-          text-align: left;
+        .guangbiao {
           color: white;
-          p{
+          transition: opacity 0.5s;
+          opacity: 1;
+          animation: guangbiao 1s infinite;
+        }
+        @-webkit-keyframes guangbiao {
+          0% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0;
+          }
+          100% {
+            opacity: 1;
+          }
+        }
+      }
+    }
+    .middle-section {
+      position: relative;
+      overflow: hidden;
+      min-height: 420px;
+      padding: 0 20px;
+      .left {
+        text-align: left;
+        margin-top: 40px;
+        .title {
+          font-weight: 600;
+          color: #85785b;
+          text-decoration: underline;
+          font-size: 2em;
+          line-height: 53px;
+          margin: 20px 0;
+        }
+        .content {
+          line-height: 25px;
+          font-size: 1.2em;
+          padding: 0 10px;
+          p {
             margin: 8px 0;
           }
-          .guangbiao{
-            color: white;
-            transition:opacity 0.5s;
-            opacity:1;
-            animation: guangbiao 1s infinite;
-          }
-          @-webkit-keyframes guangbiao {
-            0%{
-              opacity:1;
-            }
-            50%{
-              opacity:0;
-            }
-            100%{
-              opacity:1;
-            }
-          }
         }
       }
-      .middle-section{
-        position: relative;
-        overflow: hidden;
-        min-height: 420px;
-        padding: 0 20px;
-        .left{
-          text-align: left;
-          margin-top: 40px;
-          .title{
-            font-weight: 600;
-            color: #85785b;
-            text-decoration: underline;
-            font-size: 2em;
-            line-height: 53px;
-            margin: 20px 0;
-          }
-          .content{
-            line-height: 25px;
-            font-size: 1.2em;
-            padding: 0 10px;
-            p{
-              margin: 8px 0;
-            }
-          }
-        }
-        .right{
-          text-align: left;
-          margin-top: 40px;
-          .title{
-            font-weight: 600;
-            color: #85785b;
-            text-decoration: underline;
-            font-size: 2em;
-            line-height: 53px;
-            margin: 20px 0;
-          }
-          .content{
-            line-height: 25px;
-            word-break: break-word;
-            p{
-              margin: 8px 0;
-            }
-          }
-        }
-      }
-      .bottom-section{
-        position: relative;
+      .right {
+        text-align: left;
         margin-top: 40px;
-        margin-bottom: 40px;
-        background: #161616;
-        clear: both;
-        color: #fff;
-        overflow: hidden;
-        .headerContent{
-          font-size: 2.5em;
-          height: 70px;
-          line-height: 70px;
+        .title {
+          font-weight: 600;
+          color: #85785b;
+          text-decoration: underline;
+          font-size: 2em;
+          line-height: 53px;
+          margin: 20px 0;
         }
-        .partSection{
-          padding: 0 15%;
-        }
-        .part1,.part2,.part3{
-          position: relative;
-          text-align: left;
-          .top-title{
-            height: 60px;
-            line-height: 60px;
-            font-size: 22px;
-            margin-bottom: 20px;
-            color: #85785b;
-          }
-          .content{
-            padding: 20px;
-            font-size: 1.2em;
-            span{
-              display: inline-block;
-              padding: 4px;
-              background-color: #6f5722;
-              border-radius: 4px;
-              margin-bottom: 15px;
-            }
+        .content {
+          line-height: 25px;
+          word-break: break-word;
+          p {
+            margin: 8px 0;
           }
         }
-        .part3 .content{
-          img{
-            border: 2px solid white;
-            width: 100%;
+      }
+    }
+    .bottom-section {
+      position: relative;
+      margin-top: 40px;
+      margin-bottom: 40px;
+      background: #161616;
+      clear: both;
+      color: #fff;
+      overflow: hidden;
+      .headerContent {
+        font-size: 2.5em;
+        height: 70px;
+        line-height: 70px;
+      }
+      .partSection {
+        padding: 0 15%;
+      }
+      .part1,
+      .part2,
+      .part3 {
+        position: relative;
+        text-align: left;
+        .top-title {
+          height: 60px;
+          line-height: 60px;
+          font-size: 22px;
+          margin-bottom: 20px;
+          color: #85785b;
+        }
+        .content {
+          padding: 20px;
+          font-size: 1.2em;
+          span {
+            display: inline-block;
+            padding: 4px;
+            background-color: #6f5722;
+            border-radius: 4px;
+            margin-bottom: 15px;
           }
+        }
+      }
+      .part3 .content {
+        img {
+          border: 2px solid white;
+          width: 100%;
         }
       }
     }
   }
+}
 </style>
