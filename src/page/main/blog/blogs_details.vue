@@ -53,23 +53,22 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow-y: auto;
+  background-color: #f4f4f4;
   .section_container {
-    position: absolute;
-    width: 100%;
     top: 20px;
     bottom: 40px;
-    overflow-y: auto;
+    max-width: 1500px;
+    margin: 0 auto;
     .mainSection {
       padding: 20px 50px;
       .header_section {
         font-size: 2rem;
         margin-bottom: 2rem;
+        text-align: center;
       }
       .content {
         text-align: left;
-        max-width: 1000px;
-        margin: 0 auto;
         text-align: left;
         h1,
         h2,

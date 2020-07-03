@@ -17,8 +17,8 @@
                 class="text2"
               >闲来无事记录下自己之前遇到的问题以及查找的相关资料，俗话说的好眼过千遍不如手过一遍，记录一下也会加强对问题的理解。也方便之后遇到同类问题可以快速的查找到相关的处理方法</p>
             </div>
-            <div>
-              <router-link to="/Blog/List">点击进入...</router-link>
+            <div class="look">
+              <router-link to="/Blog/List">瞅瞅看 ></router-link>
             </div>
           </div>
         </el-col>
@@ -53,13 +53,13 @@ export default {
     left: 3.75rem;
     right: 3.75rem;
     .section_left {
+      justify-content: center;
       position: relative;
+      display: flex;
       height: 100%;
+      align-items: center;
       .leftImg {
-        position: absolute;
         width: 80%;
-        top: 15%;
-        left: 3rem;
       }
     }
     .section_right {
@@ -69,7 +69,7 @@ export default {
         position: relative;
         top: 15%;
         font-size: 6rem;
-        margin: 3rem 0;
+        margin: 5rem 0;
         span {
           display: block;
           font-family: cursive;
@@ -88,6 +88,11 @@ export default {
           color: #ffffff;
           font-size: 3rem;
         }
+      }
+      .look {
+        padding-left: 20px;
+        font-family: cursive;
+        font-size: 20px;
       }
     }
   }
