@@ -1,6 +1,6 @@
 # vue项目（个人网站）
 
-> 基于vue+element-ui+node的多页面的项目。
+> 基于vue+element-ui+node+mongodb的多页面的项目。
 > 在线浏览：http://www.rambogj.club
 
 ## 安装步骤
@@ -20,4 +20,4 @@ npm install
 npm run dev
 
 #5、查看效果
-localhost:1004
+localhost:8088
