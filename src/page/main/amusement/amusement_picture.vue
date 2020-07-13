@@ -29,24 +29,7 @@
               :key="index"
               style="padding: 5px 10px;"
             >
-              <div class="picture" :style="HandlePreColor()">
-                <img :src="item.urls.regular" />
-                <div v-if="pictureDetails" class="details">
-                  <div class="top-right">
-                    <el-button>
-                      <img style="width: 24px;height: 24px" src="/static/images/heart2.png" />
-                      {{item.likes}}
-                    </el-button>
-                  </div>
-                  <div class="bottom">
-                    <img :src="item.user.profile_image.medium" />
-                    <div class="username">{{item.user.name}}</div>
-                    <div class="download">
-                      <el-button icon="el-icon-download" @click="downloadHandle(item)"></el-button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <PictureItem :data="item" :styleCss="HandlePreColor()"></PictureItem>
             </WaterfallSlot>
           </Waterfall>
         </div>
@@ -65,6 +48,7 @@ import Waterfall from "vue-waterfall/lib/waterfall";
 import WaterfallSlot from "vue-waterfall/lib/waterfall-slot";
 import { HandlePreImg } from "@/utils/publicMethod";
 import backButton from "@/components/backButton.vue";
+import PictureItem from "./components/PictureItem.vue";
 export default {
   name: "picture",
   data() {
@@ -81,7 +65,8 @@ export default {
   components: {
     Waterfall,
     WaterfallSlot,
-    backButton
+    backButton,
+    PictureItem
   },
   computed: {
     pictureWidth() {
@@ -122,26 +107,7 @@ export default {
       if (scrollTop + clientH == scrollH) {
         console.log("到底了。。。", scrollH, clientH, scrollTop);
         _this.getPicture();
-        // const pageNum = _this.pageNum + 1;
-        // getAllPhotos(pageNum,_this.pageSize,(data)=>{
-        //    if(data.code === 200){
-        //       const newData = _this.pictureList.concat(data.data);
-        //       Object.assign(_this,{pictureList:newData,pageNum})
-        //     }
-        // })
       }
-    });
-  },
-  updated() {
-    $(".picture").on("mouseover", function() {
-      $(this)
-        .find(".details")
-        .show();
-    });
-    $(".picture").on("mouseout", function() {
-      $(this)
-        .find(".details")
-        .hide();
     });
   },
   methods: {
@@ -186,13 +152,6 @@ export default {
       this.$router.push({
         path: "Search",
         query: { keyName: this.searchValue }
-      });
-    },
-    downloadHandle(item) {
-      console.log("下载", item);
-      let id = item.id;
-      downloadPhoto(id, res => {
-        console.log("下载成功");
       });
     }
   }

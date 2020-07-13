@@ -31,32 +31,18 @@
               :key="item.id"
               style="padding: 5px 10px;"
             >
-              <div class="picture" :style="HandlePreColor()">
-                <img :src="item.urls.regular" />
-                <div class="details">
-                  <div class="top-right">
-                    <el-button>
-                      <img style="width: 24px;height: 24px" src="/static/images/heart2.png" />
-                      {{item.likes}}
-                    </el-button>
+              <PictureItem :data="item" :styleCss="HandlePreColor()">
+                <template slot="footer">
+                  <div class="pictureIntroduce">
+                    <p class="description">{{item.description}}</p>
+                    <el-tag
+                      type="info"
+                      v-for="(itemm,index) in item.tags.slice(0,3) "
+                      :key="index"
+                    >{{itemm.title}}</el-tag>
                   </div>
-                  <div class="bottom">
-                    <img :src="item.user.profile_image.medium" />
-                    <div class="username">{{item.user.name}}</div>
-                    <div class="download">
-                      <el-button icon="el-icon-download"></el-button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="pictureIntroduce">
-                <p class="description">{{item.description}}</p>
-                <el-tag
-                  type="info"
-                  v-for="(itemm,index) in item.tags.slice(0,3) "
-                  :key="index"
-                >{{itemm.title}}</el-tag>
-              </div>
+                </template>
+              </PictureItem>
             </WaterfallSlot>
           </Waterfall>
         </div>
@@ -77,6 +63,7 @@ import Waterfall from "vue-waterfall/lib/waterfall";
 import WaterfallSlot from "vue-waterfall/lib/waterfall-slot";
 import { HandlePreImg } from "@/utils/publicMethod";
 import backButton from "@/components/backButton.vue";
+import PictureItem from "./components/PictureItem.vue";
 export default {
   data() {
     return {
@@ -90,7 +77,8 @@ export default {
   components: {
     Waterfall,
     WaterfallSlot,
-    backButton
+    backButton,
+    PictureItem
   },
   mounted() {
     let _this = this;
@@ -253,7 +241,6 @@ export default {
       margin: 0 auto;
       .pictureIntroduce {
         position: relative;
-        height: 60px;
         float: left;
         margin: 0 10px;
         width: 100%;

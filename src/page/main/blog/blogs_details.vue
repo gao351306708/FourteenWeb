@@ -8,6 +8,12 @@
           <strong>{{detailItem.title}}</strong>
         </div>
         <div class="content" v-html="detailItem.content"></div>
+        <div v-if="detailItem.links && detailItem.links.length>0" class="linkSection">
+          相关链接
+          <p v-for="(item,index) in detailItem.links" :key="index">
+            <a :href="item" target="_blank">{{item|filterUrl}}</a>
+          </p>
+        </div>
       </el-col>
     </el-row>
   </div>
@@ -22,7 +28,7 @@ export default {
     return {
       current: 0,
       interval: null,
-      detailItem: ""
+      detailItem: {}
     };
   },
   components: {
@@ -40,6 +46,11 @@ export default {
   methods: {
     goToUrl(index) {
       console.log("goToUrl   --->", index);
+    }
+  },
+  filters: {
+    filterUrl(url) {
+      return url.slice(url.indexOf("http"));
     }
   }
 };
@@ -85,7 +96,17 @@ export default {
     }
   }
   /deep/ img {
-    max-width: 100% !important;
+    max-width: 90% !important;
+  }
+  .linkSection {
+    margin: 3rem 0;
+    font-size: 1.3rem;
+    font-weight: 800;
+    a {
+      font-size: 1rem;
+      font-weight: 100;
+      color: black;
+    }
   }
 }
 </style>
