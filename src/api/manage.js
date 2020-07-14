@@ -79,3 +79,10 @@ export const queryBlogTypeList = (data) => {
   const url = `${API_CONFIG}/queryBlogTypeList`;
   return fetch_requset(url, data, 'GET')
 }
+/**
+ * [查询最受欢迎的文章列表]
+ */
+export const queryPopularBlogList = (data) => {
+  const url = `${API_CONFIG}/queryPopularBlogList`;
+  return fetch_requset(url, data, 'GET')
+}

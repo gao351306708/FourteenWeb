@@ -62,16 +62,16 @@
               <el-card class="box-card">
                 <div slot="header" class="clearfix">
                   <span class="henggang"></span>
-                  <span>个人分类</span>
+                  <span>标签</span>
                 </div>
-                <div
-                  v-for="(item,index) in categoryList"
-                  :key="index"
-                  :class="['textItem',{'active':searchName == item.name}]"
-                  @click="getKeyTile(item.name)"
-                >
-                  {{item.name }}
-                  <span class="number">{{'('+item.num+')'}}</span>
+                <div class="tagSection">
+                  <el-tag
+                    v-for="(item,index) in categoryList"
+                    :key="index"
+                    :class="['textItem',{'active':searchName == item.name}]"
+                    :color="colorRadom()"
+                    @click="getKeyTile(item.name)"
+                  >{{item.name}}</el-tag>
                 </div>
               </el-card>
             </div>
@@ -81,7 +81,12 @@
                   <span class="henggang"></span>
                   <span>热门文章</span>
                 </div>
-                <div v-for="o in 4" :key="o" class="textItem">{{'列表内容 ' + o }}</div>
+                <div
+                  v-for="(item,index) in popularList"
+                  :key="index"
+                  class="textItem"
+                  @click="getDetails(item)"
+                >> {{item.title}}</div>
               </el-card>
             </div>
           </div>
@@ -94,7 +99,12 @@
 <script type="text/ecmascript-6">
 import backButton from "@/components/backButton.vue";
 import ListItem from "./components/ListItem.vue";
-import { queryBlogList, getInterview } from "@/api/manage.js";
+import {
+  queryBlogList,
+  getInterview,
+  queryPopularBlogList,
+  queryBlogTypeList
+} from "@/api/manage.js";
 export default {
   components: {
     backButton,
@@ -103,27 +113,12 @@ export default {
   data() {
     return {
       partList: [], //最新文章列表
-      categoryList: [
-        {
-          name: "javaScript",
-          num: "10"
-        },
-        {
-          name: "react",
-          num: "15"
-        },
-        {
-          name: "vue",
-          num: "12"
-        },
-        {
-          name: "Html5",
-          num: "5"
-        }
-      ],
+      categoryList: [], //标签类别
       searchValue: "",
       searchName: "",
-      interview: 0 //访问数
+      interview: 0, //访问数
+      popularList: [], //访问数
+      colorList: ["#ecf5ff", "#f0f9eb", "#f4f4f5", "#fdf6ec", "#fef0f0"]
     };
   },
   created() {
@@ -133,17 +128,28 @@ export default {
         this.interview = res.data;
       }
     });
+    queryPopularBlogList().then(res => {
+      if (res.code == 200) {
+        this.popularList = res.data;
+      }
+    });
+    queryBlogTypeList().then(res => {
+      if (res.code == 200) {
+        this.categoryList = res.data;
+      }
+    });
   },
   mounted() {
     //获取文章列表
     this.getBlogList();
   },
   methods: {
-    async getBlogList() {
+    async getBlogList(param = {}) {
       const { searchValue } = this;
       let params = {
         key: searchValue
       };
+      Object.assign(params, param);
       let res = await queryBlogList(params);
       if (res.code == 200) {
         this.partList = res.data;
@@ -152,6 +158,7 @@ export default {
     //个人分类查询
     getKeyTile(name) {
       this.searchName = name;
+      this.getBlogList({ tagKey: name });
     },
     searchBlogs() {
       this.getBlogList();
@@ -159,6 +166,11 @@ export default {
     getDetails(item) {
       this.details = item;
       this.$router.push({ name: "BlogDetails", query: { id: item._id } });
+    },
+    //随机颜色
+    colorRadom() {
+      let ram = Math.floor(Math.random() * 5);
+      return this.colorList[ram];
     }
   }
 };
@@ -199,7 +211,15 @@ export default {
             margin-right: 8px;
           }
           .textItem {
-            padding: 5px;
+            margin: 10px 0;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            line-clamp: 1;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            cursor: pointer;
             .number {
               float: right;
             }
@@ -221,12 +241,15 @@ export default {
             display: block;
           }
         }
-        .popularBlogs {
-        }
         .catgoriesBlogs {
+          .tagSection {
+            display: flex;
+            flex-wrap: wrap;
+          }
           .textItem {
             cursor: pointer;
-            padding: 5px;
+            width: auto;
+            margin: 5px 8px;
             .number {
               float: right;
             }

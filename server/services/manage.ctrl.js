@@ -136,19 +136,26 @@ manageRouter.post('/updateBlog', function (req, res, next) {
 //查询文章列表
 manageRouter.get('/queryBlogList', function (req, res, next) {
   let query = req.query;
+  let tagRes = query.tagKey || ""; //标签关键字
   let params = {
     key: query.key,
     start: query.startTime || new Date(2020, 1, 1),
     end: query.endTime || new Date(),
   }
   let queryRes = new RegExp(params.key, 'i'); //正则模糊查询参数
-  BlogModel.find({
+  let keyList = {
     title: queryRes,
     created: {
       $gte: params.start,
       $lte: params.end
     }
-  }, ).sort({
+  }
+  if (tagRes) {
+    keyList.tag = {
+      $in: [tagRes]
+    }
+  }
+  BlogModel.find(keyList).sort({
     "created": -1
   }).exec(function (err, doc) {
     if (err) {
@@ -282,6 +289,26 @@ manageRouter.post('/updateBlogType', function (req, res, next) {
 manageRouter.get('/queryBlogTypeList', function (req, res, next) {
   let query = req.query;
   BlogTypeModel.find({}, function (err, doc) {
+    if (err) {
+      res.json({
+        code: 500,
+        message: err.message
+      });
+    } else {
+      res.json({
+        code: 200,
+        data: doc
+      });
+    }
+  })
+});
+//查询最受欢迎文章列表
+manageRouter.get('/queryPopularBlogList', function (req, res, next) {
+  let query = req.query;
+  let num = query.num || 5; //默认前五条
+  BlogModel.find({}).sort({
+    "interviewNum": -1
+  }).limit(num).exec(function (err, doc) {
     if (err) {
       res.json({
         code: 500,
