@@ -9,10 +9,11 @@
             <div class="header_section">
               <strong>最新的文章</strong>
             </div>
-            <div class="list_section" v-for="(item,index) in partList" :key="index">
+            <!-- <div class="list_section" v-for="(item,index) in AllList" :key="index">
               <ListItem :data="item" @click.native="getDetails(item)" />
-            </div>
-            <el-pagination layout="prev, pager, next" :total="50"></el-pagination>
+            </div>-->
+
+            <BlogList ref="blogList" :ActionClick="getDetails"></BlogList>
           </div>
         </el-col>
         <el-col :xs="24" :md="6" style="height: 100%">
@@ -35,27 +36,14 @@
                   <div class="bottom clearfix">
                     <span>
                       原创
-                      <strong>55</strong>
+                      <strong>{{numberObject.blogNum}}</strong>
                     </span>
                     <span>
                       访问
-                      <strong>{{interview}}</strong>
-                    </span>
-                    <span>
-                      喜欢
-                      <strong>88</strong>
+                      <strong>{{numberObject.interviewNum}}</strong>
                     </span>
                   </div>
                 </div>
-              </el-card>
-            </div>
-            <div class="newBlogs">
-              <el-card class="box-card">
-                <div slot="header" class="clearfix">
-                  <span class="henggang"></span>
-                  <span>最新文章</span>
-                </div>
-                <div v-for="o in 4" :key="o" class="textItem">{{'列表内容 ' + o }}</div>
               </el-card>
             </div>
             <div class="catgoriesBlogs">
@@ -99,6 +87,7 @@
 <script type="text/ecmascript-6">
 import backButton from "@/components/backButton.vue";
 import ListItem from "./components/ListItem.vue";
+import BlogList from "./components/BlogList.vue";
 import {
   queryBlogList,
   getInterview,
@@ -108,31 +97,33 @@ import {
 export default {
   components: {
     backButton,
-    ListItem
+    ListItem,
+    BlogList
   },
   data() {
     return {
-      partList: [], //最新文章列表
       categoryList: [], //标签类别
       searchValue: "",
       searchName: "",
-      interview: 0, //访问数
+      numberObject: {}, //访问数
       popularList: [], //访问数
       colorList: ["#ecf5ff", "#f0f9eb", "#f4f4f5", "#fdf6ec", "#fef0f0"]
     };
   },
   created() {
-    //获取访问数
+    //获取访问数文章数
     getInterview().then(res => {
       if (res.code == 200) {
-        this.interview = res.data;
+        this.numberObject = res.data;
       }
     });
+    //最受欢迎列表
     queryPopularBlogList().then(res => {
       if (res.code == 200) {
         this.popularList = res.data;
       }
     });
+    //标签类型查询
     queryBlogTypeList().then(res => {
       if (res.code == 200) {
         this.categoryList = res.data;
@@ -150,10 +141,10 @@ export default {
         key: searchValue
       };
       Object.assign(params, param);
-      let res = await queryBlogList(params);
-      if (res.code == 200) {
-        this.partList = res.data;
-      }
+      // let res = await queryBlogList(params);
+      // if (res.code == 200) {
+      //   this.AllList = res.data;
+      // }
     },
     //个人分类查询
     getKeyTile(name) {
@@ -273,9 +264,6 @@ export default {
           font-size: 28px;
           text-align: left;
           margin: 1.25rem 0.625rem;
-        }
-        .list_section {
-          margin: 1rem 0.625rem;
         }
       }
     }

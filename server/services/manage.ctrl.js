@@ -20,18 +20,14 @@ const manageRouter = express.Router();
  * 查询访问记录
  * */
 manageRouter.get('/interviewQuery', async (req, res) => {
-  let params = {};
-  InterviewModel.count(params, function (err, doc) {
-    if (err) {
-      res.json({
-        code: 500,
-        message: err.message
-      });
-    } else {
-      res.json({
-        code: 200,
-        data: doc
-      });
+  let count = await InterviewModel.count({});
+  let count2 = await BlogModel.count({});
+  console.log("count:", count, count2)
+  res.json({
+    code: 200,
+    data: {
+      interviewNum: count || 0,
+      blogNum: count2 || 0
     }
   });
 })
@@ -152,10 +148,12 @@ manageRouter.get('/queryBlogList', function (req, res, next) {
   }
   if (tagRes) {
     keyList.tag = {
-      $in: [tagRes]
+      $in: [tagRes], //匹配所有tag中包含某个关键字的集合
     }
   }
-  BlogModel.find(keyList).sort({
+  BlogModel.find(keyList, {
+    content: 0
+  }).sort({
     "created": -1
   }).exec(function (err, doc) {
     if (err) {

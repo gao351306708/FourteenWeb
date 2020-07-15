@@ -5,10 +5,8 @@
   "author": "高举",
   "private": true,
   "scripts": {
-    "start": "node ./server",
-    "dev": "cross-env NODE_ENV=development node ./server",
-    "devinspect": "cross-env NODE_ENV=development node --inspect ./server",
-    "dev_test": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "start": "cross-env NODE_ENV=development node --inspect ./server",
+    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js"
   },
