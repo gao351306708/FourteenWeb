@@ -39,6 +39,9 @@ export default {
       if (res.code == 200) {
         console.log("detailItem   --->", res.data);
         this.detailItem = res.data[0];
+        if (res.data[0].title) {
+          document.title = res.data[0].title;
+        }
       }
     });
   },
