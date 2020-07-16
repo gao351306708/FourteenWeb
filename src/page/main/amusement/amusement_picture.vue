@@ -34,7 +34,7 @@
           </Waterfall>
         </div>
         <div v-else>
-          <img width="70%" src="/static/images/photosNull.png" />
+          <NoData />
         </div>
       </div>
     </div>

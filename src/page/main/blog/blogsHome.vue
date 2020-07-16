@@ -9,11 +9,7 @@
             <div class="header_section">
               <strong>最新的文章</strong>
             </div>
-            <!-- <div class="list_section" v-for="(item,index) in AllList" :key="index">
-              <ListItem :data="item" @click.native="getDetails(item)" />
-            </div>-->
-
-            <BlogList ref="blogList" :ActionClick="getDetails"></BlogList>
+            <BlogList ref="blogList" :ActionClick="getDetails" :keyValue="searchKey"></BlogList>
           </div>
         </el-col>
         <el-col :xs="24" :md="6" style="height: 100%">
@@ -86,7 +82,6 @@
 
 <script type="text/ecmascript-6">
 import backButton from "@/components/backButton.vue";
-import ListItem from "./components/ListItem.vue";
 import BlogList from "./components/BlogList.vue";
 import {
   queryBlogList,
@@ -97,13 +92,13 @@ import {
 export default {
   components: {
     backButton,
-    ListItem,
     BlogList
   },
   data() {
     return {
       categoryList: [], //标签类别
-      searchValue: "",
+      searchValue: "", //输入框关键字
+      searchKey: {}, //搜索关键字
       searchName: "",
       numberObject: {}, //访问数
       popularList: [], //访问数
@@ -130,29 +125,15 @@ export default {
       }
     });
   },
-  mounted() {
-    //获取文章列表
-    this.getBlogList();
-  },
+  mounted() {},
   methods: {
-    async getBlogList(param = {}) {
-      const { searchValue } = this;
-      let params = {
-        key: searchValue
-      };
-      Object.assign(params, param);
-      // let res = await queryBlogList(params);
-      // if (res.code == 200) {
-      //   this.AllList = res.data;
-      // }
-    },
     //个人分类查询
     getKeyTile(name) {
       this.searchName = name;
-      this.getBlogList({ tagKey: name });
+      Object.assign(this, { searchKey: { tagKey: name } });
     },
     searchBlogs() {
-      this.getBlogList();
+      Object.assign(this, { searchKey: { key: this.searchValue } });
     },
     getDetails(item) {
       this.details = item;
@@ -246,7 +227,7 @@ export default {
             }
           }
           .textItem.active {
-            color: #00a8e6;
+            border-color: black;
           }
         }
         .clearfix:before,
