@@ -1,7 +1,7 @@
 # vue项目（个人网站）
 
 > 基于vue+element-ui+node+mongodb的多页面的项目。
-> 在线浏览：http://www.rambogj.club
+> 在线浏览：http://www.rambogj.top
 
 ## 安装步骤
 
