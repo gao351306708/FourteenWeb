@@ -75,6 +75,7 @@ import {
 } from "../../utils/publicMethod";
 export default {
   //data中放入初始默认值
+  name: "home",
   data() {
     return {
       isTrue: false,

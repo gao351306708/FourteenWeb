@@ -1,7 +1,6 @@
 /**博客首页**/
 <template>
   <div class="blogDetails">
-    <backButton></backButton>
     <el-row class="section_container">
       <el-col :span="24" class="mainSection">
         <div class="header_section">
@@ -20,7 +19,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-import backButton from "@/components/backButton.vue";
 import { queryBlogDetail } from "@/api/manage.js";
 export default {
   //data中放入初始默认值
@@ -30,9 +28,6 @@ export default {
       interval: null,
       detailItem: {}
     };
-  },
-  components: {
-    backButton
   },
   created() {
     queryBlogDetail({ id: this.$route.query.id }).then(res => {

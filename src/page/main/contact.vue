@@ -1,8 +1,6 @@
 /**联系我**/
 <template>
   <div class="contact">
-    <head-top></head-top>
-    <backButton></backButton>
     <div class="section_container">
       <h1>还没写呢！</h1>
     </div>
@@ -11,15 +9,14 @@
 
 <script type="text/ecmascript-6">
 import headTop from "../../components/headTop.vue";
-import backButton from "../../components/backButton.vue";
 export default {
   //data中放入初始默认值
+  name: "contact",
   data() {
     return {};
   },
   components: {
-    headTop,
-    backButton
+    headTop
   },
   mounted() {},
   methods: {}

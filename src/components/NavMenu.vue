@@ -257,6 +257,6 @@ export default {
   }
 }
 .top2 {
-  top: calc(100% - 120px) !important;
+  // bottom: 0 !important;
 }
 </style>

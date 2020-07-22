@@ -1,5 +1,7 @@
 <template>
   <div id="app" class="fillcontain">
+    <HeadTop />
+    <!-- <BackButton v-if="!$route.meta.nav" /> -->
     <router-view />
     <!-- 启动动画 -->
     <Translation></Translation>
@@ -8,10 +10,14 @@
 
 <script>
 import Translation from "@/components/translation.vue";
+import HeadTop from "@/components/headTop.vue";
+import BackButton from "@/components/backButton.vue";
 export default {
   name: "App",
   components: {
-    Translation
+    Translation,
+    HeadTop,
+    BackButton
   }
 };
 </script>

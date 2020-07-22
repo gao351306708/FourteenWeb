@@ -1,8 +1,6 @@
 /**about Me**/
 <template>
   <div class="aboutMe">
-    <head-top></head-top>
-    <backButton></backButton>
     <div class="section_container">
       <div class="top-section">
         <img src="../../../static/images/aboutHu.jpg" />
@@ -58,7 +56,6 @@
         </el-row>
       </div>
       <div class="bottom-section">
-        <div class="headerContent">我一般在玩得东西</div>
         <div class="partSection">
           <el-row :gutter="10">
             <el-col :xs="24" :md="8">
@@ -102,14 +99,17 @@
         </div>
       </div>
     </div>
+    <div class="Footer">
+      <FooterBottom></FooterBottom>
+    </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import headTop from "../../components/headTop.vue";
-import backButton from "../../components/backButton.vue";
+import FooterBottom from "@/components/footerBottom.vue";
 export default {
   //data中放入初始默认值
+  name: "about",
   data() {
     return {
       context: "要是喜欢你就随便再看看哈",
@@ -120,8 +120,7 @@ export default {
     };
   },
   components: {
-    headTop,
-    backButton
+    FooterBottom
   },
   mounted() {
     let str = "",
@@ -156,28 +155,24 @@ export default {
 @import "../../assets/mixin.less";
 .aboutMe {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 80px;
   width: 100%;
-  height: 100%;
   overflow-x: hidden;
-  .closeIcon {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    right: 40px;
-    top: 35px;
-    z-index: 20;
-    cursor: pointer;
-  }
+  overflow-y: auto;
+  // .closeIcon {
+  //   position: absolute;
+  //   width: 40px;
+  //   height: 40px;
+  //   right: 40px;
+  //   top: 35px;
+  //   z-index: 20;
+  //   cursor: pointer;
+  // }
   .section_container {
     position: relative;
-    top: 80px;
-    bottom: 40px;
     padding: 0 45px;
     .top-section {
       position: relative;
-      /*height: calc(100vh - 110px - 40px - 50px);*/
       background: #161616;
       overflow: hidden;
       img {
@@ -216,7 +211,7 @@ export default {
       position: relative;
       overflow: hidden;
       min-height: 420px;
-      padding: 0 20px;
+      margin: 0 6rem;
       .left {
         text-align: left;
         margin-top: 40px;
@@ -265,11 +260,6 @@ export default {
       clear: both;
       color: #fff;
       overflow: hidden;
-      .headerContent {
-        font-size: 2.5em;
-        height: 70px;
-        line-height: 70px;
-      }
       .partSection {
         padding: 0 15%;
       }
@@ -286,7 +276,6 @@ export default {
           color: #85785b;
         }
         .content {
-          padding: 20px;
           font-size: 1.2em;
           span {
             display: inline-block;
@@ -304,6 +293,11 @@ export default {
         }
       }
     }
+  }
+  .Footer {
+    position: relative;
+    width: 100%;
+    height: 110px;
   }
 }
 </style>

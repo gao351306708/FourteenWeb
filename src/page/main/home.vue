@@ -60,6 +60,7 @@
 import Bus from "@/js/bus.js";
 export default {
   // data中放入初始默认值
+  name: "home",
   data() {
     return {
       year: new Date().getFullYear()

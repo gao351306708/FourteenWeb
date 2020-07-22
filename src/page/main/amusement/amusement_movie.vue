@@ -1,7 +1,6 @@
 /**查出腾讯视频的所有视频，展示页面**/
 <template>
   <div class="Movie">
-    <back-button></back-button>
     <BackTop :scrollerName="'.section_container'"></BackTop>
     <div class="section_container">
       <div class="selectSection">
@@ -93,7 +92,6 @@
 
 <script type="text/ecmascript-6">
 import { getMovieList, getMovieDetail } from "@/api/tencent";
-import backButton from "@/components/backButton.vue";
 import { movieSelectKeyList1 } from "@/data/movieSelectKey";
 export default {
   name: "movie",
@@ -109,9 +107,6 @@ export default {
       icharge: -1, //资源
       currentSelect: ""
     };
-  },
-  components: {
-    backButton
   },
   mounted() {
     //https://node.video.qq.com/x/api/float_vinfo2?cid=j3czmhisqin799r

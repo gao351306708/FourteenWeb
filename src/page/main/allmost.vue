@@ -14,20 +14,12 @@
 import FooterBottom from "@/components/footerBottom.vue";
 export default {
   //data中放入初始默认值
+  name: "allmost",
   components: {
     FooterBottom
   },
   data() {
-    return {
-      fileList: [],
-      //filename:'default/词汇表.xlsx',
-      labelPosition: "right",
-      formLabelAlign: {
-        number: "",
-        type: "",
-        filename: ""
-      }
-    };
+    return {};
   }
 };
 </script>

@@ -1,6 +1,5 @@
 <template>
   <div class="searchPicture">
-    <backButton></backButton>
     <div class="section_search">
       <p class="search">
         <el-input
@@ -51,10 +50,7 @@
         </div>
       </div>
     </div>
-    <div class="buttonToTop" @click="backTotOP()">
-      <i class="el-icon-arrow-up"></i>
-      <p>顶部</p>
-    </div>
+    <BackTop :scrollerName="'.searchPicture'"></BackTop>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -62,7 +58,6 @@ import { getAllPhotos, searchPhotos } from "@/api/unsplash.js";
 import Waterfall from "vue-waterfall/lib/waterfall";
 import WaterfallSlot from "vue-waterfall/lib/waterfall-slot";
 import { HandlePreImg } from "@/utils/publicMethod";
-import backButton from "@/components/backButton.vue";
 import PictureItem from "./components/PictureItem.vue";
 export default {
   data() {
@@ -77,7 +72,6 @@ export default {
   components: {
     Waterfall,
     WaterfallSlot,
-    backButton,
     PictureItem
   },
   mounted() {
@@ -196,7 +190,7 @@ export default {
     width: calc(100% - 90px);
     padding: 0 45px;
     z-index: 20;
-    background-color: white;
+    background-color: #f8f8f8;
     .search {
       margin: 20px 0;
     }

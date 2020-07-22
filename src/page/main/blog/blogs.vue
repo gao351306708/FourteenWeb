@@ -2,11 +2,11 @@
 <template>
   <div class="blog">
     <div class="section_container">
-      <el-row :gutter="10" style="height: 100%">
-        <el-col :xs="0" :md="12" class="section_left">
+      <el-row style="height: 100%">
+        <el-col :xs="0" :sm="12" class="section_left">
           <img class="leftImg" src="/static/images/attachment.jpg" />
         </el-col>
-        <el-col :xs="24" :md="12" class="section_right">
+        <el-col :xs="24" :sm="12" class="section_right">
           <div>
             <div class="title">
               <span>博</span>
@@ -70,6 +70,8 @@ export default {
         top: 15%;
         font-size: 6rem;
         margin: 5rem 0;
+        text-align: right;
+        right: 20%;
         span {
           display: block;
           font-family: cursive;

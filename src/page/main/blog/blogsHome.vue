@@ -1,7 +1,6 @@
 /**博客列表页**/
 <template>
   <div class="blogList">
-    <backButton></backButton>
     <div class="section_container">
       <el-row :gutter="10" class="section_All">
         <el-col :xs="24" :md="18" style="height: 100%">
@@ -81,7 +80,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-import backButton from "@/components/backButton.vue";
 import BlogList from "./components/BlogList.vue";
 import {
   queryBlogList,
@@ -91,7 +89,6 @@ import {
 } from "@/api/manage.js";
 export default {
   components: {
-    backButton,
     BlogList
   },
   data() {

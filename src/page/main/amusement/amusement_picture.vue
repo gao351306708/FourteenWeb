@@ -1,6 +1,5 @@
 <template>
   <div class="Picture">
-    <backButton></backButton>
     <div class="section_container">
       <div class="section_header">
         <div class="section_content">
@@ -47,7 +46,6 @@ import { updateInterview } from "@/api/manage.js";
 import Waterfall from "vue-waterfall/lib/waterfall";
 import WaterfallSlot from "vue-waterfall/lib/waterfall-slot";
 import { HandlePreImg } from "@/utils/publicMethod";
-import backButton from "@/components/backButton.vue";
 import PictureItem from "./components/PictureItem.vue";
 export default {
   name: "picture",
@@ -65,7 +63,6 @@ export default {
   components: {
     Waterfall,
     WaterfallSlot,
-    backButton,
     PictureItem
   },
   computed: {
