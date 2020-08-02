@@ -115,6 +115,9 @@ function timeElapse(date) {
   }
   var result = "<span class=\"digit\">" + days + "</span> 天 <span class=\"digit\">" + hours + "</span> 时 <span class=\"digit\">" + minutes + "</span> 分 <span class=\"digit\">" + seconds + "</span> 秒";
   $("#elapseClock").html(result);
+
+  //心跳
+  heartObject.createNewHeart()
 }
 
 function showMessages() {
