@@ -1,5 +1,6 @@
 var heartObject = (function (window, document, undefined) {
   var hearts = [];
+  var max = 100;
   //请求动画帧
   window.requestAnimationFrame = (function () {
     return window.requestAnimationFrame ||
@@ -22,8 +23,7 @@ var heartObject = (function (window, document, undefined) {
   function gameloop() {
     for (var i = 0; i < hearts.length; i++) {
       if (hearts[i].alpha <= 0) {
-        document.body.removeChild(hearts[i].el);
-        hearts.splice(i, 1);
+        removeHeart(i)
         continue;
       }
       hearts[i].y--;
@@ -55,7 +55,17 @@ var heartObject = (function (window, document, undefined) {
       color: randomColor()
     });
     document.body.appendChild(d);
+    //全屏不能多于最大值 
+    if (hearts.length > max) {
+      removeHeart(0);
+    }
   }
+
+  function removeHeart(i) {
+    document.body.removeChild(hearts[i].el);
+    hearts.splice(i, 1);
+  }
+
 
   function css(css) {
     var style = document.createElement("style");
