@@ -155,10 +155,17 @@ function clickImg() {
 
 function audioAutoPlay(id) {
   var audio1 = document.getElementById(id);
-  audio1.play();
-  document.addEventListener("WeixinJSBridgeReady", function () {
-    audio1.play();
-  }, false);
+  if (window.WeixinJSBridge) {
+    WeixinJSBridge.invoke("getNetworkType", {}, function () {
+      audio1.play();
+    }, false)
+  } else {
+    document.addEventListener("WeixinJSBridgeReady", function () {
+      WeixinJSBridge.invoke("getNetworkType", {}, function () {
+        audio1.play();
+      }, false)
+    }, false);
+  }
 }
 
 function playerEventHandle() {
@@ -174,6 +181,11 @@ function playerEventHandle() {
     };
     $("#audioMusic")[0].onplay = function () {
       console.log("onplay")
+      // $("#audioImg").addClass("audioImg")
+    };
+    //监听audio是否加载完毕，如果加载完毕，开始播放
+    $("#audioMusic")[0].oncanplay = function () {
+      console.log("oncanplay")
       $("#audioImg").addClass("audioImg")
     };
   }
