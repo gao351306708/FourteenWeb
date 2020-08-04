@@ -148,6 +148,7 @@ function startShowHeart() {
 function clickImg() {
   if ($("#audioMusic")[0] && $("#audioMusic")[0].paused) {
     $("#audioMusic")[0].play()
+    $("#audioImg").addClass("audioImg")
   } else {
     $("#audioMusic")[0].pause()
   }
@@ -181,7 +182,7 @@ function playerEventHandle() {
     };
     $("#audioMusic")[0].onplay = function () {
       console.log("onplay")
-      $("#audioImg").addClass("audioImg")
+      // $("#audioImg").addClass("audioImg")
     };
     //监听audio是否加载完毕，如果加载完毕，开始播放
     $("#audioMusic")[0].oncanplay = function () {
