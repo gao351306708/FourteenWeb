@@ -181,7 +181,7 @@ function playerEventHandle() {
     };
     $("#audioMusic")[0].onplay = function () {
       console.log("onplay")
-      // $("#audioImg").addClass("audioImg")
+      $("#audioImg").addClass("audioImg")
     };
     //监听audio是否加载完毕，如果加载完毕，开始播放
     $("#audioMusic")[0].oncanplay = function () {

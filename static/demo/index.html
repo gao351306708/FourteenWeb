@@ -96,7 +96,6 @@
       setTimeout(function () {
         startHeartAnimation();
         audioAutoPlay('audioMusic');
-        playerEventHandle();
         startShowHeart();
       }, 2000);
 
@@ -106,6 +105,8 @@
       }, 1000);
       $("#code").typewriter();
     }
+    //播放器状态监听
+    playerEventHandle();
 
   </script>
 </body>
