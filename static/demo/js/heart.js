@@ -1,6 +1,7 @@
 var heartObject = (function (window, document, undefined) {
   var hearts = [];
   var max = 100;
+  var intervalTimer = null;
   //请求动画帧
   window.requestAnimationFrame = (function () {
     return window.requestAnimationFrame ||
@@ -98,6 +99,14 @@ var heartObject = (function (window, document, undefined) {
   return {
     createNewHeart: function () {
       return createHeart.apply(this, arguments);
+    },
+    autoCreateHeart: function () {
+      intervalTimer = setInterval(function () {
+        createHeart();
+      }, 1000);
+    },
+    stopCreateHeart: function () {
+      clearInterval(intervalTimer)
     }
   }
 })(window, document);

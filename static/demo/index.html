@@ -6,14 +6,6 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Love For you</title>
 
-  <style type="text/css">
-    @font-face {
-      font-family: digit;
-      src: url('digital-7_mono.ttf') format("truetype");
-    }
-
-  </style>
-
   <link href="css/default.css" type="text/css" rel="stylesheet">
   <script type="text/javascript" src="js/jquery.js"></script>
   <script type="text/javascript" src="js/garden.js"></script>
@@ -67,6 +59,17 @@
           </div>
         </div>
       </div>
+      <div id="controller">
+        <div class="audio">
+          <img id="audioImg" onclick="clickImg()" src="./img/audio.png">
+          <audio id="audioMusic" autoplay="autoplay" onended="audioEnd()" controls height="100" width="100">
+            <source src="./js/爱很简单.mp3" type="audio/mp3">
+            你的浏览器不支持音频播放
+          </audio>
+        </div>
+        <div class="heartSwitch">
+        </div>
+      </div>
     </div>
   </div>
 
@@ -92,15 +95,15 @@
     } else {
       setTimeout(function () {
         startHeartAnimation();
+        audioAutoPlay('audioMusic');
+        playerEventHandle();
+        startShowHeart();
       }, 2000);
 
       timeElapse(together);
       setInterval(function () {
         timeElapse(together);
-
       }, 1000);
-
-      //   adjustCodePosition();
       $("#code").typewriter();
     }
 

@@ -116,8 +116,6 @@ function timeElapse(date) {
   var result = "<span class=\"digit\">" + days + "</span> 天 <span class=\"digit\">" + hours + "</span> 时 <span class=\"digit\">" + minutes + "</span> 分 <span class=\"digit\">" + seconds + "</span> 秒";
   $("#elapseClock").html(result);
 
-  //心跳
-  heartObject.createNewHeart()
 }
 
 function showMessages() {
@@ -139,4 +137,44 @@ function adjustCodePosition() {
 
 function showLoveU() {
   $('#loveu').fadeIn(3000);
+}
+
+function startShowHeart() {
+  //心跳
+  heartObject.autoCreateHeart();
+}
+
+//音频图片点击事件
+function clickImg() {
+  if ($("#audioMusic")[0] && $("#audioMusic")[0].paused) {
+    $("#audioMusic")[0].play()
+  } else {
+    $("#audioMusic")[0].pause()
+  }
+}
+
+function audioAutoPlay(id) {
+  var audio1 = document.getElementById(id);
+  audio1.play();
+  document.addEventListener("WeixinJSBridgeReady", function () {
+    audio1.play();
+  }, false);
+}
+
+function playerEventHandle() {
+  //音频播放完处理函数
+  if ($("#audioMusic")[0]) {
+    $("#audioMusic")[0].onended = function () {
+      console.log("end")
+      $("#audioImg").removeClass("audioImg")
+    };
+    $("#audioMusic")[0].onpause = function () {
+      console.log("onpause")
+      $("#audioImg").removeClass("audioImg")
+    };
+    $("#audioMusic")[0].onplay = function () {
+      console.log("onplay")
+      $("#audioImg").addClass("audioImg")
+    };
+  }
 }

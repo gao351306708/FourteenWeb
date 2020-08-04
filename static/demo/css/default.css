@@ -1,7 +1,6 @@
 ﻿body {
   margin: 0;
   padding: 0;
-  background: #ffe;
   font-size: 12px;
   overflow: auto
 }
@@ -118,4 +117,41 @@
 
 #copyright a {
   color: #666
+}
+
+#controller {
+  position: absolute;
+  right: 5px;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+  height: 200px;
+}
+
+#controller .audio img {
+  width: 80px;
+  height: 80px;
+}
+
+#audioMusic {
+  /* display: none; */
+}
+
+.audioImg {
+  -webkit-transform: rotate(360deg);
+  animation: rotation 3s linear infinite;
+  -moz-animation: rotation 3s linear infinite;
+  -webkit-animation: rotation 3s linear infinite;
+  -o-animation: rotation 3s linear infinite;
+}
+
+@-webkit-keyframes rotation {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+
+  to {
+    -webkit-transform: rotate(360deg);
+  }
 }
