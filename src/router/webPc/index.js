@@ -12,7 +12,6 @@ import Picture from '@/page/main/amusement/amusement_picture.vue'
 import SearchPicture from '@/page/main/amusement/amusement_picture_search.vue'
 import Movie from '@/page/main/amusement/amusement_movie.vue'
 import Demo from '@/page/main/demo/uploadAndGetRandom.vue'
-import Love from '@/page/main/demo/love.vue'
 
 
 export const routes = [{
@@ -86,8 +85,4 @@ export const routes = [{
   path: '/demo',
   name: 'Demo',
   component: Demo
-}, {
-  path: '/love',
-  name: 'Love',
-  component: Love
 }]
