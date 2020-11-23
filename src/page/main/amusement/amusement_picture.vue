@@ -3,7 +3,7 @@
     <div class="section_container">
       <div class="section_header">
         <div class="section_content">
-          <p class="title1">Unsplash</p>
+          <p class="title1">图片库</p>
           <p class="title2" v-show="headShow">好看且免费的照片.</p>
           <p class="title2" v-show="headShow">来自全世界上最优秀的摄影师社区。</p>
           <p class="search">
@@ -18,15 +18,15 @@
         </div>
       </div>
       <div class="section_picture" v-loading="loading">
-        <div v-if="pictureList.length>0">
+        <div v-if="pictureList.length > 0">
           <Waterfall :line-gap="pictureWidth" :watch="pictureList">
             <WaterfallSlot
               v-for="(item, index) in pictureList"
-              :height="(pictureWidth*item.height)/item.width"
+              :height="(pictureWidth * item.height) / item.width"
               :width="pictureWidth"
               :order="index"
               :key="index"
-              style="padding: 5px 10px;"
+              style="padding: 5px 10px"
             >
               <PictureItem :data="item" :styleCss="HandlePreColor()"></PictureItem>
             </WaterfallSlot>
@@ -68,9 +68,7 @@ export default {
   computed: {
     pictureWidth() {
       let windowW = window.innerWidth;
-      return windowW > 860
-        ? $(".section_picture").width() * 0.333333 - 8
-        : $(".section_picture").width() * 0.5 - 8;
+      return windowW > 860 ? $(".section_picture").width() * 0.333333 - 8 : $(".section_picture").width() * 0.5 - 8;
     },
     pictureDetails() {
       let windowW = window.innerWidth;
@@ -84,10 +82,10 @@ export default {
   mounted() {
     let _this = this;
     this.headShow = $(window).width() < 480 ? false : true;
-    $(".search .el-icon-search").on("click", function() {
+    $(".search .el-icon-search").on("click", function () {
       _this.searchPicture();
     });
-    document.onkeyup = function(e) {
+    document.onkeyup = function (e) {
       if (window.event)
         //如果window.event对象存在，就以此事件对象为准
         e = window.event;
@@ -97,7 +95,7 @@ export default {
       }
     };
     //页面滚动到底部是加载新的数据
-    $(".Picture").scroll(function() {
+    $(".Picture").scroll(function () {
       let scrollH = $(this)[0].scrollHeight;
       let clientH = $(this)[0].clientHeight;
       let scrollTop = $(this).scrollTop();
@@ -111,7 +109,7 @@ export default {
     //查询图片
     getPicture() {
       let _this = this;
-      getAllPhotos(this.pageNum, this.pageSize, data => {
+      getAllPhotos(this.pageNum, this.pageSize, (data) => {
         if (data.code === 200) {
           let newData = [];
           let pageNum = _this.pageNum;
