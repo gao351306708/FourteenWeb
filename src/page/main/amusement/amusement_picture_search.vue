@@ -2,43 +2,34 @@
   <div class="searchPicture">
     <div class="section_search">
       <p class="search">
-        <el-input
-          prefix-icon="el-icon-search"
-          v-model="searchValue"
-          placeholder="输入匹配关键字查找，（英文、中文、或字母等）"
-          clearable
-        ></el-input>
+        <el-input prefix-icon="el-icon-search" v-model="searchValue" placeholder="输入匹配关键字查找，（英文、中文、或字母等）" clearable></el-input>
       </p>
     </div>
     <div class="section_container">
       <div class="searchResult">
-        <div class="section1">{{searchValue + '图片'}}</div>
-        <div class="section2">{{searchTotal+ ' 张免费的 ' +searchValue+ ' 图片'}}</div>
+        <div class="section1">{{ searchValue + "图片" }}</div>
+        <div class="section2">{{ searchTotal + " 张免费的 " + searchValue + " 图片" }}</div>
         <div class="section3">
-          {{searchTotal+ ' 张照片 '}}
-          <span class="user">{{searchTotal+ ' 个作者'}}</span>
+          {{ searchTotal + " 张照片 " }}
+          <span class="user">{{ searchTotal + " 个作者" }}</span>
         </div>
       </div>
       <div class="section_picture">
-        <div v-if="pictureList.length>0">
+        <div v-if="pictureList.length > 0">
           <Waterfall :line-gap="pictureWidth" :watch="pictureList">
             <WaterfallSlot
               v-for="(item, index) in pictureList"
-              :height="(pictureWidth*item.height)/item.width + 100"
+              :height="(pictureWidth * item.height) / item.width + 100"
               :width="pictureWidth"
               :order="index"
               :key="item.id"
-              style="padding: 5px 10px;"
+              style="padding: 5px 10px"
             >
               <PictureItem :data="item" :styleCss="HandlePreColor()">
                 <template slot="footer">
                   <div class="pictureIntroduce">
-                    <p class="description">{{item.description}}</p>
-                    <el-tag
-                      type="info"
-                      v-for="(itemm,index) in item.tags.slice(0,3) "
-                      :key="index"
-                    >{{itemm.title}}</el-tag>
+                    <p class="description">{{ item.description }}</p>
+                    <el-tag type="info" v-for="(itemm, index) in item.tags.slice(0, 3)" :key="index">{{ itemm.title }}</el-tag>
                   </div>
                 </template>
               </PictureItem>
@@ -50,6 +41,7 @@
         </div>
       </div>
     </div>
+    <router-view></router-view>
     <BackTop :scrollerName="'.searchPicture'"></BackTop>
   </div>
 </template>
@@ -77,21 +69,7 @@ export default {
   mounted() {
     let _this = this;
     this.pictureWidth = $(".section_picture").width() * 0.333333 - 8;
-    this.searchValue = this.$route.query.keyName;
-    //默认获取20张图片
-    searchPhotos(this.searchValue, this.pageNum, data => {
-      console.log(
-        "searchPhotos----searchPhotos----->",
-        this.searchValue,
-        this.pageNum,
-        data
-      );
-      Object.assign(_this, {
-        searchTotal: data.total,
-        pictureList: data.results
-      });
-    });
-    document.onkeyup = function(e) {
+    document.onkeyup = function (e) {
       if (window.event)
         //如果window.event对象存在，就以此事件对象为准
         e = window.event;
@@ -100,40 +78,28 @@ export default {
         _this.searchPicture();
       }
     };
-    $(".search .el-icon-search").on("click", function() {
+    $(".search .el-icon-search").on("click", function () {
       _this.searchPicture();
     });
-    $(".searchPicture").scroll(function() {
+    $(".searchPicture").scroll(function () {
       let scrollH = $(this)[0].scrollHeight;
       let clientH = $(this)[0].clientHeight;
       let scrollTop = $(this).scrollTop();
       if (scrollTop + clientH == scrollH) {
         console.log("到底了。。。", scrollH, clientH, scrollTop);
         const pageNum = _this.pageNum + 1;
-        searchPhotos(_this.searchValue, pageNum, data => {
-          console.log(
-            "getAllPhotos--------->",
-            _this.pageNum,
-            _this.pageSize,
-            data
-          );
+        searchPhotos(_this.searchValue, pageNum, (data) => {
+          console.log("getAllPhotos--------->", _this.pageNum, _this.pageSize, data);
           const pictureList = _this.pictureList.concat(data.results);
           Object.assign(_this, { pictureList, pageNum });
         });
       }
     });
   },
-  updated() {
-    $(".picture").on("mouseover", function() {
-      $(this)
-        .find(".details")
-        .show();
-    });
-    $(".picture").on("mouseout", function() {
-      $(this)
-        .find(".details")
-        .hide();
-    });
+  activated() {
+    console.log("activated----searchPhotos----->");
+    this.searchValue = this.$route.query.keyName;
+    this.searchPicture();
   },
   methods: {
     HandlePreColor() {
@@ -154,7 +120,7 @@ export default {
         });
         return;
       }
-      searchPhotos(this.searchValue, 1, data => {
+      searchPhotos(this.searchValue, 1, (data) => {
         console.log("searchPhotos----searchPhotos----->", data);
         this.searchTotal = data.total;
         this.pictureList = data.results;
@@ -189,7 +155,7 @@ export default {
     height: 100px;
     width: calc(100% - 90px);
     padding: 0 45px;
-    z-index: 20;
+    z-index: 10;
     background-color: #f8f8f8;
     .search {
       margin: 20px 0;
@@ -247,68 +213,6 @@ export default {
         }
         span {
           margin-right: 10px;
-        }
-      }
-      .picture {
-        position: relative;
-        float: left;
-        margin: 0 10px;
-        cursor: pointer;
-        width: 100%;
-        height: calc(100% - 100px);
-        .details {
-          position: absolute;
-          display: none;
-          top: 0;
-          width: 100%;
-          height: 100%;
-          background-color: rgba(154, 150, 150, 0.23);
-          opacity: 0.8;
-        }
-        img {
-          width: 100%;
-          height: 100%;
-        }
-        .top-right {
-          position: absolute;
-          text-align: right;
-          width: 100%;
-          top: 15px;
-          height: 60px;
-          button {
-            margin: 0 8px;
-          }
-          img {
-            float: left;
-            margin-right: 5px;
-          }
-        }
-        .bottom {
-          position: absolute;
-          text-align: left;
-          width: 100%;
-          height: 60px;
-          bottom: 5px;
-          img {
-            float: left;
-            margin-left: 10px;
-            width: 40px;
-            height: 40px;
-            border-radius: 20px;
-          }
-          .username {
-            float: left;
-            color: white;
-            margin: 10px 0 0 10px;
-          }
-          .download {
-            float: right;
-            margin-right: 10px;
-          }
-        }
-        .el-button {
-          padding: 4px 15px;
-          line-height: 24px;
         }
       }
     }

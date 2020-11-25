@@ -1,17 +1,12 @@
 <template>
-  <nav :class="{navigation:true,active:true,top2:clientWidth<860}" router>
+  <nav :class="{ navigation: true, active: true, top2: clientWidth < 860 }" router>
     <div class="list">
       <div style="margin-bottom: 8px" @click="arrowClick('pre')">
         <i class="el-icon-back arrowUp"></i>
       </div>
-      <a
-        v-for="(item,index) in navList"
-        :class="['num'+(index+1),{'active':(index+1)==currentNum}]"
-        @click="navClick(index)"
-        :key="index"
-      >
+      <a v-for="(item, index) in navList" :class="['num' + (index + 1), { active: index + 1 == currentNum }]" @click="navClick(index)" :key="index">
         <div class="bannerSection">
-          <span>{{item.title}}</span>
+          <span>{{ item.title }}</span>
         </div>
       </a>
       <div @click="arrowClick('next')">
@@ -96,7 +91,7 @@ export default {
     windowAddMouseWheel() {
       let _this = this;
       var beforeTime = Date.now();
-      this.scrollFunc = function(e) {
+      this.scrollFunc = function (e) {
         e = e || window.event;
         let el = "";
         if (e.wheelDelta) {
@@ -147,16 +142,16 @@ export default {
     },
     changePage() {
       let _this = this;
-      $(".wrapper_door").transition({
+      $(".Layout").transition({
         opacity: 0.1,
         duration: 1000,
         easing: "linear",
-        complete: function() {
+        complete: function () {
           let navList = _this.navList;
           for (let i in navList) {
             if (_this.currentNum == navList[i].index) {
               _this.$router.push({ path: navList[i].route });
-              $(".wrapper_door").transition({
+              $(".Layout").transition({
                 opacity: 1,
                 duration: 1000,
                 easing: "linear"

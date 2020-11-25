@@ -5,13 +5,7 @@
       <el-col :xs="0" :sm="12">
         <section class="section_left">
           <div class="video delay-1">
-            <video
-              muted
-              preload="auto"
-              autoplay="true"
-              id="animationVideo3"
-              src="/static/media/BNP_large_gif.mp4"
-            ></video>
+            <video muted preload="auto" autoplay="true" id="animationVideo3" src="/static/media/BNP_large_gif.mp4"></video>
           </div>
         </section>
       </el-col>
@@ -23,17 +17,12 @@
             </span>
           </a>
           <div class="center_section">
-            <div
-              class="centerPart"
-              v-for="(item,index) in partList"
-              :key="index"
-              @click="current=index"
-            >
-              <div :class="index==current?'title_sec active': 'title_sec'">{{item.title}}</div>
-              <div class="date_sec" v-if="index==current">
-                <div class="top">{{item.mouth}}</div>
+            <div class="centerPart" v-for="(item, index) in partList" :key="index" @click="current = index">
+              <div :class="index == current ? 'title_sec active' : 'title_sec'">{{ item.title }}</div>
+              <div class="date_sec" v-if="index == current">
+                <div class="top">{{ item.mouth }}</div>
                 <span class="stroke"></span>
-                <div class="bottom">{{item.year}}</div>
+                <div class="bottom">{{ item.year }}</div>
               </div>
             </div>
             <div class="arrow" @click="goToUrl(current)">
@@ -43,7 +32,6 @@
         </section>
       </el-col>
     </el-row>
-    <router-view></router-view>
   </div>
 </template>
 
@@ -75,7 +63,7 @@ export default {
   mounted() {
     let len = this.partList.length,
       _this = this;
-    this.interval = window.setInterval(function() {
+    this.interval = window.setInterval(function () {
       console.log("setInterval");
       if (_this.current == len - 1) {
         _this.current = 0;
@@ -83,7 +71,7 @@ export default {
         _this.current = _this.current + 1;
       }
     }, 4000);
-    $("#animationVideo3").hover(function() {
+    $("#animationVideo3").hover(function () {
       if ($(this)[0].paused) {
         $(this)[0].play();
       }

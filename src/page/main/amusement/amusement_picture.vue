@@ -41,7 +41,7 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import { getAllPhotos, searchPhotos, downloadPhoto } from "@/api/unsplash.js";
+import { getAllPhotos, searchPhotos } from "@/api/unsplash.js";
 import { updateInterview } from "@/api/manage.js";
 import Waterfall from "vue-waterfall/lib/waterfall";
 import WaterfallSlot from "vue-waterfall/lib/waterfall-slot";
@@ -155,7 +155,7 @@ export default {
 <style scoped lang="less" type="text/less">
 @import "~@/assets/mixin.less";
 .Picture {
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
   width: 100%;

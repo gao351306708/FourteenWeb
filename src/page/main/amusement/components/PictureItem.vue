@@ -1,17 +1,17 @@
 <template>
-  <div class="PictureItem">
+  <div class="PictureItem" @click="godetails(data)">
     <div class="sectionMain" :style="styleCss">
-      <img :src="data.urls.regular" />
+      <img :src="data.urls.small" />
       <div v-if="pictureDetails" class="details">
         <div class="top-right">
           <el-button @click="setLikedHandle(data.liked_by_user)">
-            <img style="width: 24px;height: 24px" :src="getHeartImg(data.liked_by_user)" />
-            {{data.likes}}
+            <img style="width: 24px; height: 24px" :src="getHeartImg(data.liked_by_user)" />
+            {{ data.likes }}
           </el-button>
         </div>
         <div class="bottom">
           <img :src="data.user.profile_image.medium" />
-          <div class="username">{{data.user.name}}</div>
+          <div class="username">{{ data.user.name }}</div>
           <div class="download">
             <el-button icon="el-icon-download" @click="downloadHandle(data)"></el-button>
           </div>
@@ -24,7 +24,7 @@
   </div>
 </template>
 <script>
-import { downloadPhoto, setLikePhoto, setUnLikePhoto } from "@/api/unsplash.js";
+import { downloadPhotoById, setLikePhoto, setUnLikePhoto } from "@/api/unsplash.js";
 export default {
   name: "PictureItem",
   props: {
@@ -50,15 +50,11 @@ export default {
     }
   },
   mounted() {
-    $(".PictureItem").on("mouseover", function() {
-      $(this)
-        .find(".details")
-        .show();
+    $(".PictureItem").on("mouseover", function () {
+      $(this).find(".details").show();
     });
-    $(".PictureItem").on("mouseout", function() {
-      $(this)
-        .find(".details")
-        .hide();
+    $(".PictureItem").on("mouseout", function () {
+      $(this).find(".details").hide();
     });
   },
   methods: {
@@ -74,12 +70,12 @@ export default {
       let id = this.data.id;
 
       if (like) {
-        setUnLikePhoto(id, res => {
+        setUnLikePhoto(id, (res) => {
           console.log("点赞成功", res);
           this.data.liked_by_user = false;
         });
       } else {
-        setLikePhoto(id, res => {
+        setLikePhoto(id, (res) => {
           console.log("点赞成功", res);
           this.data.liked_by_user = true;
         });
@@ -88,8 +84,13 @@ export default {
     downloadHandle(item) {
       console.log("下载", item);
       let id = item.id;
-      downloadPhoto(id, res => {
+      downloadPhotoById(id, (res) => {
         console.log("下载成功");
+      });
+    },
+    godetails(item) {
+      this.$router.push({
+        path: `${this.$route.path}/photos/${item.id}`
       });
     }
   }

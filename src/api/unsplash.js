@@ -5,6 +5,7 @@
 import * as Unsplash from '@/js/unsplash.js';
 const unsplash = Unsplash.unsplash;
 const toJson = Unsplash.toJson;
+const UserConfig = Unsplash.UserConfig;
 
 //Get a single page from the list of all photos
 export function getAllPhotos(pageIndex, pageNum, callback) {
@@ -55,7 +56,7 @@ export function searchPhotos(name, pageIndex, callback) {
     });
 }
 //downloadPhoto
-export function downloadPhoto(id, callback) {
+export function downloadPhotoById(id, callback) {
   unsplash.photos.getPhoto(id)
     .then(toJson)
     .then(json => {
@@ -69,6 +70,7 @@ export function downloadPhoto(id, callback) {
           fetch(url).then(res => res.blob()).then(blob => { // 将链接地址字符内容转变成blob地址
             a.href = URL.createObjectURL(blob)
             console.log("下载完成")
+            callback("下载完成")
           }).catch(err => {
             console.error("图片下载失败：", err)
             a.target = "_blank";
@@ -81,6 +83,30 @@ export function downloadPhoto(id, callback) {
           })
         });
     });
+}
+//downloadPhoto
+export function downloadPhotoByUrl(params, callback) {
+  let {
+    url,
+    name
+  } = params;
+  let a = document.createElement('a');
+  a.download = name + ".jpg";
+  //使用网络请求图片地址下载图片
+  fetch(url).then(res => res.blob()).then(blob => { // 将链接地址字符内容转变成blob地址
+    a.href = URL.createObjectURL(blob)
+    console.log("下载完成")
+    callback("下载完成")
+  }).catch(err => {
+    console.error("图片下载失败：", err)
+    a.target = "_blank";
+  }).finally(ress => {
+    document.body.appendChild(a)
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a)
+    }, 200)
+  })
 }
 //点赞
 export function setLikePhoto(id, callback) {
@@ -99,11 +125,12 @@ export function setUnLikePhoto(id, callback) {
     });
 }
 //get photos info
-export function getPhotoInfo(id, callback) {
-  const url = `https://api.unsplash.com/photos/${id}/info?client_id=${UserConfig.unsplashAlt.accessId}`;
-  fetch(url)
-    .then((res) => res.json())
-    .then((json) => {
-      callback(json)
-    })
+export function getPhotoInfo(id) {
+  return unsplash.photos.getPhoto(id).then(toJson)
+}
+//获取相关联的图片
+export function getRelatedPhotos(id) {
+  // return unsplash.collections.listRelatedCollections(id).then(toJson)
+  const url = `https://api.unsplash.com/photos/${id}/related?client_id=${UserConfig.unsplashAlt.accessKey}`;
+  return fetch(url).then((res) => res.json())
 }

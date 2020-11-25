@@ -1,51 +1,42 @@
 <template>
-  <el-container class="wrapper_door">
+  <el-container class="Layout">
     <NavMenu v-if="$route.meta.nav"></NavMenu>
     <el-main class="center_view">
-      <router-view ref="home"></router-view>
+      <keep-alive>
+        <router-view ref="home" v-if="$route.meta.keepAlive"></router-view>
+      </keep-alive>
+      <router-view ref="home" v-if="!$route.meta.keepAlive"></router-view>
     </el-main>
   </el-container>
 </template>
 
 <script type="text/ecmascript-6">
-import {
-  setStore,
-  getStore,
-  clearStore,
-  setSession,
-  getSession
-} from "../../utils/publicMethod";
-import { getInterview, updateInterview } from "@/api/manage.js";
-import FooterBottom from "@/components/footerBottom.vue";
+import { updateInterview } from "@/api/manage.js";
 import NavMenu from "@/components/NavMenu.vue";
 export default {
-  name: "door",
+  name: "Layout",
   data() {
     return {};
   },
   components: {
-    FooterBottom,
     NavMenu
   },
   created() {
     updateInterview({ name: "door" }); //更新访问记录
-  },
-  methods: {}
+  }
 };
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less" type="text/less">
-@import "../../assets/mixin.less";
-.wrapper_door {
+.Layout {
   position: relative;
   min-height: 100vh;
   opacity: 1;
-}
-.center_view {
-  position: relative;
-  width: 100%;
-  top: 80px;
-  height: calc(100vh - 80px);
+  .center_view {
+    position: relative;
+    width: 100%;
+    top: 80px;
+    height: calc(100vh - 80px);
+  }
 }
 </style>

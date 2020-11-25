@@ -1,7 +1,6 @@
 <template>
   <div id="app" class="fillcontain">
     <HeadTop />
-    <!-- <BackButton v-if="!$route.meta.nav" /> -->
     <router-view />
     <!-- 启动动画 -->
     <Translation></Translation>

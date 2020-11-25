@@ -35,19 +35,22 @@ if (query && query.includes("code")) {
     });
 } else {
   //获取私有权限url
-  const authenticationUrl = unsplash.auth.getAuthenticationUrl([
-    "public",
-    "read_user",
-    "write_user",
-    "read_photos",
-    "write_photos"
-  ])
-  console.log("1111111111111111--------->>>", authenticationUrl)
-  //重定向地址，将会自动重定向到携带code得callbackUrl地址
-  location.assign(authenticationUrl);
+  if (process.env.NODE_ENV == "production") {
+    const authenticationUrl = unsplash.auth.getAuthenticationUrl([
+      "public",
+      "read_user",
+      "write_user",
+      "read_photos",
+      "write_photos"
+    ])
+    console.log("1111111111111111--------->>>", authenticationUrl)
+    //重定向地址，将会自动重定向到携带code得callbackUrl地址
+    location.assign(authenticationUrl);
+  }
 }
 
 export {
+  UserConfig,
   unsplash,
   toJson,
 }
