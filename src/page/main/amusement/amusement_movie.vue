@@ -6,7 +6,7 @@
       <div class="selectSection">
         <el-row type="flex" style="margin: 10px 0">
           <el-col class="tagName">
-            <el-tag type="success">{{movieSelectList1.isort.mainName}}</el-tag>
+            <el-tag type="success">{{ movieSelectList1.isort.mainName }}</el-tag>
           </el-col>
           <el-col :span="20" class="tagKey">
             <el-button
@@ -14,15 +14,16 @@
               v-for="item in movieSelectList1.isort.children"
               :key="item.id"
               round
-              :class="['tagKeys',{'active':item.key == isort}]"
+              :class="['tagKeys', { active: item.key == isort }]"
               size="mini"
-              @click="clickTag(movieSelectList1.isort,item)"
-            >{{item.name}}</el-button>
+              @click="clickTag(movieSelectList1.isort, item)"
+              >{{ item.name }}</el-button
+            >
           </el-col>
         </el-row>
         <el-row type="flex" style="margin: 10px 0">
           <el-col class="tagName">
-            <el-tag type="success">{{movieSelectList1.itype.mainName}}</el-tag>
+            <el-tag type="success">{{ movieSelectList1.itype.mainName }}</el-tag>
           </el-col>
           <el-col :span="20" class="tagKey">
             <el-button
@@ -30,15 +31,16 @@
               v-for="item in movieSelectList1.itype.children"
               :key="item.id"
               round
-              :class="['tagKeys',{'active':item.key == itype}]"
+              :class="['tagKeys', { active: item.key == itype }]"
               size="mini"
-              @click="clickTag(movieSelectList1.itype,item)"
-            >{{item.name}}</el-button>
+              @click="clickTag(movieSelectList1.itype, item)"
+              >{{ item.name }}</el-button
+            >
           </el-col>
         </el-row>
         <el-row type="flex" style="margin: 10px 0">
           <el-col class="tagName">
-            <el-tag type="success">{{movieSelectList1.iarea.mainName}}</el-tag>
+            <el-tag type="success">{{ movieSelectList1.iarea.mainName }}</el-tag>
           </el-col>
           <el-col :span="20" class="tagKey">
             <el-button
@@ -46,15 +48,16 @@
               v-for="item in movieSelectList1.iarea.children"
               :key="item.id"
               round
-              :class="['tagKeys',{'active':item.key == iarea}]"
+              :class="['tagKeys', { active: item.key == iarea }]"
               size="mini"
-              @click="clickTag(movieSelectList1.iarea,item)"
-            >{{item.name}}</el-button>
+              @click="clickTag(movieSelectList1.iarea, item)"
+              >{{ item.name }}</el-button
+            >
           </el-col>
         </el-row>
         <el-row type="flex" style="margin: 10px 0">
           <el-col class="tagName">
-            <el-tag type="success">{{movieSelectList1.icharge.mainName}}</el-tag>
+            <el-tag type="success">{{ movieSelectList1.icharge.mainName }}</el-tag>
           </el-col>
           <el-col :span="20" class="tagKey">
             <el-button
@@ -62,26 +65,22 @@
               v-for="item in movieSelectList1.icharge.children"
               :key="item.id"
               round
-              :class="['tagKeys',{'active':item.key == icharge}]"
+              :class="['tagKeys', { active: item.key == icharge }]"
               size="mini"
-              @click="clickTag(movieSelectList1.icharge,item)"
-            >{{item.name}}</el-button>
+              @click="clickTag(movieSelectList1.icharge, item)"
+              >{{ item.name }}</el-button
+            >
           </el-col>
         </el-row>
       </div>
       <div class="movieSection">
-        <div
-          v-for="(item,index) in movieList"
-          :key="index"
-          :class="{cardPart:true,movieWidth:true}"
-          @click="movieGo(item)"
-        >
+        <div v-for="(item, index) in movieList" :key="index" :class="{ cardPart: true, movieWidth: true }" @click="movieGo(item)">
           <el-card :body-style="{ padding: '0px' }">
             <img :src="item.imgUrl" class="image" />
-            <div style="padding: 14px;">
-              <div class="title">{{item.title}}</div>
-              <div class="starts">{{item.starts}}</div>
-              <div class="num">播放量：{{item.num}}</div>
+            <div style="padding: 14px">
+              <div class="title">{{ item.title }}</div>
+              <div class="starts">{{ item.starts }}</div>
+              <div class="num">播放量：{{ item.num }}</div>
             </div>
           </el-card>
         </div>
@@ -93,6 +92,7 @@
 <script type="text/ecmascript-6">
 import { getMovieList, getMovieDetail } from "@/api/tencent";
 import { movieSelectKeyList1 } from "@/data/movieSelectKey";
+let loading = false;
 export default {
   name: "movie",
   data() {
@@ -115,34 +115,24 @@ export default {
     //http://localhost:1004/api/tencent/getMovieList?pagesize=30&offset=0&sort=undefined&itype=-1&iarea=-1&charge=-1
     this.getMovieListOfKey();
     let _this = this;
-    $(".section_container").scroll(function() {
+    $(".section_container").scroll(function () {
       var scrollTop = $(this).scrollTop();
       var selectSection = $(".selectSection").height() + 20;
       var scrollHeight = $(".movieSection").height();
       var windowHeight = $(this).height();
-      console.log(scrollTop, selectSection, windowHeight, scrollHeight);
-      if (scrollTop + windowHeight == scrollHeight + selectSection) {
-        console.info("已经到最底部了！");
-        console.info("_this.offset====>", _this.offset + 30);
-        let data = {
-          pagesize: _this.pagesize,
-          offset: _this.offset + 30,
-          isort: _this.isort,
-          itype: _this.itype,
-          iarea: _this.iarea,
-          icharge: _this.icharge
-        };
-        getMovieList(data, function(data) {
-          if (data.code == 200) {
-            _this.offset = _this.offset + 30;
-            _this.movieList = _this.movieList.concat(data.movies);
-          }
-        });
+      if (parseInt(scrollTop + windowHeight + 20) >= scrollHeight + selectSection) {
+        console.info("已经到最底部了！", scrollTop, windowHeight, scrollHeight, selectSection);
+        _this.offset = _this.offset + 30;
+        _this.getMovieListOfKey();
       }
     });
   },
   methods: {
-    getMovieListOfKey() {
+    getMovieListOfKey(params) {
+      if (loading) {
+        return false;
+      }
+      loading = true; //开始加载数据
       let data = {
         pagesize: this.pagesize,
         offset: this.offset,
@@ -152,15 +142,16 @@ export default {
         icharge: this.icharge
       };
       let _this = this;
-      getMovieList(data, function(data) {
+      getMovieList(data, function (data) {
         if (data.code == 200) {
-          _this.movieList = data.movies;
+          _this.movieList = _this.movieList.concat(data.movies);
+          loading = false;
         }
       });
     },
     movieGo(item) {
       //获取影影片的详细信息
-      getMovieDetail(item.dataset, function(data) {
+      getMovieDetail(item.dataset, function (data) {
         console.log("返回数据===》", data);
         let vid = data.c.video_ids[0];
         window.open(`http://v.qq.com/txp/iframe/player.html?vid=${vid}`);

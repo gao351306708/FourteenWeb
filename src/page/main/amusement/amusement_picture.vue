@@ -80,7 +80,7 @@ export default {
       let scrollH = $(this)[0].scrollHeight;
       let clientH = $(this)[0].clientHeight;
       let scrollTop = $(this).scrollTop();
-      if (scrollTop + clientH == scrollH) {
+      if (parseInt(scrollTop + clientH) >= scrollH) {
         console.log("到底了。。。", scrollH, clientH, scrollTop);
         _this.getPicture();
       }
