@@ -15,30 +15,12 @@
         </div>
       </div>
       <div class="section_picture">
-        <div v-if="pictureList.length > 0">
-          <Waterfall :line-gap="pictureWidth" :watch="pictureList">
-            <WaterfallSlot
-              v-for="(item, index) in pictureList"
-              :height="(pictureWidth * item.height) / item.width + 100"
-              :width="pictureWidth"
-              :order="index"
-              :key="item.id"
-              style="padding: 5px 10px"
-            >
-              <PictureItem :data="item" :styleCss="HandlePreColor()">
-                <template slot="footer">
-                  <div class="pictureIntroduce">
-                    <p class="description">{{ item.description }}</p>
-                    <el-tag type="info" v-for="(itemm, index) in item.tags.slice(0, 3)" :key="index">{{ itemm.title }}</el-tag>
-                  </div>
-                </template>
-              </PictureItem>
-            </WaterfallSlot>
-          </Waterfall>
-        </div>
-        <div v-else>
-          <img src="/static/images/photosNull.png" />
-        </div>
+        <template v-if="pictureList.length > 0">
+          <WaterFall :List="pictureList" :showfooter="true"> </WaterFall>
+        </template>
+        <template v-else>
+          <NoData />
+        </template>
       </div>
     </div>
     <router-view></router-view>
@@ -47,10 +29,8 @@
 </template>
 <script type="text/ecmascript-6">
 import { getAllPhotos, searchPhotos } from "@/api/unsplash.js";
-import Waterfall from "vue-waterfall/lib/waterfall";
-import WaterfallSlot from "vue-waterfall/lib/waterfall-slot";
-import { HandlePreImg } from "@/utils/publicMethod";
-import PictureItem from "./components/PictureItem.vue";
+import WaterFall from "./components/WaterFall";
+import PictureItem from "./components/PictureItem";
 export default {
   data() {
     return {
@@ -62,9 +42,14 @@ export default {
     };
   },
   components: {
-    Waterfall,
-    WaterfallSlot,
+    WaterFall,
     PictureItem
+  },
+  watch: {
+    $route(old, val) {
+      this.searchValue = this.$route.query.keyName;
+      this.searchPicture();
+    }
   },
   mounted() {
     let _this = this;
@@ -97,15 +82,10 @@ export default {
     });
   },
   activated() {
-    console.log("activated----searchPhotos----->");
     this.searchValue = this.$route.query.keyName;
     this.searchPicture();
   },
   methods: {
-    HandlePreColor() {
-      let backColor = { backgroundColor: HandlePreImg() };
-      return backColor;
-    },
     backTotOP() {
       $(".searchPicture").scrollTop(0);
     },
@@ -121,7 +101,6 @@ export default {
         return;
       }
       searchPhotos(this.searchValue, 1, (data) => {
-        console.log("searchPhotos----searchPhotos----->", data);
         this.searchTotal = data.total;
         this.pictureList = data.results;
       });
@@ -199,22 +178,6 @@ export default {
       padding-left: calc(4px * 3);
       padding-right: calc(4px * 3);
       margin: 0 auto;
-      .pictureIntroduce {
-        position: relative;
-        float: left;
-        margin: 0 10px;
-        width: 100%;
-        text-align: left;
-        .description {
-          white-space: nowrap;
-          margin: 15px 0;
-          overflow-x: hidden;
-          text-overflow: ellipsis;
-        }
-        span {
-          margin-right: 10px;
-        }
-      }
     }
   }
 }

@@ -24,34 +24,41 @@
               </div>
             </div>
             <div class="content">
-              <img :srcset="srcsets" />
+              <img :src="srcsets.src" />
             </div>
           </div>
           <div class="related">
             <div class="relatedPhotos">
               <div class="section_picture">
                 <div class="title">相关图片</div>
-                <Waterfall v-if="relatedList.length > 0" :line-gap="pictureWidth" :watch="relatedList">
-                  <WaterfallSlot
-                    v-for="(item, index) in relatedList"
-                    :height="(pictureWidth * item.height) / item.width"
-                    :width="pictureWidth"
-                    :order="index"
-                    :key="index"
-                    style="padding: 5px 10px"
-                  >
-                    <PictureItem :data="item" :styleCss="HandlePreColor()"></PictureItem>
-                  </WaterfallSlot>
-                </Waterfall>
+                <WaterFall v-if="relatedList.length > 0" :List="relatedList"> </WaterFall>
               </div>
             </div>
             <div class="relatedConllection">
               <div class="title">相关图片集</div>
+              <div class="relatedConllection_main partCol">
+                <div class="parts" v-for="(item, index) in relatedConllectionList" :key="index">
+                  <div class="imgContent">
+                    <div class="left"><img :src="item.preview_photos[0].urls.thumb" /></div>
+                    <div class="right">
+                      <div class="top"><img :src="item.preview_photos[1].urls.thumb" /></div>
+                      <div class="bootom"><img :src="item.preview_photos[2].urls.thumb" /></div>
+                    </div>
+                  </div>
+                  <div class="footer">
+                    <p class="_title">{{ item.title }}</p>
+                    <p>{{ item.total_photos + "张照片，作者" + item.user.first_name + " " + item.user.last_name }}</p>
+                    <p>
+                      <span v-for="(itm, idx) in item.tags" :key="idx">{{ itm.title }}</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="relatedTag">
               <div class="title">相关标签</div>
               <div class="tags" v-if="tagsList.length > 0">
-                <el-tag type="info" v-for="(itm, indx) in tagsList" :key="indx">{{ itm.title }}</el-tag>
+                <TagList :List="tagsList"></TagList>
               </div>
             </div>
           </div>
@@ -63,10 +70,8 @@
 </template>
 <script>
 import { downloadPhotoById, downloadPhotoByUrl, getPhotoInfo, getRelatedPhotos } from "@/api/unsplash.js";
-import Waterfall from "vue-waterfall/lib/waterfall";
-import WaterfallSlot from "vue-waterfall/lib/waterfall-slot";
-import { HandlePreImg } from "@/utils/publicMethod";
-import PictureItem from "./components/PictureItem.vue";
+import WaterFall from "./components/WaterFall";
+import TagList from "@/components/TagList";
 export default {
   name: "Photos",
   data() {
@@ -76,9 +81,8 @@ export default {
     };
   },
   components: {
-    Waterfall,
-    WaterfallSlot,
-    PictureItem
+    WaterFall,
+    TagList
   },
   computed: {
     relatedConllection() {
@@ -89,22 +93,29 @@ export default {
       let windowW = window.innerWidth;
       return windowW > 860 ? $(".section_picture").width() * 0.333333 - 8 : $(".section_picture").width() * 0.5 - 8;
     },
-    windowWidth() {
-      let windowW = window.innerWidth;
-      return windowW;
-    },
     srcsets() {
       if (this.info) {
         let width = document.getElementsByClassName("infodetail")[0].offsetWidth;
         let collections = this.info.urls;
-        let photo = collections.raw + "&auto=format&fit=crop&q=80" + "&w=" + width;
-        return ` ${photo} ${width}w`;
+        let photo = collections.regular;
+        return {
+          src: photo,
+          srcList: [photo]
+        };
       } else {
-        return "";
+        return { src: "", srcList: [] };
       }
     },
     tagsList() {
       return this.info ? this.info.tags : [];
+    },
+    relatedConllectionList() {
+      if (this.info) {
+        let { results } = this.info.related_collections;
+        return results;
+      } else {
+        return [];
+      }
     }
   },
   mounted() {
@@ -138,7 +149,6 @@ export default {
     },
     handleCommand(val) {
       let { urls, id } = this.info;
-      console.log("handleCommand", urls[val]);
       let param = {
         url: urls[val],
         name: id + "(" + val + ")"
@@ -146,15 +156,16 @@ export default {
       downloadPhotoByUrl(param, (res) => {
         console.log("下载成功");
       });
-    },
-    HandlePreColor() {
-      let backColor = { backgroundColor: HandlePreImg() };
-      return backColor;
     }
   }
 };
 </script>
 <style lang="less" scoped>
+@media (min-width: 768px) and (min-width: 992px) {
+  .partCol {
+    --columns: 3;
+  }
+}
 .Photos {
   position: absolute;
   top: 0;
@@ -222,6 +233,7 @@ export default {
           display: flex;
           justify-content: center;
           padding: 1rem 2rem;
+          min-height: 400px;
           img {
             max-height: 85vh;
             max-width: 80%;
@@ -243,6 +255,56 @@ export default {
           padding-left: calc(4px * 3);
           padding-right: calc(4px * 3);
           margin: 0 auto;
+        }
+        .relatedConllection {
+          .relatedConllection_main {
+            display: grid;
+            grid-gap: 48px 24px;
+            grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+            .parts {
+              .imgContent {
+                position: relative;
+                overflow: hidden;
+                height: 250px;
+                display: flex;
+                cursor: pointer;
+                .left {
+                  flex-grow: 1;
+                  width: 70%;
+                }
+                .right {
+                  flex-grow: 1;
+                  display: flex;
+                  flex-direction: column;
+                  width: 30%;
+                  margin-left: 2px;
+                  .top {
+                    flex-grow: 1;
+                    margin-bottom: 2px;
+                  }
+                  .bootom {
+                    flex-grow: 1;
+                  }
+                }
+              }
+              .footer {
+                font-size: 16px;
+                ._title {
+                  font-size: 18px;
+                  font-weight: bolder;
+                }
+                p {
+                  margin: 5px 0;
+                }
+              }
+            }
+            img {
+              width: 100%;
+              height: 100%;
+              left: 0;
+              object-fit: cover;
+            }
+          }
         }
       }
       .relatedTag {

@@ -1,6 +1,6 @@
 <template>
-  <div class="PictureItem" @click="godetails(data)">
-    <div class="sectionMain" :style="styleCss">
+  <div class="PictureItem">
+    <div class="sectionMain" :style="styleCss" @click="godetails(data)">
       <img :src="data.urls.small" />
       <div v-if="pictureDetails" class="details">
         <div class="top-right">
@@ -13,7 +13,7 @@
           <img :src="data.user.profile_image.medium" />
           <div class="username">{{ data.user.name }}</div>
           <div class="download">
-            <el-button icon="el-icon-download" @click="downloadHandle(data)"></el-button>
+            <el-button icon="el-icon-download" @click.stop="downloadHandle(data)"></el-button>
           </div>
         </div>
       </div>
@@ -25,6 +25,7 @@
 </template>
 <script>
 import { downloadPhotoById, setLikePhoto, setUnLikePhoto } from "@/api/unsplash.js";
+import { HandlePreImg } from "@/utils/publicMethod";
 export default {
   name: "PictureItem",
   props: {
@@ -34,7 +35,10 @@ export default {
     },
     styleCss: {
       type: Object,
-      default: {}
+      default: () => {
+        let backColor = { backgroundColor: HandlePreImg() };
+        return backColor;
+      }
     }
   },
   computed: {
@@ -105,7 +109,6 @@ export default {
   margin: 0 10px;
   cursor: pointer;
   width: 100%;
-  height: 100%;
   .sectionMain {
     position: relative;
     height: 100%;

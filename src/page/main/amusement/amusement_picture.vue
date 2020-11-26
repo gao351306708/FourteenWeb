@@ -18,35 +18,22 @@
         </div>
       </div>
       <div class="section_picture" v-loading="loading">
-        <div v-if="pictureList.length > 0">
-          <Waterfall :line-gap="pictureWidth" :watch="pictureList">
-            <WaterfallSlot
-              v-for="(item, index) in pictureList"
-              :height="(pictureWidth * item.height) / item.width"
-              :width="pictureWidth"
-              :order="index"
-              :key="index"
-              style="padding: 5px 10px"
-            >
-              <PictureItem :data="item" :styleCss="HandlePreColor()"></PictureItem>
-            </WaterfallSlot>
-          </Waterfall>
-        </div>
-        <div v-else>
+        <template v-if="pictureList.length > 0">
+          <WaterFall :List="pictureList"></WaterFall>
+        </template>
+        <template v-else>
           <NoData />
-        </div>
+        </template>
       </div>
     </div>
+    <router-view></router-view>
     <BackTop :scrollerName="'.Picture'"></BackTop>
   </div>
 </template>
 <script type="text/ecmascript-6">
 import { getAllPhotos, searchPhotos } from "@/api/unsplash.js";
 import { updateInterview } from "@/api/manage.js";
-import Waterfall from "vue-waterfall/lib/waterfall";
-import WaterfallSlot from "vue-waterfall/lib/waterfall-slot";
-import { HandlePreImg } from "@/utils/publicMethod";
-import PictureItem from "./components/PictureItem.vue";
+import WaterFall from "./components/WaterFall";
 export default {
   name: "picture",
   data() {
@@ -61,18 +48,12 @@ export default {
     };
   },
   components: {
-    Waterfall,
-    WaterfallSlot,
-    PictureItem
+    WaterFall
   },
   computed: {
     pictureWidth() {
       let windowW = window.innerWidth;
       return windowW > 860 ? $(".section_picture").width() * 0.333333 - 8 : $(".section_picture").width() * 0.5 - 8;
-    },
-    pictureDetails() {
-      let windowW = window.innerWidth;
-      return windowW > 860 ? true : false;
     }
   },
   created() {
@@ -129,10 +110,6 @@ export default {
         }
       });
     },
-    HandlePreColor() {
-      let backColor = { backgroundColor: HandlePreImg() };
-      return backColor;
-    },
     backTotOP() {
       $(".Picture").scrollTop(0);
     },
@@ -169,7 +146,7 @@ export default {
     padding: 0 3rem;
     .section_header {
       position: relative;
-      height: 45vw;
+      height: 40vw;
       background: url("/static/images/picture-header.jpg") no-repeat;
       background-size: cover;
       margin-bottom: 3rem;
@@ -214,76 +191,11 @@ export default {
       }
     }
     .section_picture {
+      position: relative;
       max-width: 1320px;
       padding-left: calc(4px * 3);
       padding-right: calc(4px * 3);
       margin: 0 auto;
-      .picture {
-        position: relative;
-        float: left;
-        margin: 0 10px;
-        cursor: pointer;
-        width: 100%;
-        height: 100%;
-        .details {
-          position: absolute;
-          display: none;
-          top: 0;
-          width: 100%;
-          height: 100%;
-          background-color: rgba(154, 150, 150, 0.23);
-          opacity: 0.8;
-        }
-        img {
-          width: 100%;
-          height: 100%;
-        }
-        .top-right {
-          position: absolute;
-          text-align: right;
-          width: 100%;
-          top: 1rem;
-          height: 3.75rem;
-          button {
-            margin: 0 0.5rem;
-          }
-          img {
-            float: left;
-            margin-right: 0.3125rem;
-          }
-        }
-        .bottom {
-          position: absolute;
-          text-align: left;
-          width: 100%;
-          height: 3.75rem;
-          bottom: 0.3125rem;
-          img {
-            float: left;
-            margin-left: 0.625rem;
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: 1.25rem;
-          }
-          .username {
-            float: left;
-            color: white;
-            margin: 0.625rem 0 0 0.625rem;
-            width: 6.25rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-          .download {
-            float: right;
-            margin-right: 0.625rem;
-          }
-        }
-        .el-button {
-          padding: 4px 15px;
-          line-height: 24px;
-        }
-      }
     }
   }
 }
