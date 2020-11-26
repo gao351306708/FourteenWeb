@@ -109,6 +109,7 @@ export default {
   margin: 0 10px;
   cursor: pointer;
   width: 100%;
+  height: 100%;
   .sectionMain {
     position: relative;
     height: 100%;
