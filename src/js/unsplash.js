@@ -10,7 +10,7 @@ const UserConfig = {
   unsplashAlt: {
     accessKey: 'f04bb90c07371a05bc531548694a0b67e636a5fe06bb7ed3c0a2068bbf7b76f6',
     secretKey: '653f97acec2b8de90f8b329ffccabfc74508875b6b9a777c4b7503996706dc2a',
-    callbackUrl: process.env.UnplashCallBackUR || 'http://localhost:8088/', //此值需要跟unplash官网得app里面设置得Redirect URI一致
+    callbackUrl: process.env.NODE_ENV == "production" ? "http://rambogj.top/" : 'http://localhost:8088/', //此值需要跟unplash官网得app里面设置得Redirect URI一致
   },
   keys: {
     bookmarks: 'allBookmarkedItems'
