@@ -2,7 +2,7 @@
   <div class="Photos">
     <div class="overlay" @click.self="close">
       <div class="mainContent">
-        <div>left</div>
+        <div class="arrow" v-if="currentNum > 0" @click="jumpnext('pre')"><i class="el-icon-arrow-left"></i></div>
         <div class="contentSection">
           <div class="infodetail">
             <div class="head">
@@ -28,10 +28,10 @@
             </div>
           </div>
           <div class="related">
-            <div class="relatedPhotos">
+            <div class="relatedPhotos" v-if="relatedList.length > 0">
               <div class="section_picture">
                 <div class="title">相关图片</div>
-                <WaterFall v-if="relatedList.length > 0" :List="relatedList"> </WaterFall>
+                <WaterFall :List="relatedList"> </WaterFall>
               </div>
             </div>
             <div class="relatedConllection">
@@ -49,7 +49,7 @@
                     <p class="_title">{{ item.title }}</p>
                     <p>{{ item.total_photos + "张照片，作者" + item.user.first_name + " " + item.user.last_name }}</p>
                     <p>
-                      <span v-for="(itm, idx) in item.tags" :key="idx">{{ itm.title }}</span>
+                      <TagList :List="item.tags" :maxLen="3"></TagList>
                     </p>
                   </div>
                 </div>
@@ -63,7 +63,7 @@
             </div>
           </div>
         </div>
-        <div>right</div>
+        <div class="arrow" @click="jumpnext('next')"><i class="el-icon-arrow-right"></i></div>
       </div>
     </div>
   </div>
@@ -116,16 +116,30 @@ export default {
       } else {
         return [];
       }
+    },
+    currentNum() {
+      let { currentNum } = this.$store.state.amusement;
+      return currentNum;
+    }
+  },
+  watch: {
+    $route(val, old) {
+      if (val.name == "photos") {
+        this.getData();
+      }
     }
   },
   mounted() {
-    let id = this.$route.params.id;
-    this.getPhotosDetails(id);
-    this.getRelated(id);
+    this.getData();
   },
   methods: {
     close() {
       this.$router.back();
+    },
+    getData() {
+      let id = this.$route.params.id;
+      this.getPhotosDetails(id);
+      this.getRelated(id);
     },
     //获取图片的详情
     getPhotosDetails(val) {
@@ -156,6 +170,16 @@ export default {
       downloadPhotoByUrl(param, (res) => {
         console.log("下载成功");
       });
+    },
+    jumpnext(val) {
+      let { photosList, currentNum: num } = this.$store.state.amusement;
+      if (val == "pre") {
+        num = num - 1;
+      } else {
+        num = num + 1;
+      }
+      this.$store.commit("amusement/MSetCurrentNum", num);
+      this.$store.dispatch("amusement/AChangeCurrentPhoto", photosList[num].id);
     }
   }
 };
@@ -188,12 +212,22 @@ export default {
     padding-top: 32px;
     padding-left: 8em;
     padding-right: 8em;
-    pointer-events: none;
     cursor: default;
-    display: flex;
     outline: none;
-    overflow-y: auto;
+    overflow: hidden;
+    pointer-events: none;
+    .arrow {
+      width: 60px;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-size: 35px;
+      pointer-events: auto;
+    }
     .contentSection {
+      overflow-y: auto;
       width: 100%;
       pointer-events: auto;
       cursor: default;
@@ -201,14 +235,15 @@ export default {
       border-radius: 4px;
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
       min-width: 0;
-      margin: auto;
-      min-height: 100vh;
-      margin-bottom: 100px;
+      height: 98vh;
       .infodetail {
         display: flex;
         flex-direction: column;
         padding: 0 2rem;
         .head {
+          position: sticky;
+          top: 0;
+          background-color: white;
           height: 60px;
           display: flex;
           justify-content: space-between;
@@ -252,8 +287,6 @@ export default {
         }
         .section_picture {
           max-width: 1320px;
-          padding-left: calc(4px * 3);
-          padding-right: calc(4px * 3);
           margin: 0 auto;
         }
         .relatedConllection {

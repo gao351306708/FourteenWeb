@@ -2,10 +2,12 @@
   <div class="searchPicture">
     <div class="section_search">
       <p class="search">
-        <el-input prefix-icon="el-icon-search" v-model="searchValue" placeholder="输入匹配关键字查找，（英文、中文、或字母等）" clearable></el-input>
+        <el-input v-model="searchValue" placeholder="输入匹配关键字查找，（英文、中文、或字母等）" clearable v-keyenter="searchPicture2">
+          <el-button slot="append" icon="el-icon-search" @click="searchPicture2"></el-button>
+        </el-input>
       </p>
     </div>
-    <div class="section_container">
+    <div class="section_container" v-scrollbottom="searchPicture">
       <div class="searchResult">
         <div class="section1">{{ searchValue + "图片" }}</div>
         <div class="section2">{{ searchTotal + " 张免费的 " + searchValue + " 图片" }}</div>
@@ -46,63 +48,48 @@ export default {
     PictureItem
   },
   watch: {
-    $route(old, val) {
-      this.searchValue = this.$route.query.keyName;
-      this.searchPicture();
+    $route(val, old) {
+      if (val.name == "searchPicture") {
+        this.searchValue = this.$route.query.keyName;
+        this.pageNum = 1;
+        this.searchPicture();
+      }
     }
   },
   mounted() {
-    let _this = this;
     this.pictureWidth = $(".section_picture").width() * 0.333333 - 8;
-    document.onkeyup = function (e) {
-      if (window.event)
-        //如果window.event对象存在，就以此事件对象为准
-        e = window.event;
-      var code = e.charCode || e.keyCode;
-      if (code == 13) {
-        _this.searchPicture();
-      }
-    };
-    $(".search .el-icon-search").on("click", function () {
-      _this.searchPicture();
-    });
-    $(".searchPicture").scroll(function () {
-      let scrollH = $(this)[0].scrollHeight;
-      let clientH = $(this)[0].clientHeight;
-      let scrollTop = $(this).scrollTop();
-      if (scrollTop + clientH == scrollH) {
-        console.log("到底了。。。", scrollH, clientH, scrollTop);
-        const pageNum = _this.pageNum + 1;
-        searchPhotos(_this.searchValue, pageNum, (data) => {
-          console.log("getAllPhotos--------->", _this.pageNum, _this.pageSize, data);
-          const pictureList = _this.pictureList.concat(data.results);
-          Object.assign(_this, { pictureList, pageNum });
-        });
-      }
-    });
-  },
-  activated() {
     this.searchValue = this.$route.query.keyName;
     this.searchPicture();
   },
   methods: {
-    backTotOP() {
-      $(".searchPicture").scrollTop(0);
-    },
-    exit() {
-      this.$router.back();
-    },
     searchPicture() {
       if (!this.searchValue) {
         this.$message({
-          message: "请输入关键字！（please input the key value）",
+          message: "请输入关键字",
           type: "warning"
         });
         return;
       }
-      searchPhotos(this.searchValue, 1, (data) => {
+      searchPhotos(this.searchValue, this.pageNum, (data) => {
         this.searchTotal = data.total;
-        this.pictureList = data.results;
+        let newData = [];
+        if (this.pageNum <= 1) {
+          newData = data.results;
+        } else {
+          newData = this.pictureList.concat(data.results);
+        }
+        Object.assign(this, {
+          searchTotal: data.total,
+          pictureList: newData,
+          pageNum: this.pageNum + 1
+        });
+        this.$store.commit("amusement/MSetPhotosList", newData);
+      });
+    },
+    searchPicture2() {
+      this.$router.push({
+        path: "Search",
+        query: { keyName: this.searchValue }
       });
     }
   }
@@ -116,18 +103,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  .buttonToTop {
-    position: fixed;
-    bottom: 20px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
-    background-color: #2196f37a;
-    border-radius: 25px;
-    cursor: pointer;
-  }
+  overflow: hidden;
   .section_search {
     position: fixed;
     top: 80px;
@@ -136,15 +112,18 @@ export default {
     padding: 0 45px;
     z-index: 10;
     background-color: #f8f8f8;
+    box-shadow: inset 0 -1px #d1d1d1;
     .search {
       margin: 20px 0;
     }
   }
   .section_container {
     position: relative;
-    top: 180px;
+    top: 100px;
     bottom: 40px;
     padding: 0 45px;
+    height: calc(100% - 100px);
+    overflow-y: auto;
     .searchResult {
       position: relative;
       max-width: 1320px;

@@ -6,11 +6,11 @@
         :height="(pictureWidth * item.height) / item.width + 50"
         :width="pictureWidth"
         :order="index"
-        :key="index"
+        :key="item.id + index"
         style="padding: 5px 10px"
       >
         <slot v-bind:item="item">
-          <PictureItem :data="item">
+          <PictureItem :data="item" :Indexs="index">
             <template slot="footer" v-if="showfooter">
               <div class="pictureIntroduce">
                 <TagList :List="item.tags" :maxLen="3"></TagList>

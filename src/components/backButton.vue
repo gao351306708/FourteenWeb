@@ -1,5 +1,5 @@
 <template>
-  <div class="closeIcon" @click="exit()">
+  <div class="closeIcon" @click.stop="exit()">
     <i class="el-icon-close" style="font-size: 36px"></i>
   </div>
 </template>

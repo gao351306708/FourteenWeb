@@ -1,5 +1,5 @@
 <template>
-  <div class="Picture">
+  <div class="Picture" v-scrollbottom="getPicture">
     <div class="section_container">
       <div class="section_header">
         <div class="section_content">
@@ -7,12 +7,9 @@
           <p class="title2" v-show="headShow">好看且免费的照片.</p>
           <p class="title2" v-show="headShow">来自全世界上最优秀的摄影师社区。</p>
           <p class="search">
-            <el-input
-              prefix-icon="el-icon-search"
-              v-model="searchValue"
-              placeholder="输入匹配关键字查找，（英文、中文、或字母等）"
-              clearable
-            ></el-input>
+            <el-input v-model="searchValue" placeholder="输入匹配关键字查找，（英文、中文、或字母等）" clearable v-keyenter="searchPicture">
+              <el-button slot="append" icon="el-icon-search" @click="searchPicture"></el-button>
+            </el-input>
           </p>
           <p class="tips_content">热门搜索:商业、计算机、自然、爱、美女等</p>
         </div>
@@ -35,7 +32,7 @@ import { getAllPhotos, searchPhotos } from "@/api/unsplash.js";
 import { updateInterview } from "@/api/manage.js";
 import WaterFall from "./components/WaterFall";
 export default {
-  name: "picture",
+  name: "PictureView",
   data() {
     return {
       searchValue: "",
@@ -63,28 +60,6 @@ export default {
   mounted() {
     let _this = this;
     this.headShow = $(window).width() < 480 ? false : true;
-    $(".search .el-icon-search").on("click", function () {
-      _this.searchPicture();
-    });
-    document.onkeyup = function (e) {
-      if (window.event)
-        //如果window.event对象存在，就以此事件对象为准
-        e = window.event;
-      var code = e.charCode || e.keyCode;
-      if (code == 13) {
-        _this.searchPicture();
-      }
-    };
-    //页面滚动到底部是加载新的数据
-    $(".Picture").scroll(function () {
-      let scrollH = $(this)[0].scrollHeight;
-      let clientH = $(this)[0].clientHeight;
-      let scrollTop = $(this).scrollTop();
-      if (parseInt(scrollTop + clientH) >= scrollH) {
-        console.log("到底了。。。", scrollH, clientH, scrollTop);
-        _this.getPicture();
-      }
-    });
   },
   methods: {
     //查询图片
@@ -107,16 +82,14 @@ export default {
             loading: false,
             pageNum
           });
+          this.$store.commit("amusement/MSetPhotosList", newData);
         }
       });
-    },
-    backTotOP() {
-      $(".Picture").scrollTop(0);
     },
     searchPicture() {
       if (!this.searchValue) {
         this.$message({
-          message: "请输入关键字！（please input the key value）",
+          message: "请输入关键字",
           type: "warning"
         });
         return;

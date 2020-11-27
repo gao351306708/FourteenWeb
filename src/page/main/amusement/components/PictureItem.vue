@@ -1,5 +1,5 @@
 <template>
-  <div class="PictureItem">
+  <div class="PictureItem" :id="Indexs">
     <div class="sectionMain" :style="styleCss" @click="godetails(data)">
       <img :src="data.urls.small" />
       <div v-if="pictureDetails" class="details">
@@ -39,18 +39,17 @@ export default {
         let backColor = { backgroundColor: HandlePreImg() };
         return backColor;
       }
+    },
+    //当前组件所在的索引
+    Indexs: {
+      type: Number,
+      default: 0
     }
   },
   computed: {
     pictureDetails() {
       let windowW = window.innerWidth;
       return windowW > 860 ? true : false;
-    }
-  },
-  filters: {
-    YYYYMMDD(val) {
-      let time = Number(val);
-      return moment(time).format("YYYY年MM月DD日 HH:mm");
     }
   },
   mounted() {
@@ -93,9 +92,9 @@ export default {
       });
     },
     godetails(item) {
-      this.$router.push({
-        path: `${this.$route.path}/photos/${item.id}`
-      });
+      //设置当前查看的照片的索引
+      this.$store.commit("amusement/MSetCurrentNum", this.Indexs);
+      this.$store.dispatch("amusement/AChangeCurrentPhoto", item.id);
     }
   }
 };

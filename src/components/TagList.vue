@@ -28,15 +28,11 @@ export default {
   },
   watch: {
     List(val) {
-      if (this.maxLen) {
-        this.taglist = val.slice(0, this.maxLen);
-      } else {
-        this.taglist = val;
-      }
+      this.getlist(this.val);
     }
   },
   mounted() {
-    this.taglist = this.List;
+    this.getlist(this.List);
   },
   methods: {
     clickTag(val) {
@@ -45,6 +41,13 @@ export default {
         path: "Search",
         query: { keyName: val }
       });
+    },
+    getlist(list) {
+      if (list && this.maxLen) {
+        this.taglist = list.slice(0, this.maxLen);
+      } else {
+        this.taglist = list;
+      }
     }
   }
 };
@@ -58,6 +61,7 @@ export default {
     margin-bottom: 10px;
     font-size: 16px;
     background-color: #e9e9eb;
+    cursor: pointer;
   }
 }
 </style>

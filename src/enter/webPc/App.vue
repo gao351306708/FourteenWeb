@@ -46,9 +46,6 @@ export default {
 .picture button i {
   font-size: 1.5rem;
 }
-.searchPicture .search .el-input input {
-  border-radius: 25px;
-}
 .blogList .el-pagination .el-icon,
 .blogList .el-pagination .el-pager li {
   font-size: 1rem !important;
