@@ -81,16 +81,15 @@ export const routes = [{
     meta: {
       keepAlive: true,
       nav: true,
-    },
-    children: [{
-      path: 'Blog/List',
-      name: 'BlogList',
-      component: BlogList,
-    }, {
-      path: 'Blog/Detail',
-      name: 'BlogDetails',
-      component: BlogDetails
-    }]
+    }
+  }, {
+    path: 'Blog/List',
+    name: 'BlogList',
+    component: BlogList,
+  }, {
+    path: 'Blog/Detail',
+    name: 'BlogDetails',
+    component: BlogDetails
   }]
 }, {
   path: '/About',

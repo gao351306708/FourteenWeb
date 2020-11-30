@@ -5,14 +5,7 @@
       <el-col :xs="0" :sm="12">
         <section class="section_left">
           <div class="video delay-1">
-            <video
-              width="478"
-              height="354"
-              muted
-              preload="auto"
-              id="animationVideo1"
-              src="/static/media/Latest_work_fond.mp4"
-            ></video>
+            <img width="478" height="354" src="@/assets/img/web/LatestWork.gif" />
           </div>
         </section>
       </el-col>
@@ -24,12 +17,7 @@
             </span>
             <span class="video_container">
               <span class="video">
-                <video
-                  muted
-                  preload="auto"
-                  id="animationVideo2"
-                  src="/static/media/texte_animation.mp4"
-                ></video>
+                <video muted preload="auto" id="animationVideo2" src="/static/media/texte_animation.mp4"></video>
               </span>
             </span>
           </a>
@@ -40,9 +28,9 @@
             </div>
             <div class="title_sec">STARTING</div>
             <div class="date_sec">
-              <div class="top">{{year}}</div>
+              <div class="top">{{ year }}</div>
               <span class="stroke"></span>
-              <div class="bottom">{{mouth}}</div>
+              <div class="bottom">{{ mouth }}</div>
             </div>
             <div class="arrow">
               <router-link to="/Amusement/Picture">
@@ -73,15 +61,9 @@ export default {
     }
   },
   mounted() {
-    setTimeout(() => {
-      Bus.$emit("colseLoading");
-    }, 2000);
+    Bus.$emit("colseLoading");
     var video2 = document.getElementById("animationVideo2");
-    var video1 = document.getElementById("animationVideo1");
-    if (video2 && video1.paused) {
-      video1.play();
-    }
-    $(".video_container .video").hover(function() {
+    $(".video_container .video").hover(function () {
       if (video2 && video2.paused) {
         video2.play();
       }

@@ -1,12 +1,12 @@
 <template>
   <div class="translation">
     <div v-if="isLoading" class="main-loader">
-      <div :class="!loadingTime ? 'loader-1 loading': 'loader-1'">
+      <div :class="!loadingTime ? 'loader-1 loading' : 'loader-1'">
         <div class="switch-wrapper">
-          <div :class=" switchlong ? 'line': 'line active'"></div>
+          <div :class="switchlong ? 'line' : 'line active'"></div>
           <div class="switch">
             <div class="knot"></div>
-            <div class="tassel" @click="switchlong=!switchlong"></div>
+            <div class="tassel" @click="manualSwitch"></div>
             <div class="pocket"></div>
             <div class="gap"></div>
           </div>
@@ -14,7 +14,7 @@
         <div class="progressClassHoleTop">
           <div class="inHole"></div>
         </div>
-        <div :class="{progressClassGun:true,active:gunStart}"></div>
+        <div :class="{ progressClassGun: true, active: gunStart }"></div>
         <div class="progressClassTop"></div>
         <div class="ball" id="ball"></div>
         <el-progress :percentage="percentage" color="#daa520" class="progressClassMid"></el-progress>
@@ -58,6 +58,10 @@ export default {
     this.runPercent();
   },
   methods: {
+    //手动拽灯
+    manualSwitch() {
+      this.colseSwitch();
+    },
     //进度条
     runPercent() {
       if (this.$route.path === "/" && !this.GLOBAL.unsplashLoading) {
@@ -78,8 +82,17 @@ export default {
     //动画全部结束
     colseSwitch() {
       this.switchlong = false;
+      clearInterval(this.timer);
       setTimeout(() => {
         this.loadingTime = false;
+        this.switchlong = true;
+        this.removeLoading();
+      }, 1500);
+    },
+    //删除动画页面
+    removeLoading() {
+      setTimeout(() => {
+        this.isLoading = false;
       }, 1500);
     },
     //滚动小球实类
@@ -120,7 +133,6 @@ export default {
                   if (!_this.gunStart) {
                     _this.gunStart = true; //在原来的后面加这个，打枪
                   }
-                  // clearInterval(timer2);
                   ball.style.top = topReset + "px";
                   topReset += 1;
                   originLeft += (ballFlyWidth / ballFlyheight) * 1;
@@ -128,8 +140,7 @@ export default {
                   if (ball.offsetLeft > windowW - 100) {
                     clearInterval(timer2);
                     ball.style.display = "none";
-                    document.querySelector(".switch-wrapper").className +=
-                      " active"; //在原来的后面加这个，开始摇摆
+                    document.querySelector(".switch-wrapper").className += " active"; //在原来的后面加这个，开始摇摆
                     setTimeout(() => {
                       _this.colseSwitch(); //摇摆完了
                     }, 2000);
@@ -164,7 +175,7 @@ export default {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    pointer-events: none; //事件可穿透
+    // pointer-events: none; //事件可穿透
     .loader-1 {
       position: fixed;
       top: 0;

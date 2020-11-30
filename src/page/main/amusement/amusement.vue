@@ -5,7 +5,7 @@
       <el-col :xs="0" :sm="12">
         <section class="section_left">
           <div class="video delay-1">
-            <video muted preload="auto" autoplay="true" id="animationVideo3" src="/static/media/BNP_large_gif.mp4"></video>
+            <img width="478" height="354" src="@/assets/img/web/BNP.gif" />
           </div>
         </section>
       </el-col>
@@ -71,11 +71,6 @@ export default {
         _this.current = _this.current + 1;
       }
     }, 4000);
-    $("#animationVideo3").hover(function () {
-      if ($(this)[0].paused) {
-        $(this)[0].play();
-      }
-    });
   },
   methods: {
     goToUrl(index) {
