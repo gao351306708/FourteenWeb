@@ -11,7 +11,7 @@
       </el-col>
       <el-col :xs="24" :sm="12">
         <section class="section_right">
-          <a class="visuals delay-1" @click="goToUrl(current)">
+          <a class="visuals delay-1" @click="goToUrl(current)" @mouseenter="stopAutoChangePic()" @mouseleave="setAutoChangePic()">
             <span class="picture">
               <img :src="partList[current].imgUrl" />
             </span>
@@ -60,19 +60,34 @@ export default {
       pictureList: []
     };
   },
-  mounted() {
-    let len = this.partList.length,
-      _this = this;
-    this.interval = window.setInterval(function () {
-      console.log("setInterval");
-      if (_this.current == len - 1) {
-        _this.current = 0;
-      } else {
-        _this.current = _this.current + 1;
-      }
-    }, 4000);
+  mounted() {},
+  activated() {
+    this.setAutoChangePic();
   },
   methods: {
+    setAutoChangePic() {
+      console.log("setAutoChangePic");
+      if (!this.interval) {
+        let len = this.partList.length,
+          _this = this;
+        this.interval = window.setInterval(function () {
+          console.log("setInterval");
+          if (_this.current == len - 1) {
+            _this.current = 0;
+          } else {
+            _this.current = _this.current + 1;
+          }
+        }, 4000);
+      }
+    },
+    //清除定时
+    stopAutoChangePic() {
+      console.log("stopAutoChangePic");
+      if (this.interval) {
+        window.clearInterval(this.interval); //清除定时
+        this.interval = null;
+      }
+    },
     goToUrl(index) {
       console.log("goToUrl   --->", index);
       switch (index) {
@@ -93,8 +108,9 @@ export default {
       }
     }
   },
-  destroyed() {
-    window.clearInterval(this.interval); //清除定时
+  beforeRouteLeave(to, from, next) {
+    this.stopAutoChangePic();
+    next();
   }
 };
 </script>

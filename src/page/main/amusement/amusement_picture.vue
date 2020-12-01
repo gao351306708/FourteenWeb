@@ -14,9 +14,9 @@
           <p class="tips_content">热门搜索:商业、计算机、自然、爱、美女等</p>
         </div>
       </div>
-      <div class="section_picture" v-loading="loading">
+      <div class="section_picture" id="Pictures" v-loading="loading">
         <template v-if="pictureList.length > 0">
-          <WaterFall :List="pictureList"></WaterFall>
+          <WaterFall :List="pictureList" :Width="WaterFallWidth"></WaterFall>
         </template>
         <template v-else>
           <NoData />
@@ -41,17 +41,12 @@ export default {
       pageNum: 1, //页码 默认第一页
       pageSize: 30, //每页查询条数
       headShow: true,
-      loading: true //加载数据标志
+      loading: true, //加载数据标志
+      WaterFallWidth: window.innerWidth
     };
   },
   components: {
     WaterFall
-  },
-  computed: {
-    pictureWidth() {
-      let windowW = window.innerWidth;
-      return windowW > 860 ? $(".section_picture").width() * 0.333333 - 8 : $(".section_picture").width() * 0.5 - 8;
-    }
   },
   created() {
     this.getPicture();
@@ -60,6 +55,7 @@ export default {
   mounted() {
     let _this = this;
     this.headShow = $(window).width() < 480 ? false : true;
+    this.WaterFallWidth = $("#Pictures").width();
   },
   methods: {
     //查询图片

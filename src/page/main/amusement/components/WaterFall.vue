@@ -34,6 +34,10 @@ export default {
       type: Array,
       default: []
     },
+    Width: {
+      type: Number,
+      default: window.innerWidth
+    },
     showfooter: {
       type: Boolean,
       default: false
@@ -56,7 +60,7 @@ export default {
   methods: {
     setPictureWidth() {
       let windowW = window.innerWidth;
-      let wid = windowW > 860 ? $(".Waterfall").width() * 0.333333 - 8 : $(".Waterfall").width() * 0.5 - 8;
+      let wid = windowW > 860 ? this.Width * 0.333333 - 8 : this.Width * 0.5 - 8;
       this.pictureWidth = wid;
     }
   }

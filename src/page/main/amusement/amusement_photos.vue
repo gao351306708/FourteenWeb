@@ -28,10 +28,10 @@
             </div>
           </div>
           <div class="related">
-            <div class="relatedPhotos" v-if="relatedList.length > 0">
-              <div class="section_picture">
+            <div class="relatedPhotos" id="relatedPhotos">
+              <div class="section_picture" v-if="relatedList.length > 0">
                 <div class="title">相关图片</div>
-                <WaterFall :List="relatedList"> </WaterFall>
+                <WaterFall :List="relatedList" :Width="WaterFallWidth"> </WaterFall>
               </div>
             </div>
             <div class="relatedConllection">
@@ -78,6 +78,7 @@ export default {
     return {
       info: null,
       relatedList: []
+      // WaterFallWidth: window.innerWidth
     };
   },
   components: {
@@ -85,13 +86,8 @@ export default {
     TagList
   },
   computed: {
-    relatedConllection() {
-      let collections = this.info.related_collections;
-      return collections || [];
-    },
-    pictureWidth() {
-      let windowW = window.innerWidth;
-      return windowW > 860 ? $(".section_picture").width() * 0.333333 - 8 : $(".section_picture").width() * 0.5 - 8;
+    WaterFallWidth() {
+      return $("#relatedPhotos").width();
     },
     srcsets() {
       if (this.info) {
@@ -122,6 +118,9 @@ export default {
       return currentNum;
     }
   },
+  created() {
+    this.getData();
+  },
   watch: {
     $route(val, old) {
       if (val.name == "photos") {
@@ -130,7 +129,7 @@ export default {
     }
   },
   mounted() {
-    this.getData();
+    // this.WaterFallWidth = $("#relatedPhotos").width();
   },
   methods: {
     close() {

@@ -16,9 +16,9 @@
           <span class="user">{{ searchTotal + " 个作者" }}</span>
         </div>
       </div>
-      <div class="section_picture">
+      <div class="section_picture" id="searchPicture">
         <template v-if="pictureList.length > 0">
-          <WaterFall :List="pictureList" :showfooter="true"> </WaterFall>
+          <WaterFall :List="pictureList" :showfooter="true" :Width="WaterFallWidth"> </WaterFall>
         </template>
         <template v-else>
           <NoData />
@@ -39,7 +39,6 @@ export default {
       searchValue: "",
       pictureList: [],
       searchTotal: 0,
-      pictureWidth: 400,
       pageNum: 1 //页码 默认第一页
     };
   },
@@ -47,9 +46,14 @@ export default {
     WaterFall,
     PictureItem
   },
+  computed: {
+    WaterFallWidth() {
+      return $("#searchPicture").width();
+    }
+  },
   watch: {
     $route(val, old) {
-      if (val.name == "searchPicture") {
+      if (val.name == "searchPicture" && old.name != "photos") {
         this.searchValue = this.$route.query.keyName;
         this.pageNum = 1;
         this.searchPicture();
@@ -57,7 +61,6 @@ export default {
     }
   },
   mounted() {
-    this.pictureWidth = $(".section_picture").width() * 0.333333 - 8;
     this.searchValue = this.$route.query.keyName;
     this.searchPicture();
   },
@@ -87,6 +90,7 @@ export default {
       });
     },
     searchPicture2() {
+      debugger;
       this.$router.push({
         path: "Search",
         query: { keyName: this.searchValue }
