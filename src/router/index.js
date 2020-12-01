@@ -1,13 +1,13 @@
 import Vue from 'vue'
-import Router from 'vue-router'
+import VueRouter from 'vue-router'
 import {
   routes
 } from "./webPc/index.js"
-import Page404 from '@/components/Page404.vue'
+const Page404 = () => import( /* webpackChunkName: "404" */ '@/components/Page404.vue')
 
-Vue.use(Router)
+Vue.use(VueRouter)
 
-const router = new Router({
+const router = new VueRouter({
   scrollBehavior(to, from, savedPosition) {
     // savedPosition 会在使用浏览器前进或后退按钮时候生效
     if (savedPosition) {

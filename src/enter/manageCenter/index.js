@@ -4,7 +4,7 @@
 
 import Vue from 'vue'
 import App from './App'
-import router from '../../router/manageCenter'
+import router from '@/router/manageCenter'
 import ElementUI from 'element-ui'
 import '../../../node_modules/element-ui/lib/theme-chalk/index.css'
 import "@/assets/pub.less"
@@ -16,19 +16,24 @@ Vue.use(ElementUI);
 
 router.beforeEach((to, from, next) => {
   //to即将进入的目标路由对象，from当前导航正要离开的路由， next : 下一步执行的函数钩子
-  if(to.path === '/') {
+  if (to.path === '/') {
     next();
   } else {
-    if(!sessionStorage.getItem('accessToken')) {
-      next({ path: '/' })
+    if (!sessionStorage.getItem('accessToken')) {
+      next({
+        path: '/'
+      })
     } else {
       next()
-    }}
+    }
+  }
 });
 
 new Vue({
   el: '#app',
-  router:router,
-  components: { App },
+  router: router,
+  components: {
+    App
+  },
   template: '<App/>'
 })

@@ -1,17 +1,19 @@
 import Vue from 'vue'
-import Router from 'vue-router'
-import {routes} from "./manager/index.js"
+import VueRouter from 'vue-router'
+import {
+  routes
+} from "./manager/index.js"
 
-Vue.use(Router)
+Vue.use(VueRouter)
 
-const router = new Router({
+const router = new VueRouter({
   routes: routes,
   strict: process.env.NODE_ENV !== 'production'
 })
 
 //路由跳转前
 router.beforeEach((to, from, next) => {
-  next(); 
+  next();
 });
 
 //路由加载完成

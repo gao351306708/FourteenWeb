@@ -4,7 +4,7 @@ const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
@@ -28,10 +28,18 @@ module.exports = {
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
-    publicPath: process.env.NODE_ENV === 'production'
-      ? config.build.assetsPublicPath
-      : config.dev.assetsPublicPath,
-    //publicPath: '/'
+    chunkFilename: '[name].js',
+    publicPath: process.env.NODE_ENV === 'production' ?
+      config.build.assetsPublicPath : config.dev.assetsPublicPath,
+  },
+  externals: {
+    // 键：表示导入包语法from后面跟着的名称
+    // 值：表示script引入js文件时，在全局环境中的变量名称
+    // 打包时不需要打包 使用cdn
+    'vue': 'Vue',
+    'vue-router': 'VueRouter',
+    'vuex': 'Vuex',
+    'moment': 'moment'
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
@@ -43,7 +51,7 @@ module.exports = {
   },
   module: {
     rules: [
-      //...(config.dev.useEslint ? [createLintingRule()] : []),
+      ...(config.dev.useEslint ? [createLintingRule()] : []),
       {
         test: /\.vue$/,
         loader: 'vue-loader',
@@ -52,7 +60,10 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test')]
+        include: [resolve('src'), resolve('test')],
+        options: {
+          plugins: ['syntax-dynamic-import']
+        }
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
