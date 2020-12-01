@@ -25,6 +25,7 @@ const unsplash = new Unsplash({
   timeout: 500
 })
 let query = location.search;
+//权限校验，当访问页面时可以加上token，但是需要有unsplash账号。用在生产上别人不方便看
 if (query && query.includes("code")) {
   let code = query.split("=")[1];
   //根据当前code获取access_tolen 并设置beartoken
@@ -44,8 +45,8 @@ if (query && query.includes("code")) {
       "write_photos"
     ])
     console.log("1111111111111111--------->>>", authenticationUrl)
-    //重定向地址，将会自动重定向到携带code得callbackUrl地址
-    location.assign(authenticationUrl);
+    //重定向地址，将会自动重定向到携带code得callbackUrl地址。
+    // location.assign(authenticationUrl);
   }
 }
 
