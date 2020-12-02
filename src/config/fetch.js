@@ -2,11 +2,15 @@
  * 网络请求数据
  * Created by gaoju on 2018/8/14.
  */
-import { baseUrl } from './env'
-import {bodyUrlencoded} from './methods'
-import { Notification } from 'element-ui';
+import {
+  baseUrl
+} from './env'
+import {
+  bodyUrlencoded
+} from './methods'
+// import { Notification } from 'element-ui';
 
-export default async(url = '', data = {}, type = 'GET', method = 'fetch') => {
+export default async (url = '', data = {}, type = 'GET', method = 'fetch') => {
   type = type.toUpperCase();
   url = baseUrl + url;
   const dataStr = bodyUrlencoded(data);
@@ -29,21 +33,21 @@ export default async(url = '', data = {}, type = 'GET', method = 'fetch') => {
         value: JSON.stringify(data)
       })
     }
-    console.log('请求的参数：：：',url,requestConfig)
+    console.log('请求的参数：：：', url, requestConfig)
     try {
-      return new Promise((resolve,reject)=>{
-        fetch(url, requestConfig).then((response)=>{
+      return new Promise((resolve, reject) => {
+        fetch(url, requestConfig).then((response) => {
           if (response.status >= 200 && response.status < 300) {
             return response.json();
           }
           const error = new Error(response.statusText);
           error.response = response;
           throw error;
-        }).then((res)=>{
-          console.log("res->",res)
+        }).then((res) => {
+          console.log("res->", res)
           resolve(res)
-        }).catch((error)=>{
-          console.error("接口返回报错：",error)
+        }).catch((error) => {
+          console.error("接口返回报错：", error)
           Notification.error({
             title: '请求接口返回报错：',
             message: error
@@ -52,14 +56,14 @@ export default async(url = '', data = {}, type = 'GET', method = 'fetch') => {
         });
       })
     } catch (error) {
-      console.error("请求报错：",error)
+      console.error("请求报错：", error)
       Notification.error({
         title: '请求出错报错',
         message: error
       });
       throw new Error(error)
     }
-  } else {  // 如果浏览器不支持fetch
+  } else { // 如果浏览器不支持fetch
     return new Promise((resolve, reject) => {
       let requestObj;
       if (window.XMLHttpRequest) {

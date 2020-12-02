@@ -2,7 +2,7 @@
   <div class="blog sectionMain">
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item v-for="(item,index) in $route.meta" :key="index">{{item}}</el-breadcrumb-item>
+      <el-breadcrumb-item v-for="(item, index) in $route.meta" :key="index">{{ item }}</el-breadcrumb-item>
     </el-breadcrumb>
     <section class="tableContent">
       <div class="topSection">
@@ -34,21 +34,21 @@
           <el-table-column prop="title" label="标题"></el-table-column>
           <el-table-column label="标签类别" width="300">
             <template slot-scope="scope">
-              <el-tag v-for="tag in scope.row.tag" :key="tag">{{tag}}</el-tag>
+              <el-tag v-for="tag in scope.row.tag" :key="tag">{{ tag }}</el-tag>
             </template>
           </el-table-column>
           <el-table-column label="创建日期" width="150">
             <template slot-scope="scope">
-              <div>{{scope.row.createTime|YYMMDDhhmmss}}</div>
+              <div>{{ scope.row.createTime | YYMMDDhhmmss }}</div>
             </template>
           </el-table-column>
           <el-table-column fixed="right" label="操作" width="150">
             <template slot-scope="scope">
-              <el-button @click="handleClick(scope.row,'edit')" type="text" size="small">编辑</el-button>
+              <el-button @click="handleClick(scope.row, 'edit')" type="text" size="small">编辑</el-button>
               <el-popover placement="top" width="160" trigger="click">
                 <p>确定删除吗？</p>
                 <div style="text-align: right; margin: 0">
-                  <el-button type="primary" size="mini" @click="handleClick(scope.row,'remove')">确定</el-button>
+                  <el-button type="primary" size="mini" @click="handleClick(scope.row, 'remove')">确定</el-button>
                 </div>
                 <el-button slot="reference" type="text" size="small">删除</el-button>
               </el-popover>
@@ -74,43 +74,32 @@
         </el-form-item>
         <el-form-item label="类型" :label-width="formLabelWidth">
           <el-checkbox-group v-model="form.tag" @change="handleCheckedCitiesChange">
-            <el-checkbox v-for="tag in tagOptions" :label="tag.name" :key="tag.name">{{tag.name}}</el-checkbox>
+            <el-checkbox v-for="tag in tagOptions" :label="tag.name" :key="tag.name">{{ tag.name }}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="文章内容" :label-width="formLabelWidth">
-          <quill-editor
-            v-model="form.content"
-            ref="myQuillEditor"
-            :options="editorOption"
-            @change="onEditorChange($event)"
-          ></quill-editor>
+          <quill-editor v-model="form.content" ref="myQuillEditor" :options="editorOption" @change="onEditorChange($event)"></quill-editor>
         </el-form-item>
         <el-form-item label="相关链接" :label-width="formLabelWidth">
           <el-input type="textarea" :rows="2" placeholder="请输入相关链接" v-model="form.textarea"></el-input>
-          <div style="height:20px;color:red">***多条链接请用英文逗号,隔开***</div>
+          <div style="height: 20px; color: red">***多条链接请用英文逗号,隔开***</div>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="Dialoghandle('cancel','form')">取 消</el-button>
-        <el-button type="primary" @click="Dialoghandle('confirm','form')">确 定</el-button>
+        <el-button @click="Dialoghandle('cancel', 'form')">取 消</el-button>
+        <el-button type="primary" @click="Dialoghandle('confirm', 'form')">确 定</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 <script type="text/ecmascript-6">
-import {
-  addBlog,
-  deleteBlog,
-  updateBlog,
-  queryBlogList,
-  queryBlogDetail,
-  queryBlogTypeList
-} from "@/api/manage.js";
-import { quillEditor } from "vue-quill-editor"; //调用编辑器
+import { addBlog, deleteBlog, updateBlog, queryBlogList, queryBlogDetail, queryBlogTypeList } from "@/api/manage.js";
+import asyncComponent from "@/utils/asyncComponent.js";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
-import moment from "moment";
+asyncComponent.useComponentEditor; //异步调用quillEditor
+asyncComponent.useComponentMoment; //异步调用moment
 export default {
   name: "blog",
   data() {
@@ -141,9 +130,6 @@ export default {
       pageSize: 10
     };
   },
-  components: {
-    quillEditor
-  },
   computed: {
     editor() {
       return this.$refs.myQuillEditor.quill;
@@ -166,7 +152,7 @@ export default {
     }
   },
   created() {
-    queryBlogTypeList().then(res => {
+    queryBlogTypeList().then((res) => {
       if (res.code == 200) {
         this.tagOptions = res.data;
       }
@@ -203,13 +189,13 @@ export default {
       }
       if (key == "remove") {
         deleteBlog({ id: item._id })
-          .then(res => {
+          .then((res) => {
             this.$message({
               message: key + "删除成功",
               type: "success"
             });
           })
-          .catch(err => {
+          .catch((err) => {
             this.$message({
               message: key + "删除失败",
               type: "error"
@@ -224,7 +210,7 @@ export default {
     Dialoghandle(value, formName) {
       let _this = this;
       if (value == "confirm") {
-        this.$refs[formName].validate(valid => {
+        this.$refs[formName].validate((valid) => {
           if (valid) {
             let params = _this.form;
             params.links = params.textarea && params.textarea.split(",");
@@ -232,7 +218,7 @@ export default {
             console.log(params);
             if (_this.dialogType == "add") {
               //添加文章
-              addBlog(params).then(res => {
+              addBlog(params).then((res) => {
                 _this.$message({
                   message: "添加成功",
                   type: "success"
@@ -241,7 +227,7 @@ export default {
               });
             } else if (_this.dialogType == "edit") {
               //编辑文章
-              updateBlog(params).then(res => {
+              updateBlog(params).then((res) => {
                 _this.$message({
                   message: "编辑成功",
                   type: "success"
@@ -288,10 +274,7 @@ export default {
     },
     //获取当前显示分页数据
     getPageData(data) {
-      this.currentData = data.slice(
-        (this.currentPage - 1) * 10,
-        this.currentPage * 10
-      );
+      this.currentData = data.slice((this.currentPage - 1) * 10, this.currentPage * 10);
     },
     //切换页码
     handleCurrentChange(val) {

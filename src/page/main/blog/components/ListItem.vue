@@ -3,16 +3,16 @@
     <div class="section_top">
       <div class="content_type">
         <div class="typeTag">
-          <li v-for="(tag,index) in data.tag" :key="index">{{tag}}</li>
+          <li v-for="(tag, index) in data.tag" :key="index">{{ tag }}</li>
         </div>
         <div class="interview">
           <img src="@/assets/img/web/eye.png" />
-          <span>{{data.interviewNum}}</span>
+          <span>{{ data.interviewNum }}</span>
         </div>
       </div>
-      <div class="content_title">{{data.title}}</div>
-      <div class="content_date">{{data.createTime|YYYYMMDD}}</div>
-      <div class="content_desc">{{data.description}}</div>
+      <div class="content_title">{{ data.title }}</div>
+      <div class="content_date">{{ data.createTime | YYYYMMDD }}</div>
+      <div class="content_desc">{{ data.description }}</div>
     </div>
     <div class="section_bottom">
       <div class="readmore">查看更多</div>
@@ -21,13 +21,14 @@
   </div>
 </template>
 <script>
-import moment from "moment";
+import asyncComponent from "@/utils/asyncComponent.js";
+asyncComponent.useComponentMoment; //异步调用moment
 export default {
   name: "ListItem",
   props: {
     data: {
       type: Object,
-      default: e => {}
+      default: (e) => {}
     }
   },
   filters: {

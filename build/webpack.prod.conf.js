@@ -137,6 +137,7 @@ const webpackConfig = merge(baseWebpackConfig, {
   ]
 })
 
+//生产环境时候需要开启 gzip压缩
 if (config.build.productionGzip) {
   const CompressionWebpackPlugin = require('compression-webpack-plugin')
 

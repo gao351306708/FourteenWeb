@@ -1,12 +1,13 @@
 // 导入相应的子组件
-import Door from '@/page/manageCenter/door'
-import Home from '@/page/manageCenter/home.vue'
-import defaultPage from '@/page/manageCenter/default'
-import Blog from '@/page/manageCenter/blog.vue'
-import BlogTypeModule from '@/page/manageCenter/blogTypeModule.vue'
-import userManage from '@/page/manageCenter/userManage.vue'
-import StatisticsInterview from '@/page/manageCenter/statisticsInterview.vue'
-import StatisticsModules from '@/page/manageCenter/statisticsModules.vue'
+
+const Door = () => import( /* webpackChunkName: "index" */ '@/page/manageCenter/door')
+const Home = () => import( /* webpackChunkName: "index" */ '@/page/manageCenter/home.vue')
+const defaultPage = () => import( /* webpackChunkName: "index" */ '@/page/manageCenter/default')
+const Blog = () => import( /* webpackChunkName: "blog" */ '@/page/manageCenter/blog.vue')
+const BlogTypeModule = () => import( /* webpackChunkName: "blog" */ '@/page/manageCenter/blogTypeModule.vue')
+const userManage = () => import( /* webpackChunkName: "userManage" */ '@/page/manageCenter/userManage.vue')
+const StatisticsInterview = () => import( /* webpackChunkName: "statistics" */ '@/page/manageCenter/statisticsInterview.vue')
+const StatisticsModules = () => import( /* webpackChunkName: "statistics" */ '@/page/manageCenter/statisticsModules.vue')
 
 
 export const routes = [{

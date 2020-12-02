@@ -11,12 +11,12 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api':{
-       target:process.env.NODE_ENV == 'production' ? 'http://www.rambogj.club:8088/api' : 'http://localhost:8088/api',//服务端的接口地址
-       changeOrigin:true,
-       pathRewrite:{
-        '^/api':''
-       }
+      '/api': {
+        target: process.env.NODE_ENV == 'production' ? 'http://www.rambogj.club:8088/api' : 'http://localhost:8088/api', //服务端的接口地址
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': ''
+        }
       }
     },
 
@@ -66,7 +66,7 @@ module.exports = {
      * Source Maps
      */
 
-    productionSourceMap: true,
+    productionSourceMap: false, //生产环境不需要.map文件。map文件用来debug的
     // https://webpack.js.org/configuration/devtool/#production
     devtool: '#source-map',
 
@@ -74,7 +74,7 @@ module.exports = {
     // Surge or Netlify already gzip all static assets for you.
     // Before setting to `true`, make sure to:
     // npm install --save-dev compression-webpack-plugin
-    productionGzip: false,
+    productionGzip: true, //开启Gzip压缩，需要安装compression-webpack-plugin插件，服务器需要配置nginx gzip
     productionGzipExtensions: ['js', 'css'],
 
     // Run the build command with an extra argument to
