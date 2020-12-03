@@ -67,7 +67,7 @@
       </div>
     </section>
     <!--弹框编辑-->
-    <el-dialog :title="dialogTile" :visible.sync="dialogFormVisible">
+    <el-dialog :title="dialogTile" :visible.sync="dialogFormVisible" width="65%" top="10vh">
       <el-form :model="form" ref="form" :rules="rules">
         <el-form-item label="标题" :label-width="formLabelWidth">
           <el-input v-model="form.title" autocomplete="off"></el-input>
@@ -124,7 +124,17 @@ export default {
       },
       formLabelWidth: "120px",
       content: "", //富文本
-      editorOption: {},
+      editorOption: {
+        modules: {
+          toolbar: [
+            ["bold", "italic", "underline", "strike"], // toggled buttons
+            ["blockquote", "code-block"],
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+            [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+            [{ align: [] }]
+          ]
+        }
+      },
       currentPage: 1,
       total: 10,
       pageSize: 10
@@ -176,15 +186,28 @@ export default {
         this.getPageData(res.data);
       }
     },
+    getBlogDetail(item) {
+      const { _id } = item;
+      let formValue = Object.assign({}, item);
+      formValue.textarea = item.links ? item.links.join(",") : ""; //编辑的时候回显编辑的内容
+      //查询文章详情
+      queryBlogDetail({ id: _id }).then((res) => {
+        if (res.code == 200) {
+          console.log("detailItem   --->", res.data);
+          formValue.content = res.data[0].content; //文章内容
+          Object.assign(this, {
+            form: formValue
+          });
+        }
+      });
+    },
     handleClick(item, key) {
       if (key == "edit") {
         this.resetForm(); //先重置之前的内容
-        let formValue = Object.assign({}, item);
-        formValue.textarea = item.links ? item.links.join(",") : ""; //编辑的时候回显编辑的内容
+        this.getBlogDetail(item); //查询详情
         Object.assign(this, {
           dialogFormVisible: true,
-          dialogType: "edit",
-          form: formValue
+          dialogType: "edit"
         });
       }
       if (key == "remove") {
@@ -297,9 +320,6 @@ export default {
   }
   .addContent {
     margin: 10px 0;
-  }
-  /deep/.el-dialog__body {
-    max-height: 500px;
   }
   .paginationSection {
     margin: 15px;
