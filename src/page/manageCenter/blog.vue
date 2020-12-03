@@ -127,11 +127,14 @@ export default {
       editorOption: {
         modules: {
           toolbar: [
-            ["bold", "italic", "underline", "strike"], // toggled buttons
-            ["blockquote", "code-block"],
+            ["bold", "italic", "underline", "strike"], // 加粗，斜体，下划线，删除线
+            ["blockquote", "code-block"], //引用，代码块
+            [{ indent: "-1" }, { indent: "+1" }], //缩进
             [{ header: [1, 2, 3, 4, 5, 6, false] }],
             [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-            [{ align: [] }]
+            [{ align: [] }],
+            ["image"],
+            ["clean"]
           ]
         }
       },
