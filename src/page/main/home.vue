@@ -17,7 +17,7 @@
             </span>
             <span class="video_container">
               <span class="video">
-                <video muted preload="auto" id="animationVideo2" src="/static/media/texte_animation.mp4"></video>
+                <video muted preload="auto" id="animationVideo2" src="http://rambogj.top/video/texte_animation.mp4"></video>
               </span>
             </span>
           </a>
