@@ -5,7 +5,11 @@
       <el-col :xs="0" :sm="12">
         <section class="section_left">
           <div class="video delay-1">
-            <el-image :src="srcGif" lazy></el-image>
+            <el-image :src="srcGif" lazy>
+              <div slot="placeholder" class="image-slot">
+                <img src="@/assets/img/web/BNP_default.jpg" />
+              </div>
+            </el-image>
           </div>
         </section>
       </el-col>
@@ -136,9 +140,13 @@ export default {
       width: 578px;
       height: 454px;
       margin: -227px 0 0 -289px;
-      video {
+      /deep/ .el-image {
         width: 100%;
         height: 100%;
+        img {
+          width: 100%;
+          height: 100%;
+        }
       }
     }
     .delay-1 {

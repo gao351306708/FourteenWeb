@@ -1,17 +1,17 @@
-// 导入相应的子组件,使用懒加载方式
+// 导入相应的子组件,需要懒加载得使用懒加载方式，首页四个路由不需要懒加载，有滚动切换效果需要实时显示出来
+import Amusement from '@/page/main/amusement/amusement.vue'
+import AllMost from '@/page/main/allmost.vue'
+import Blog from '@/page/main/blog/blogs.vue'
 const Layout = () => import( /* webpackChunkName: "index" */ '@/components/Layout.vue')
 const Home = () => import( /* webpackChunkName: "index" */ '@/page/main/home.vue')
-const Amusement = () => import( /* webpackChunkName: "index" */ '@/page/main/amusement/amusement.vue')
-const AllMost = () => import( /* webpackChunkName: "amusement" */ '@/page/main/allmost.vue')
-const AboutMe = () => import( /* webpackChunkName: "aboutMe" */ '@/page/main/about.vue')
-const ContactMe = () => import( /* webpackChunkName: "movie" */ '@/page/main/contact.vue')
-const Blog = () => import( /* webpackChunkName: "blog" */ '@/page/main/blog/blogs.vue')
 const BlogList = () => import( /* webpackChunkName: "blog" */ '@/page/main/blog/blogsHome.vue')
 const BlogDetails = () => import( /* webpackChunkName: "blog" */ '@/page/main/blog/blogsDetails.vue')
 const Picture = () => import( /* webpackChunkName: "picture" */ '@/page/main/amusement/amusement_picture.vue')
 const Photos = () => import( /* webpackChunkName: "picture" */ '@/page/main/amusement/amusement_photos.vue')
 const SearchPicture = () => import( /* webpackChunkName: "picture" */ '@/page/main/amusement/amusement_picture_search.vue')
 const Movie = () => import( /* webpackChunkName: "movie" */ '@/page/main/amusement/amusement_movie.vue')
+const AboutMe = () => import( /* webpackChunkName: "aboutMe" */ '@/page/main/about.vue')
+const ContactMe = () => import( /* webpackChunkName: "movie" */ '@/page/main/contact.vue')
 const Demo = () => import( /* webpackChunkName: "demo" */ '@/page/main/demo/uploadAndGetRandom.vue')
 
 

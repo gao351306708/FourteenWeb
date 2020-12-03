@@ -5,7 +5,11 @@
       <el-col :xs="0" :sm="12">
         <section class="section_left">
           <div class="video delay-1">
-            <el-image :src="srcGif" lazy></el-image>
+            <el-image :src="srcGif" lazy>
+              <div slot="placeholder" class="image-slot">
+                <img src="@/assets/img/web/latest_default.jpg" />
+              </div>
+            </el-image>
           </div>
         </section>
       </el-col>
@@ -94,6 +98,14 @@ export default {
       width: 478px;
       height: 354px;
       margin: -177px 0 0 -239px;
+      /deep/ .el-image {
+        width: 100%;
+        height: 100%;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
     }
     .delay-1 {
       transition-delay: 0.05s;
