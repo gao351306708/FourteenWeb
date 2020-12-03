@@ -39,7 +39,8 @@ module.exports = {
     'vue': 'Vue',
     'vue-router': 'VueRouter',
     'vuex': 'Vuex',
-    'moment': 'moment'
+    'moment': 'moment',
+    'quill': 'Quill'
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
