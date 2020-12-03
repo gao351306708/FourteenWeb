@@ -5,7 +5,7 @@
       <el-col :xs="0" :sm="12">
         <section class="section_left">
           <div class="video delay-1">
-            <img width="478" height="354" src="@/assets/img/web/LatestWork.gif" />
+            <el-image :src="srcGif" lazy></el-image>
           </div>
         </section>
       </el-col>
@@ -51,7 +51,8 @@ export default {
   name: "home",
   data() {
     return {
-      year: new Date().getFullYear()
+      year: new Date().getFullYear(),
+      srcGif: require("@/assets/img/web/LatestWork.gif")
     };
   },
   computed: {

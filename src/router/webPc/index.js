@@ -24,7 +24,8 @@ export const routes = [{
     component: Home,
     meta: {
       nav: true, //此值表示首页需要展示nav滚动页签切换
-      keepAlive: true
+      keepAlive: true,
+      rank: 1, //当前组件得层级等级
     }
   }, {
     path: 'Amusement',
@@ -32,6 +33,7 @@ export const routes = [{
     meta: {
       keepAlive: true,
       nav: true,
+      rank: 1
     }
   }, {
     path: 'Amusement/Picture',
@@ -39,6 +41,7 @@ export const routes = [{
     component: Picture,
     meta: {
       keepAlive: true,
+      rank: 2
     },
     children: [{
       path: 'photos/:id',
@@ -46,6 +49,7 @@ export const routes = [{
       component: Photos,
       meta: {
         keepAlive: true,
+        rank: 4
       }
     }]
   }, {
@@ -54,6 +58,7 @@ export const routes = [{
     component: SearchPicture,
     meta: {
       keepAlive: true,
+      rank: 3
     },
     children: [{
       path: 'photos/:id',
@@ -61,12 +66,16 @@ export const routes = [{
       component: Photos,
       meta: {
         keepAlive: true,
+        rank: 4
       }
     }]
   }, {
     path: 'Amusement/Movie',
     name: 'Movie',
-    component: Movie
+    component: Movie,
+    meta: {
+      rank: 2
+    }
   }, {
     path: 'AllMost',
     name: 'AllMost',
@@ -74,6 +83,7 @@ export const routes = [{
     meta: {
       keepAlive: true,
       nav: true,
+      rank: 1
     }
   }, {
     path: 'Blog',
@@ -81,29 +91,38 @@ export const routes = [{
     meta: {
       keepAlive: true,
       nav: true,
+      rank: 1
     }
   }, {
     path: 'Blog/List',
     name: 'BlogList',
     component: BlogList,
+    meta: {
+      rank: 2
+    }
   }, {
     path: 'Blog/Detail',
     name: 'BlogDetails',
-    component: BlogDetails
+    component: BlogDetails,
+    meta: {
+      rank: 3
+    }
   }]
 }, {
   path: '/About',
   name: 'AboutMe',
   component: AboutMe,
   meta: {
-    keepAlive: true
+    keepAlive: true,
+    rank: 10
   }
 }, {
   path: '/Contact',
   name: 'ContactMe',
   component: ContactMe,
   meta: {
-    keepAlive: true
+    keepAlive: true,
+    rank: 10
   }
 }, {
   path: '/demo',

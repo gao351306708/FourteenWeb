@@ -5,7 +5,7 @@
       <el-col :xs="0" :sm="12">
         <section class="section_left">
           <div class="video delay-1">
-            <img width="478" height="354" src="@/assets/img/web/BNP.gif" />
+            <el-image :src="srcGif" lazy></el-image>
           </div>
         </section>
       </el-col>
@@ -57,7 +57,8 @@ export default {
       ],
       current: 0,
       interval: null,
-      pictureList: []
+      pictureList: [],
+      srcGif: require("@/assets/img/web/BNP.gif")
     };
   },
   mounted() {},
