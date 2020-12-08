@@ -10,6 +10,7 @@ const Picture = () => import( /* webpackChunkName: "picture" */ '@/page/main/amu
 const Photos = () => import( /* webpackChunkName: "picture" */ '@/page/main/amusement/amusement_photos.vue')
 const SearchPicture = () => import( /* webpackChunkName: "picture" */ '@/page/main/amusement/amusement_picture_search.vue')
 const Movie = () => import( /* webpackChunkName: "movie" */ '@/page/main/amusement/amusement_movie.vue')
+const Video = () => import( /* webpackChunkName: "movie" */ '@/page/main/amusement/amusement_video.vue')
 const AboutMe = () => import( /* webpackChunkName: "aboutMe" */ '@/page/main/about.vue')
 const ContactMe = () => import( /* webpackChunkName: "movie" */ '@/page/main/contact.vue')
 const Demo = () => import( /* webpackChunkName: "demo" */ '@/page/main/demo/uploadAndGetRandom.vue')
@@ -75,6 +76,13 @@ export const routes = [{
     component: Movie,
     meta: {
       rank: 2
+    }
+  }, {
+    path: 'Amusement/video',
+    name: 'Video',
+    component: Video,
+    meta: {
+      rank: 3
     }
   }, {
     path: 'AllMost',

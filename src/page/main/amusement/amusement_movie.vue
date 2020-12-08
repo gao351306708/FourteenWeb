@@ -2,7 +2,7 @@
 <template>
   <div class="Movie">
     <BackTop :scrollerName="'.section_container'"></BackTop>
-    <div class="section_container">
+    <div class="Movie_section_container" v-scrollbottom="getMoreMovies">
       <div class="selectSection">
         <el-row type="flex" style="margin: 10px 0">
           <el-col class="tagName">
@@ -72,6 +72,12 @@
             >
           </el-col>
         </el-row>
+        <el-row>
+          <el-col :span="24" class="searchCss">
+            <el-input placeholder="请输入id进行查询" v-model="searchValue"></el-input>
+            <el-button @click="searchHandle">搜索</el-button></el-col
+          >
+        </el-row>
       </div>
       <div class="movieSection">
         <div v-for="(item, index) in movieList" :key="index" :class="{ cardPart: true, movieWidth: true }" @click="movieGo(item)">
@@ -90,7 +96,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { getMovieList, getMovieDetail } from "@/api/tencent";
+import { getMovieList, getMovieDetail, getMovieRealUrl, getMovieRealUrlList } from "@/api/tencent";
 import { movieSelectKeyList1 } from "@/data/movieSelectKey";
 let loading = false;
 export default {
@@ -98,9 +104,10 @@ export default {
   data() {
     return {
       movieList: [],
+      searchValue: "",
       movieSelectList1: movieSelectKeyList1,
       pagesize: 30,
-      offset: 0,
+      pageNo: 0,
       isort: 18, //排序，默认18 最新热搜
       itype: -1, //类型
       iarea: -1, //地区
@@ -109,25 +116,14 @@ export default {
     };
   },
   mounted() {
-    //https://node.video.qq.com/x/api/float_vinfo2?cid=j3czmhisqin799r
-    //http://v.qq.com/txp/iframe/player.html?vid=t0029dmt201
-    //https://v.qq.com/x/bu/pagesheet/list?_all=1&append=0&channel=movie&listpage=2&offset=0&pagesize=30&sort=18&charge=-1&iarea=-1&itype=100004
-    //http://localhost:1004/api/tencent/getMovieList?pagesize=30&offset=0&sort=undefined&itype=-1&iarea=-1&charge=-1
     this.getMovieListOfKey();
     let _this = this;
-    $(".section_container").scroll(function () {
-      var scrollTop = $(this).scrollTop();
-      var selectSection = $(".selectSection").height() + 20;
-      var scrollHeight = $(".movieSection").height();
-      var windowHeight = $(this).height();
-      if (parseInt(scrollTop + windowHeight + 20) >= scrollHeight + selectSection) {
-        console.info("已经到最底部了！", scrollTop, windowHeight, scrollHeight, selectSection);
-        _this.offset = _this.offset + 30;
-        _this.getMovieListOfKey();
-      }
-    });
   },
   methods: {
+    getMoreMovies() {
+      this.pageNo = this.pageNo + 30;
+      this.getMovieListOfKey();
+    },
     getMovieListOfKey(params) {
       if (loading) {
         return false;
@@ -135,7 +131,7 @@ export default {
       loading = true; //开始加载数据
       let data = {
         pagesize: this.pagesize,
-        offset: this.offset,
+        offset: this.pageNo,
         isort: this.isort,
         itype: this.itype,
         iarea: this.iarea,
@@ -144,24 +140,45 @@ export default {
       let _this = this;
       getMovieList(data, function (data) {
         if (data.code == 200) {
-          _this.movieList = _this.movieList.concat(data.movies);
+          if (_this.pageNo == 0) {
+            _this.movieList = data.movies;
+          } else {
+            _this.movieList = _this.movieList.concat(data.movies);
+          }
           loading = false;
         }
       });
     },
+    searchHandle() {
+      let vid = this.searchValue;
+      getMovieRealUrl(vid, function (data) {
+        console.log("返回数据=22==》", data);
+      });
+    },
     movieGo(item) {
+      let _this = this;
       //获取影影片的详细信息
       getMovieDetail(item.dataset, function (data) {
-        console.log("返回数据===》", data);
         let vid = data.c.video_ids[0];
-        window.open(`http://v.qq.com/txp/iframe/player.html?vid=${vid}`);
+        getMovieRealUrlList(vid)
+          .then((data) => {
+            console.log("getMovieRealUrlList==》", data);
+            _this.$router.push({
+              name: "Video",
+              params: data
+            });
+          })
+          .catch((res) => {
+            console.error(res);
+            window.open(`http://v.qq.com/txp/iframe/player.html?vid=${vid}`);
+          });
       });
     },
     clickTag(parent, item) {
       console.log("clickTag===》", parent, item);
       console.log("clickTag===》", parent.id, item.key);
       this.currentSelect = parent.mainName;
-      this.offset = 0;
+      this.pageNo = 0;
       switch (parent.id) {
         case 1:
           this.isort = item.key;
@@ -191,7 +208,7 @@ export default {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  .section_container {
+  .Movie_section_container {
     position: absolute;
     overflow-x: hidden;
     overflow-y: auto;
@@ -228,6 +245,7 @@ export default {
         min-height: 200px;
         padding: 10px;
         text-align: left;
+        background: white;
         .image {
           width: 100%;
           display: block;
@@ -252,6 +270,13 @@ export default {
           text-overflow: ellipsis;
         }
       }
+    }
+  }
+  .searchCss {
+    display: flex;
+    /deep/.el-input {
+      width: 300px;
+      margin-right: 10px;
     }
   }
 }
