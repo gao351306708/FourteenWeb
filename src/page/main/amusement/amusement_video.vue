@@ -15,7 +15,7 @@ export default {
       movieObj: obj, //当前视频详情
       movieUrl: "", //当前视频地址
       currentClip: {}, //当前片段
-      index: 2 //当前片段
+      index: 0 //当前片段
     };
   },
   mounted() {
@@ -32,6 +32,8 @@ export default {
       });
     },
     addEvent() {
+      //url("chrome://favicon2/?size=16&scale_factor=1x&page_url=http%3A%2F%2Fwww.youku.com%2F&allow_google_server_fallback=0") 1x,
+      //url("chrome://favicon2/?size=16&scale_factor=2x&page_url=http%3A%2F%2Fwww.youku.com%2F&allow_google_server_fallback=0") 2x);
       let _this = this;
       try {
         var vplayer = document.getElementById("myvideo");

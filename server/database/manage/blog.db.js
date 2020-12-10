@@ -1,5 +1,5 @@
 /**
- * 查询用户管理信息基本信息
+ * 查询用户管理信息文章基本信息
  * Created by gaoju on 2017/11/15.
  * Schema 自定义的表结构
  * model(m,n,p) model参数 m 为自定义集合名，n 定义得schema结构。p 最终能生成的collection，如果不传入则默认是小写m的复数格式
@@ -8,15 +8,8 @@
 var mongoose = require('mongoose');
 const {
   mongoClient
-} = require('../database/dbconfig.js');;
+} = require('../dbconfig.js');;
 var Schema = mongoose.Schema;
-
-//访问记录模型
-var InterviewSchema = new Schema({
-  name: String, //访问页面名字
-  datetime: String, //访问时间
-});
-const InterviewModel = mongoClient.model('Interview', InterviewSchema, "interview");
 
 //博客文章模型
 var BlogSchema = new Schema({
@@ -45,7 +38,6 @@ var TypeSchema = new Schema({
 const BlogTypeModel = mongoClient.model('blogtype', TypeSchema, "blogtype");
 
 module.exports = {
-  InterviewModel,
   BlogModel,
   BlogTypeModel
 }

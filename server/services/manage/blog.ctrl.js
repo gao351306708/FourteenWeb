@@ -1,60 +1,18 @@
 /**
- * @desc 管理员管理模块
- * @dateTime 2018-12-13
+ * @desc 管理员管理文章模块
+ * @dateTime 2020-12-9
  **/
 
 var express = require('express');
 var ObjectID = require('mongodb').ObjectID;
 const {
-  InterviewModel,
   BlogModel,
   BlogTypeModel
-} = require('../database/manage.db.js');
-const {
-  param
-} = require('./tencent.ctrl.js');
-const manageRouter = express.Router();
+} = require('../../database/manage/blog.db.js');
+const blogRouter = express.Router();
 
-
-/*
- * 查询访问记录
- * */
-manageRouter.get('/interviewQuery', async (req, res) => {
-  let count = await InterviewModel.count({});
-  let count2 = await BlogModel.count({});
-  console.log("count:", count, count2)
-  res.json({
-    code: 200,
-    data: {
-      interviewNum: count || 0,
-      blogNum: count2 || 0
-    }
-  });
-})
-// 更新访问数
-manageRouter.post('/updateInterview', function (req, res, next) {
-  let params = req.body;
-  let manageModel1 = new InterviewModel({
-    name: params.name || "door",
-    datetime: new Date().getTime()
-  })
-  manageModel1.save(function (err, doc) {
-    if (err) {
-      res.json({
-        code: 500,
-        message: err.message
-      });
-    } else {
-      res.json({
-        code: 200,
-        message: "访问数更新成功",
-        data: doc
-      });
-    }
-  })
-});
 //新增文章
-manageRouter.post('/addBlog', function (req, res, next) {
+blogRouter.post('/addBlog', function (req, res, next) {
   let params = req.body;
   let BlogModel1 = new BlogModel({
     title: params.title, //访问页面名字
@@ -81,7 +39,7 @@ manageRouter.post('/addBlog', function (req, res, next) {
   })
 });
 //删除文章
-manageRouter.post('/deleteBlog', function (req, res, next) {
+blogRouter.post('/deleteBlog', function (req, res, next) {
   let params = req.body;
   BlogModel.remove({
     _id: ObjectID(params.id)
@@ -101,7 +59,7 @@ manageRouter.post('/deleteBlog', function (req, res, next) {
   })
 });
 //修改文章
-manageRouter.post('/updateBlog', function (req, res, next) {
+blogRouter.post('/updateBlog', function (req, res, next) {
   let params = req.body;
   let newValue = {
     title: params.title,
@@ -130,7 +88,7 @@ manageRouter.post('/updateBlog', function (req, res, next) {
   })
 });
 //查询文章列表
-manageRouter.get('/queryBlogList', function (req, res, next) {
+blogRouter.get('/queryBlogList', function (req, res, next) {
   let query = req.query;
   let tagRes = query.tagKey || ""; //标签关键字
   let params = {
@@ -170,7 +128,7 @@ manageRouter.get('/queryBlogList', function (req, res, next) {
   })
 });
 //查询文章
-manageRouter.get('/queryBlogDetail', function (req, res, next) {
+blogRouter.get('/queryBlogDetail', function (req, res, next) {
   let params = req.query;
   BlogModel.update({
     _id: ObjectID(params.id)
@@ -202,7 +160,7 @@ manageRouter.get('/queryBlogDetail', function (req, res, next) {
   })
 });
 //新增类型
-manageRouter.post('/addBlogType', function (req, res, next) {
+blogRouter.post('/addBlogType', function (req, res, next) {
   let params = req.body;
   let BlogTypeModel1 = new BlogTypeModel({
     name: params.name, //名字
@@ -225,7 +183,7 @@ manageRouter.post('/addBlogType', function (req, res, next) {
   })
 });
 //删除类型
-manageRouter.post('/deleteBlogType', function (req, res, next) {
+blogRouter.post('/deleteBlogType', function (req, res, next) {
   let params = req.body;
   if (!params.id) {
     return res.json({
@@ -251,7 +209,7 @@ manageRouter.post('/deleteBlogType', function (req, res, next) {
   })
 });
 //修改类型
-manageRouter.post('/updateBlogType', function (req, res, next) {
+blogRouter.post('/updateBlogType', function (req, res, next) {
   let params = req.body;
   let newValue = {
     name: params.name,
@@ -284,7 +242,7 @@ manageRouter.post('/updateBlogType', function (req, res, next) {
   })
 });
 //查询类型列表
-manageRouter.get('/queryBlogTypeList', function (req, res, next) {
+blogRouter.get('/queryBlogTypeList', function (req, res, next) {
   let query = req.query;
   BlogTypeModel.find({}, function (err, doc) {
     if (err) {
@@ -301,7 +259,7 @@ manageRouter.get('/queryBlogTypeList', function (req, res, next) {
   })
 });
 //查询最受欢迎文章列表
-manageRouter.get('/queryPopularBlogList', function (req, res, next) {
+blogRouter.get('/queryPopularBlogList', function (req, res, next) {
   let query = req.query;
   let num = query.num || 5; //默认前五条
   BlogModel.find({}).sort({
@@ -322,4 +280,4 @@ manageRouter.get('/queryPopularBlogList', function (req, res, next) {
 });
 
 
-module.exports = manageRouter;
+module.exports = blogRouter;
