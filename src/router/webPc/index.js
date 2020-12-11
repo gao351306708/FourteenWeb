@@ -31,6 +31,7 @@ export const routes = [{
   }, {
     path: 'Amusement',
     component: Amusement,
+    name: 'Amusement',
     meta: {
       keepAlive: true,
       nav: true,
@@ -96,6 +97,7 @@ export const routes = [{
   }, {
     path: 'Blog',
     component: Blog,
+    name: 'Blog',
     meta: {
       keepAlive: true,
       nav: true,

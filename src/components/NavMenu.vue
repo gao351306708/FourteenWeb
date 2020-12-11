@@ -51,6 +51,16 @@ export default {
       currentNum: 1
     };
   },
+  watch: {
+    currentNum(val) {
+      //修改是否开启滚动你切换
+      if (val == 4) {
+        this.$store.commit("home/MSetScrollStatus", false);
+      } else {
+        this.$store.commit("home/MSetScrollStatus", true);
+      }
+    }
+  },
   mounted() {
     this.setNavNum();
     //监听页面事件
@@ -92,6 +102,7 @@ export default {
       let _this = this;
       var beforeTime = Date.now();
       this.scrollFunc = function (e) {
+        console.log("当前路由", _this.$route.name);
         e = e || window.event;
         let el = "";
         if (e.wheelDelta) {
@@ -128,6 +139,9 @@ export default {
     },
     scrollHandle(direaction) {
       console.log("direaction", direaction);
+      if (!this.$store.state.home.scrollStatus) {
+        return;
+      }
       if (direaction == "up") {
         if (this.currentNum > 1) {
           this.currentNum = this.currentNum - 1;
