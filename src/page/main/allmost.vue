@@ -3,7 +3,7 @@
   <div class="allmost">
     <div class="section_container">
       <div class="main">
-        <div class="part" v-for="(itm, idx) in menuList" :key="idx">
+        <div class="part" v-for="(itm, idx) in menuList" :key="idx" :id="itm.id">
           <div class="title">{{ itm.name }}</div>
           <div class="contnet">
             <template v-if="itm.items">
@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="menu">
-        <div v-for="(part, index) in menuList" :key="index" :class="{ item: true, active: index == currentItem }" @click="changeMenu(index)">
+        <div v-for="(part, index) in menuList" :key="index" :class="{ item: true, active: index == currentItem }" @click="changeMenu(part, index)">
           {{ part.name }}
         </div>
       </div>
@@ -47,8 +47,10 @@ export default {
     };
   },
   methods: {
-    changeMenu(val) {
+    changeMenu(item, val) {
       this.currentItem = val;
+      //定位锚点
+      document.getElementById(item.id) && document.getElementById(item.id).scrollIntoView(true);
     },
     clickWebsitHandle(item) {
       window.open(item.url);
@@ -76,6 +78,11 @@ export default {
       flex-direction: column;
       align-items: center;
       width: 200px;
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 400px;
       .item {
         position: relative;
         padding: 8px 0;
