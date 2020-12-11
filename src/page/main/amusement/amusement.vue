@@ -200,7 +200,7 @@ export default {
           font-weight: 600;
           font-style: normal;
           color: #2f2f2f96;
-          margin-left: 3.75rem;
+          margin-left: 1.25rem;
         }
         .title_sec.active {
           color: #000000;
@@ -209,7 +209,7 @@ export default {
           position: absolute;
           font-size: 0.75rem;
           margin-top: -1.875rem;
-          right: calc(100% - 24px);
+          left: -4px;
           .top {
             position: absolute;
             white-space: nowrap;

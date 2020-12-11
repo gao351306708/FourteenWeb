@@ -180,7 +180,7 @@ export default {
   justify-content: center;
   bottom: calc(50% - 120px);
   top: calc(50% - 120px);
-  left: 0.875rem;
+  left: 1.5rem;
   width: 40px;
   z-index: 14;
   opacity: 1;
@@ -252,6 +252,7 @@ export default {
   }
 }
 .top2 {
-  // bottom: 0 !important;
+  bottom: 20px !important;
+  top: 50% !important;
 }
 </style>

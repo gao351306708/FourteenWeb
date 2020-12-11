@@ -21,7 +21,7 @@
             </span>
             <span class="video_container">
               <span class="video">
-                <video muted preload="auto" id="animationVideo2" src="http://rambogj.top/video/texte_animation.mp4"></video>
+                <!-- <video muted preload="auto" id="animationVideo2" src="http://rambogj.top/video/texte_animation.mp4"></video> -->
               </span>
             </span>
           </a>
@@ -192,7 +192,7 @@ export default {
       .date_sec {
         position: absolute;
         top: 1.375rem;
-        right: calc(100% - 13px);
+        left: -4px;
         .top {
           position: absolute;
           right: 0;

@@ -1,5 +1,9 @@
 <template>
   <div class="doorFooter">
+    <el-row>
+      <el-col :span="12"></el-col>
+      <el-col :span="12"></el-col>
+    </el-row>
     <div class="left">
       <a href="http://www.beian.miit.gov.cn" target="blank">@ 京ICP备19052693号</a>
     </div>
@@ -39,15 +43,17 @@
 <style lang="less" scoped type="text/less">
 .doorFooter {
   position: absolute;
-  width: 100vw;
+  width: 100%;
   min-height: 110px;
   background-color: #ffffff;
-  font-size: 14px;
+  font-size: 1rem;
   bottom: 0;
   display: flex;
   flex-wrap: wrap-reverse;
   justify-content: space-between;
   align-items: center;
+  padding: 22px;
+  box-sizing: border-box;
   a {
     color: inherit;
     outline: none;
@@ -59,9 +65,8 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    min-width: 60%;
+    width: 100%;
     .part {
-      margin: 0 30px;
       text-align: right;
       strong {
         font-family: Mensch;

@@ -7,20 +7,17 @@
           <img class="leftImg" src="/static/images/attachment.jpg" />
         </el-col>
         <el-col :xs="24" :sm="12" class="section_right">
-          <div>
             <div class="title">
-              <span>博</span>
-              <span>客</span>
+              博客
             </div>
             <div class="text">
-              <p
-                class="text2"
-              >闲来无事记录下自己之前遇到的问题以及查找的相关资料，俗话说的好眼过千遍不如手过一遍，记录一下也会加强对问题的理解。也方便之后遇到同类问题可以快速的查找到相关的处理方法</p>
+              <p>闲来无事记录下自己之前遇到的问题以及查找的相关资料。</p>
+              <p>俗话说的好眼过千遍不如手过一遍，记录一下也会加强对问题的理解。</p>
+              <p>也方便之后遇到同类问题可以快速的查找到相关的处理方法</p>
             </div>
             <div class="look">
-              <router-link to="/Blog/List">瞅瞅看 ></router-link>
+              <router-link to="/Blog/List">瞅瞅看</router-link>
             </div>
-          </div>
         </el-col>
       </el-row>
     </div>
@@ -64,37 +61,47 @@ export default {
     }
     .section_right {
       position: relative;
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: space-around;
       height: 100%;
       .title {
         position: relative;
-        top: 15%;
         font-size: 6rem;
-        margin: 5rem 0;
-        text-align: right;
-        right: 20%;
-        span {
-          display: block;
-          font-family: cursive;
-        }
+        margin-top: 5rem;
+        writing-mode: vertical-rl;
+        writing-mode: tb-lr;
+        font-family: cursive;
+        letter-spacing: 28px;
       }
       .text {
         position: relative;
         padding: 20px;
+        writing-mode: vertical-rl;
+        writing-mode: tb-lr;
+        height: 70%;
+        letter-spacing: 7px;
+        margin-top: 25%;
         p {
           margin: 15px 0;
           text-align: left;
           font-size: 1.5rem;
           line-height: 1.8;
-        }
-        .text1 {
-          color: #ffffff;
-          font-size: 3rem;
+          font-family: cursive;
         }
       }
       .look {
-        padding-left: 20px;
+        display: flex;
+        flex-direction: row-reverse;
         font-family: cursive;
         font-size: 20px;
+        writing-mode: vertical-rl;
+        writing-mode: tb-lr;
+        font-family: cursive;
+        margin-bottom: 10%;
+        a{
+          font-family: cursive !important;
+        }
       }
     }
   }

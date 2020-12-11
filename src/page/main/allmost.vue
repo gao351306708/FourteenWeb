@@ -3,25 +3,25 @@
   <div class="allmost">
     <div class="section_container">
       <div class="main">
-        <div class="scroll">
-          <div class="part" v-for="(itm,idx) in menuList" :key="idx">
-          <div class="title">{{itm.name}}</div>
+        <div class="part" v-for="(itm, idx) in menuList" :key="idx">
+          <div class="title">{{ itm.name }}</div>
           <div class="contnet">
             <template v-if="itm.items">
-              <div class="item" v-for="(ite,ix) in itm.items" :key="ix">
-                <div class="headerImg">{{ite.logo}}</div>
+              <div class="item" v-for="(ite, ix) in itm.items" :key="ix" @click="clickWebsitHandle(ite)">
+                <div class="headerImg"><img :src="ite.logo" /></div>
                 <div class="header">
-                  <div class="headerTitle">{{ite.title}}</div>
-                  <div class="introduce">{{ite.introduce}}</div>
+                  <div class="headerTitle">{{ ite.title }}</div>
+                  <div class="introduce">{{ ite.introduce }}</div>
                 </div>
               </div>
             </template>
           </div>
         </div>
-        </div>
       </div>
       <div class="menu">
-        <div v-for="(part,index) in menuList" :key="index" :class="{'item':true,'active':index==currentItem}" @click="changeMenu(index)">{{part.name}}</div>
+        <div v-for="(part, index) in menuList" :key="index" :class="{ item: true, active: index == currentItem }" @click="changeMenu(index)">
+          {{ part.name }}
+        </div>
       </div>
     </div>
     <div class="Footer">
@@ -32,6 +32,7 @@
 
 <script type="text/ecmascript-6">
 import FooterBottom from "@/components/footerBottom.vue";
+import websit from "@/data/websit";
 export default {
   //data中放入初始默认值
   name: "allmost",
@@ -40,14 +41,17 @@ export default {
   },
   data() {
     return {
-      menuList:[{id:1,name:"经常使用",items:[{id:11,title:"title",logo:"",introduce:"jieshou"}]},{id:2,name:"常用网站"},{id:3,name:"视频网站"},{id:4,name:"学习网站"},{id:5,name:"在线直播"},{id:6,name:"常用工具"}],
-      moudleList:[],
-      currentItem:0
+      menuList: websit.websitList,
+      moudleList: [],
+      currentItem: 0
     };
   },
-  methods:{
-    changeMenu(val){
-      this.currentItem = val
+  methods: {
+    changeMenu(val) {
+      this.currentItem = val;
+    },
+    clickWebsitHandle(item) {
+      window.open(item.url);
     }
   }
 };
@@ -61,84 +65,99 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   .section_container {
-    position: absolute;
-    top: 50px;
-    bottom: 70px;
-    left: 150px;
-    right: 50px;
+    position: relative;
     padding: 40px;
     display: flex;
-    .menu{
+    .menu {
       display: flex;
       flex-direction: column;
       align-items: center;
       width: 200px;
-      .item{
+      .item {
         position: relative;
         padding: 8px 0;
         cursor: pointer;
       }
-      .active{
+      .active {
         color: chocolate;
       }
-      .active::before{
-          content: "";
-          background-color: black;
-          width: 16px;
-          height: 4px;
-          position: absolute;
-          left: -24px;
-          margin-top: 10px;
-          z-index: 1;
+      .active::before {
+        content: "";
+        background-color: black;
+        width: 16px;
+        height: 4px;
+        position: absolute;
+        left: -24px;
+        margin-top: 10px;
+        z-index: 1;
       }
     }
-    .main{
+    .main {
+      margin-left: 7rem;
       width: 100%;
       overflow: hidden;
-      .scroll{
+      .scroll {
         overflow-y: auto;
         height: 100%;
         margin-right: -13px;
         padding-right: 15px;
       }
-      .part{
+      .part {
         background-color: white;
         min-height: 100px;
         border-radius: 12px;
         margin-bottom: 20px;
-        .title{
+        .title {
           line-height: 48px;
           font-size: 18px;
           font-weight: bold;
           padding-left: 20px;
           border-bottom: 1px solid #f1f4f9;
         }
-        .contnet{
+        .contnet {
           display: flex;
+          flex-wrap: wrap;
           padding: 25px 20px;
-          .item{
+          .item {
             display: flex;
             align-items: center;
-            max-width: 150px;
-            .headerImg{
+            max-width: 200px;
+            cursor: pointer;
+            margin-right: 25px;
+            margin-bottom: 25px;
+            padding: 8px;
+            .headerImg {
               width: 40px;
               height: 40px;
               background-color: antiquewhite;
               border-radius: 50%;
-              margin-right: 5px;
+              margin-right: 10px;
+              img {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+              }
             }
-            .header{
-              .headerTitle{
-                font-size: 14px;
+            .header {
+              .headerTitle {
+                font-size: 15px;
                 white-space: nowrap;
               }
-              .introduce{
+              .introduce {
                 color: #8f8f8f;
-                font-size: 12px;
+                font-size: 13px;
                 overflow: hidden;
                 margin-top: 8px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                line-clamp: 2;
+                -webkit-box-orient: vertical;
+                max-width: 135px;
               }
             }
           }
@@ -147,9 +166,9 @@ export default {
     }
   }
   .Footer {
-    position: fixed;
+    position: relative;
     width: 100%;
-    bottom: 0;
+    height: 150px;
   }
 }
 </style>
