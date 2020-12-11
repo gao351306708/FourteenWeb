@@ -158,25 +158,29 @@ export default {
     movieGo(item) {
       let _this = this;
       //获取影影片的详细信息
-      getMovieDetail(item.dataset, function (data) {
-        let vid = data.c.video_ids[0];
-        getMovieRealUrlList(vid)
-          .then((data) => {
-            console.log("getMovieRealUrlList==》", data);
-            _this.$router.push({
-              name: "Video",
-              params: data
+      getMovieDetail(item.dataset)
+        .then((data) => {
+          let vid = data.c.video_ids[0];
+          getMovieRealUrlList(vid)
+            .then((data) => {
+              console.log("getMovieRealUrlList==》", data);
+              _this.$router.push({
+                name: "Video",
+                params: data
+              });
+            })
+            .catch((res) => {
+              console.error(res);
+              window.open(`http://v.qq.com/txp/iframe/player.html?vid=${vid}`);
             });
-          })
-          .catch((res) => {
-            console.error(res);
-            window.open(`http://v.qq.com/txp/iframe/player.html?vid=${vid}`);
-          });
-      });
+        })
+        .catch((ress) => {
+          console.error("getMovieDetail-->", ress);
+          window.open("https://v.qq.com/");
+        });
     },
     clickTag(parent, item) {
-      console.log("clickTag===》", parent, item);
-      console.log("clickTag===》", parent.id, item.key);
+      console.log("clickTag===》", item, parent.id, item.key);
       this.currentSelect = parent.mainName;
       this.pageNo = 0;
       switch (parent.id) {
@@ -210,11 +214,13 @@ export default {
   overflow: hidden;
   .Movie_section_container {
     position: absolute;
+    width: 100vw;
+    box-sizing: border-box;
     overflow-x: hidden;
     overflow-y: auto;
     top: 3.125rem;
     bottom: 2.5rem;
-    padding: 0 3.125rem;
+    padding: 0 5%;
     .selectSection {
       min-height: 100px;
       text-align: left;
@@ -246,6 +252,7 @@ export default {
         padding: 10px;
         text-align: left;
         background: white;
+        cursor: pointer;
         .image {
           width: 100%;
           display: block;

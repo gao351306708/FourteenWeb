@@ -44,7 +44,7 @@ export default {
           _this.getMovieUrl();
         });
       } catch (error) {
-        console.error(error);
+        console.error("addEvent-->", error);
       }
     }
   }

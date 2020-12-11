@@ -34,12 +34,9 @@ export function getMovieList(data, callback) {
     })
 }
 //根据cid查找视频的信息
-export function getMovieDetail(cid, callback) {
+export function getMovieDetail(cid) {
   const url = `https://node.video.qq.com/x/api/float_vinfo2?cid=${cid}`;
-  fetchJsonp(url)
-    .then((json) => {
-      callback(json)
-    })
+  return fetchJsonp(url)
 }
 
 export function getMovieRealUrlList(vid) {
