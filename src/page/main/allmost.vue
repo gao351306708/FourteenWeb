@@ -147,17 +147,17 @@ export default {
                 white-space: nowrap;
               }
               .introduce {
+                max-width: 135px;
                 color: #8f8f8f;
                 font-size: 13px;
-                overflow: hidden;
                 margin-top: 8px;
+                display: -webkit-box;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
                 line-clamp: 2;
+                -webkit-line-clamp: 2;
                 -webkit-box-orient: vertical;
-                max-width: 135px;
+                box-orient: vertical;
               }
             }
           }
