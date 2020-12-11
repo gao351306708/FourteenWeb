@@ -102,7 +102,6 @@ export default {
       let _this = this;
       var beforeTime = Date.now();
       this.scrollFunc = function (e) {
-        console.log("当前路由", _this.$route.name);
         e = e || window.event;
         let el = "";
         if (e.wheelDelta) {
