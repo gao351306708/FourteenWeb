@@ -7,17 +7,15 @@
           <img class="leftImg" src="/static/images/attachment.jpg" />
         </el-col>
         <el-col :xs="24" :sm="12" class="section_right">
-            <div class="title">
-              博客
-            </div>
-            <div class="text">
-              <p>闲来无事记录下自己之前遇到的问题以及查找的相关资料。</p>
-              <p>俗话说的好眼过千遍不如手过一遍，记录一下也会加强对问题的理解。</p>
-              <p>也方便之后遇到同类问题可以快速的查找到相关的处理方法</p>
-            </div>
-            <div class="look">
-              <router-link to="/Blog/List">瞅瞅看</router-link>
-            </div>
+          <div class="title">博客</div>
+          <div class="text">
+            <p>闲来无事记录下自己之前遇到的问题以及查找的相关资料。</p>
+            <p>俗话说的好眼过千遍不如手过一遍，记录一下也会加强对问题的理解。</p>
+            <p>也方便之后遇到同类问题可以快速的查找到相关的处理方法</p>
+          </div>
+          <div class="look">
+            <router-link to="/Blog/List">瞅瞅看</router-link>
+          </div>
         </el-col>
       </el-row>
     </div>
@@ -76,7 +74,6 @@ export default {
       }
       .text {
         position: relative;
-        padding: 20px;
         writing-mode: vertical-rl;
         writing-mode: tb-lr;
         height: 70%;
@@ -99,7 +96,7 @@ export default {
         writing-mode: tb-lr;
         font-family: cursive;
         margin-bottom: 10%;
-        a{
+        a {
           font-family: cursive !important;
         }
       }

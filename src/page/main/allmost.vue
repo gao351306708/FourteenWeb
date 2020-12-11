@@ -1,8 +1,8 @@
 /**大杂烩，喜欢的各种类型都放这里**/
 <template>
   <div class="allmost">
-    <div class="section_container">
-      <div class="main">
+    <el-row class="section_container">
+      <el-col :span="18" :xs="24" class="main">
         <div class="part" v-for="(itm, idx) in menuList" :key="idx" :id="itm.id">
           <div class="title">{{ itm.name }}</div>
           <div class="contnet">
@@ -17,13 +17,15 @@
             </template>
           </div>
         </div>
-      </div>
-      <div class="menu">
-        <div v-for="(part, index) in menuList" :key="index" :class="{ item: true, active: index == currentItem }" @click="changeMenu(part, index)">
-          {{ part.name }}
+      </el-col>
+      <el-col :span="6" :xs="0">
+        <div class="menu">
+          <div v-for="(part, index) in menuList" :key="index" :class="{ item: true, active: index == currentItem }" @click="changeMenu(part, index)">
+            {{ part.name }}
+          </div>
         </div>
-      </div>
-    </div>
+      </el-col>
+    </el-row>
     <div class="Footer">
       <FooterBottom></FooterBottom>
     </div>
@@ -103,7 +105,7 @@ export default {
       }
     }
     .main {
-      margin-left: 7rem;
+      margin-left: 8%;
       width: 100%;
       overflow: hidden;
       .scroll {
