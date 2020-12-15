@@ -4,6 +4,8 @@
 import App from './App'
 import router from '@/router/index.js'
 import global_ from '@/config/Global'
+import "@/assets/pub.less"
+import "@/assets/common.less"
 import "@/utils/CachedComponents.js"; //引入全局组件缓存控制
 import "@/utils/component.js"; //引入全局组件
 import "@/utils/directive.js"; //引入全局指令

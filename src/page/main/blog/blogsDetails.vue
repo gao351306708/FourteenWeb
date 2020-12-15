@@ -4,13 +4,13 @@
     <el-row class="section_container">
       <el-col :span="24" class="mainSection">
         <div class="header_section">
-          <strong>{{detailItem.title}}</strong>
+          <strong>{{ detailItem.title }}</strong>
         </div>
         <div class="content" v-html="detailItem.content"></div>
-        <div v-if="detailItem.links && detailItem.links.length>0" class="linkSection">
+        <div v-if="detailItem.links && detailItem.links.length > 0" class="linkSection">
           相关链接
-          <p v-for="(item,index) in detailItem.links" :key="index">
-            <a :href="item" target="_blank">{{item|filterUrl}}</a>
+          <p v-for="(item, index) in detailItem.links" :key="index">
+            <a :href="item" target="_blank">{{ item | filterUrl }}</a>
           </p>
         </div>
       </el-col>
@@ -30,7 +30,7 @@ export default {
     };
   },
   created() {
-    queryBlogDetail({ id: this.$route.query.id }).then(res => {
+    queryBlogDetail({ id: this.$route.query.id }).then((res) => {
       if (res.code == 200) {
         console.log("detailItem   --->", res.data);
         this.detailItem = res.data[0];
@@ -67,8 +67,9 @@ export default {
   .section_container {
     top: 20px;
     bottom: 40px;
-    max-width: 1500px;
+    width: 1000px;
     margin: 0 auto;
+    background: white;
     .mainSection {
       padding: 20px 50px;
       .header_section {
@@ -78,23 +79,8 @@ export default {
       }
       .content {
         text-align: left;
-        text-align: left;
-        h1,
-        h2,
-        h3,
-        h4,
-        h5 {
-          margin: 8px 0;
-        }
-        p {
-          line-height: 2.25rem;
-          text-indent: 2rem;
-        }
       }
     }
-  }
-  /deep/ img {
-    max-width: 90% !important;
   }
   .linkSection {
     margin: 3rem 0;

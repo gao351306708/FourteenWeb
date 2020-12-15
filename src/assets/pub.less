@@ -1,7 +1,90 @@
-.sectionMain{
-    position: relative;
-    padding: 20px;
-    overflow-x: hidden;
-    height: 100%;
-    box-sizing: border-box;
+.sectionMain {
+  position: relative;
+  padding: 20px;
+  overflow-x: hidden;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.el-menu-item,
+.el-submenu__title {
+  text-align: left;
+}
+
+.el-submenu__title:hover {
+  background-color: #232e3fa3 !important;
+}
+
+.el-submenu .el-menu-item {
+  min-width: 100px !important;
+}
+
+.el-table__expanded-cell[class*="cell"] {
+  background-color: #efffff;
+}
+
+.ql-container {
+  max-height: 430px;
+  min-height: 100px;
+  overflow-y: auto;
+}
+
+.el-dialog__body {
+  max-height: 400px;
+  overflow: auto;
+}
+
+.picture {
+  button i {
+    font-size: 1.5rem;
+  }
+}
+
+.blogList {
+
+  .el-pagination .el-icon,
+  .blogList .el-pagination .el-pager li {
+    font-size: 1rem !important;
+  }
+}
+
+.Movie {
+
+  .el-button--mini,
+  .el-button--mini.is-round {
+    padding: 0.5rem !important;
+  }
+}
+
+.blogDetails {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    margin: 8px 0;
+  }
+
+  p {
+    line-height: 1.75rem;
+    text-indent: 2rem;
+  }
+
+  ul {
+    list-style: inside;
+  }
+
+  li {
+    line-height: 1.75rem;
+  }
+
+  .ql-syntax {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  img {
+    max-width: 90% !important;
+  }
 }
