@@ -14,28 +14,23 @@
         <el-col :xs="24" :md="6" style="height: 100%">
           <div class="section_right">
             <div class="search">
-              <el-input
-                v-model="searchValue"
-                placeholder="输入匹配关键字查找"
-                clearable
-                @change="searchBlogs"
-              >
+              <el-input v-model="searchValue" placeholder="输入匹配关键字查找" clearable @change="searchBlogs">
                 <el-button slot="append" icon="el-icon-search" @click="searchBlogs"></el-button>
               </el-input>
             </div>
             <div class="userInfo">
               <el-card :body-style="{ padding: '0px' }">
                 <img src="/static/images/aboutHu2.jpg" class="image" />
-                <div style="padding: 14px;">
+                <div style="padding: 14px">
                   <span>Rambo_Gao</span>
                   <div class="bottom clearfix">
                     <span>
                       原创
-                      <strong>{{numberObject.blogNum}}</strong>
+                      <strong>{{ numberObject.blogNum }}</strong>
                     </span>
                     <span>
                       访问
-                      <strong>{{numberObject.interviewNum}}</strong>
+                      <strong>{{ numberObject.interviewNum }}</strong>
                     </span>
                   </div>
                 </div>
@@ -49,12 +44,13 @@
                 </div>
                 <div class="tagSection">
                   <el-tag
-                    v-for="(item,index) in categoryList"
+                    v-for="(item, index) in categoryList"
                     :key="index"
-                    :class="['textItem',{'active':searchName == item.name}]"
+                    :class="['textItem', { active: searchName == item.name }]"
                     :color="colorRadom()"
                     @click="getKeyTile(item.name)"
-                  >{{item.name}}</el-tag>
+                    >{{ item.name }}</el-tag
+                  >
                 </div>
               </el-card>
             </div>
@@ -64,12 +60,7 @@
                   <span class="henggang"></span>
                   <span>热门文章</span>
                 </div>
-                <div
-                  v-for="(item,index) in popularList"
-                  :key="index"
-                  class="textItem"
-                  @click="getDetails(item)"
-                >> {{item.title}}</div>
+                <div v-for="(item, index) in popularList" :key="index" class="textItem" @click="getDetails(item)">> {{ item.title }}</div>
               </el-card>
             </div>
           </div>
@@ -81,12 +72,7 @@
 
 <script type="text/ecmascript-6">
 import BlogList from "./components/BlogList.vue";
-import {
-  queryBlogList,
-  getInterview,
-  queryPopularBlogList,
-  queryBlogTypeList
-} from "@/api/manage.js";
+import { queryBlogList, getInterview, queryPopularBlogList, queryBlogTypeList } from "@/api/manage.js";
 export default {
   components: {
     BlogList
@@ -104,19 +90,19 @@ export default {
   },
   created() {
     //获取访问数文章数
-    getInterview().then(res => {
+    getInterview().then((res) => {
       if (res.code == 200) {
         this.numberObject = res.data;
       }
     });
     //最受欢迎列表
-    queryPopularBlogList().then(res => {
+    queryPopularBlogList().then((res) => {
       if (res.code == 200) {
         this.popularList = res.data;
       }
     });
     //标签类型查询
-    queryBlogTypeList().then(res => {
+    queryBlogTypeList().then((res) => {
       if (res.code == 200) {
         this.categoryList = res.data;
       }
@@ -164,7 +150,7 @@ export default {
     margin: 0 auto;
     .section_All {
       margin-bottom: 9.375rem;
-      margin-top: 3.125rem;
+      margin-top: 2.125rem;
       .section_right {
         .userInfo,
         .newBlogs,
@@ -238,6 +224,7 @@ export default {
       }
       .section_left {
         padding: 0.625rem 1.25rem;
+        margin-top: 40px;
         .header_section {
           font-size: 28px;
           text-align: left;
