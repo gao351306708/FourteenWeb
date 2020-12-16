@@ -3,20 +3,18 @@
     <HeadTop />
     <router-view />
     <!-- 启动动画 -->
-    <Translation></Translation>
+    <!-- <Translation></Translation> -->
   </div>
 </template>
 
 <script>
-import Translation from "@/components/translation.vue";
+// import Translation from "@/components/translation.vue";
 import HeadTop from "@/components/headTop.vue";
-import BackButton from "@/components/backButton.vue";
 export default {
   name: "App",
   components: {
-    Translation,
-    HeadTop,
-    BackButton
+    // Translation,
+    HeadTop
   }
 };
 </script>

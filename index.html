@@ -8,12 +8,43 @@
     content="html,javascript,node,jquery,git,python,sql,linux,vue,react,picture,photo,video,娱乐,视频,软件,开发,运维,互联网">
   <title>拾肆club</title>
   <link rel="icon" href="static/favicon.ico" />
+  <link rel="stylesheet" href="static/css/public.css" />
   <!-- 引入样式 -->
   <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 </head>
 
 <body>
   <div id="app"></div>
+  <!-- 首屏加载节点 -->
+  <div id="unsplashing" class="unsplashing">
+    <div class="main-loader">
+      <div class="loader-1">
+        <div class="switch-wrapper">
+          <div class="line"></div>
+          <div class="switch">
+            <div class="knot"></div>
+            <div class="tassel" onclick="manualSwitchHandle()"></div>
+            <div class="pocket"></div>
+            <div class="gap"></div>
+          </div>
+        </div>
+        <div class="progressClassHoleTop">
+          <div class="inHole"></div>
+        </div>
+        <div class="progressClassGun"></div>
+        <div class="progressClassTop"></div>
+        <div class="ball" id="ball"></div>
+        <div class="progressClassMid">
+          <div id="progressWid" class="progress"></div>
+        </div>
+        <div class="progressClassHoleBottom">
+          <div class="inHole"></div>
+        </div>
+        <div class="progressClassBottom"></div>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdn.bootcss.com/jquery.transit/0.9.12/jquery.transit.js"></script>
   <!--- vue相关cnd资源，减少服务器加载资源 --->
@@ -28,6 +59,8 @@
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
   <!-- 引入moment -->
   <script src="https://cdn.bootcdn.net/ajax/libs/moment.js/2.28.0/moment.min.js"></script>
+  <!-- 首屏加载动画 -->
+  <script src="static/js/translation.js"></script>
 </body>
 
 </html>
