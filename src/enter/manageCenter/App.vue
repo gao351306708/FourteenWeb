@@ -11,8 +11,6 @@ export default {
 </script>
 
 <style lang="less">
-@import "../../assets/common.less";
-@import "../../assets/pub.less";
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

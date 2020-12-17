@@ -67,7 +67,7 @@
       </div>
     </section>
     <!--弹框编辑-->
-    <el-dialog :title="dialogTile" :visible.sync="dialogFormVisible" width="65%" top="10vh">
+    <el-dialog :title="dialogTile" :visible.sync="dialogFormVisible" :close-on-click-modal="false" width="65%" top="10vh">
       <el-form :model="form" ref="form" :rules="rules">
         <el-form-item label="标题" :label-width="formLabelWidth">
           <el-input v-model="form.title" autocomplete="off"></el-input>

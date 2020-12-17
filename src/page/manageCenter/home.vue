@@ -1,12 +1,12 @@
 <template>
-  <div class="fillcontain">
+  <div class="HomeContain">
     <el-row class="header-css">
       <el-col :span="12">
         <div class="header-left">管理员系统</div>
       </el-col>
       <el-col :span="12">
         <div class="header-right">
-          <el-avatar :size="36" :src="headUrl ? headUrl: require('@/assets/img/head-black.png') "></el-avatar>
+          <el-avatar :size="36" :src="headUrl ? headUrl : require('@/assets/img/head-black.png')"></el-avatar>
           <el-dropdown trigger="click" @command="handleCommand" class="dropdownCss">
             <span class="el-dropdown-link">
               菜单
@@ -20,16 +20,9 @@
         </div>
       </el-col>
     </el-row>
-    <el-row style="height: 100%;">
-      <el-col :span="4" style="min-height: 100%; background-color: #324057;">
-        <el-menu
-          default-active="1"
-          background-color="rgb(50, 64, 87)"
-          text-color="#bfcbd9"
-          hover-text-color="red"
-          active-text-color="#20a0ff"
-          router
-        >
+    <el-row class="main-css">
+      <el-col :span="4" style="min-height: 100%; background-color: #324057">
+        <el-menu default-active="1" background-color="rgb(50, 64, 87)" text-color="#bfcbd9" hover-text-color="red" active-text-color="#20a0ff" router>
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-menu"></i>
@@ -58,7 +51,7 @@
           </el-submenu>
         </el-menu>
       </el-col>
-      <el-col :span="20" style="height: 100%;overflow: hidden;">
+      <el-col :span="20" style="height: 100%; overflow: hidden">
         <router-view></router-view>
       </el-col>
     </el-row>
@@ -66,13 +59,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import {
-  setStore,
-  getStore,
-  clearStore,
-  setSession,
-  clearSession
-} from "../../utils/publicMethod";
+import { setStore, getStore, clearStore, setSession, clearSession } from "../../utils/publicMethod";
 export default {
   //data中放入初始默认值
   name: "home",
@@ -99,6 +86,12 @@ export default {
 
 <style scoped lang="less" type="text/less">
 @import "../../assets/mixin.less";
+.HomeContain {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
 .header-css {
   display: flex;
   align-items: center;
@@ -119,6 +112,9 @@ export default {
     float: right;
     margin-right: 20px;
   }
+}
+.main-css {
+  height: calc(100% - 60px);
 }
 .el-menu-item:hover {
   background-color: #232e3fa3 !important;

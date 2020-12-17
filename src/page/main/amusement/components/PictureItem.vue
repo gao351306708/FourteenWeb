@@ -1,6 +1,6 @@
 <template>
   <div class="PictureItem" :id="Indexs">
-    <div class="sectionMain" :style="styleCss" @click="godetails(data)">
+    <div class="sectionItem" :style="styleCss" @click="godetails(data)">
       <img :src="data.urls.small" />
       <div v-if="pictureDetails" class="details">
         <div class="top-right">
@@ -109,7 +109,7 @@ export default {
   cursor: pointer;
   width: 100%;
   height: 100%;
-  .sectionMain {
+  .sectionItem {
     position: relative;
     height: 100%;
     .details {
