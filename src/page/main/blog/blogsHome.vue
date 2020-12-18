@@ -72,7 +72,7 @@
 
 <script type="text/ecmascript-6">
 import BlogList from "./components/BlogList.vue";
-import { queryBlogList, getInterview, queryPopularBlogList, queryBlogTypeList } from "@/api/manage.js";
+import { getInterview, queryPopularBlogList, queryBlogTypeList } from "@/api/manage.js";
 export default {
   components: {
     BlogList

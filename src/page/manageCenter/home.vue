@@ -40,6 +40,11 @@
               <el-menu-item index="/home/blogTypeModule">类型</el-menu-item>
               <el-menu-item index="/home/blog">文章</el-menu-item>
             </el-submenu>
+            <el-submenu index="2-2">
+              <span slot="title">网点管理</span>
+              <el-menu-item index="/home/websitType">类别</el-menu-item>
+              <el-menu-item index="/home/websitList">网点</el-menu-item>
+            </el-submenu>
           </el-submenu>
           <el-submenu index="3">
             <template slot="title">

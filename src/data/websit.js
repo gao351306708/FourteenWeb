@@ -4,31 +4,15 @@
 
 
 const websitList = [{
-  id: 1,
-  name: "自定义",
+  id: 2,
+  name: "常用网站",
   items: [{
     id: 11,
-    title: "flutter",
-    logo: "https://cdn.jsdelivr.net/gh/flutterchina/website@1.0/images/favicon.png",
-    introduce: "Flutter是谷歌的移动UI框架，可以快速在iOS和Android上构建高质量的原生用户界面。 ",
-    url: "https://flutterchina.club/widgets/"
-  }, {
-    id: 12,
     title: "百度",
     logo: "https://www.baidu.com//favicon.ico",
     introduce: "百度一下，你就知道",
     url: "https://www.baidu.com/"
   }, {
-    id: 13,
-    title: "知乎",
-    logo: "https://static.zhihu.com/static/favicon.ico",
-    introduce: "有问题，上知乎。知乎，可信赖的问答社区，以让每个人高效获得可信赖的解答为使命。",
-    url: "https://www.zhihu.com/hot"
-  }]
-}, {
-  id: 2,
-  name: "常用网站",
-  items: [{
     id: 21,
     title: "谷歌学术",
     logo: "https://ac.scmor.com/res/favicon.ico",

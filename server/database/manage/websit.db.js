@@ -11,13 +11,24 @@ const {
 } = require('../dbconfig.js');;
 var Schema = mongoose.Schema;
 
-//网点模型
-var WebsitSchema = new Schema({
+//网点类型模型结构
+var WebsitMenuSchema = new Schema({
   name: String, //菜单名字
-  items: Array, //访问时间
+  modeltype: String, //模块类型
+  sort: String, //顺序
 });
-const WebsitMenuModel = mongoClient.model('WebsitMenu', WebsitSchema, "websitmenu");
+const WebsitMenuModel = mongoClient.model('WebsitMenu', WebsitMenuSchema, "websitmenu");
 
+//网点子模块结构
+var WebsitMenuItemsSchema = new Schema({
+  modeltype: String,
+  title: String,
+  logo: String,
+  introduce: String,
+  url: String
+});
+const WebsitMenuItemsModel = mongoClient.model('WebsitMenuItem', WebsitMenuItemsSchema, "websitmenuitem");
 module.exports = {
   WebsitMenuModel,
+  WebsitMenuItemsModel
 }

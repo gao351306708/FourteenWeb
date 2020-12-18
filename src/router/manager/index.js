@@ -5,6 +5,8 @@ const Home = () => import( /* webpackChunkName: "index" */ '@/page/manageCenter/
 const defaultPage = () => import( /* webpackChunkName: "index" */ '@/page/manageCenter/default')
 const Blog = () => import( /* webpackChunkName: "blog" */ '@/page/manageCenter/blog.vue')
 const BlogTypeModule = () => import( /* webpackChunkName: "blog" */ '@/page/manageCenter/blogTypeModule.vue')
+const WebsitType = () => import( /* webpackChunkName: "websit" */ '@/page/manageCenter/websitType.vue')
+const WebsitList = () => import( /* webpackChunkName: "websit" */ '@/page/manageCenter/websitList.vue')
 const userManage = () => import( /* webpackChunkName: "userManage" */ '@/page/manageCenter/userManage.vue')
 const StatisticsInterview = () => import( /* webpackChunkName: "statistics" */ '@/page/manageCenter/statisticsInterview.vue')
 const StatisticsModules = () => import( /* webpackChunkName: "statistics" */ '@/page/manageCenter/statisticsModules.vue')
@@ -36,6 +38,16 @@ export const routes = [{
     name: 'blogTypeModule',
     component: BlogTypeModule,
     meta: ['应用管理', '博客管理', '类型']
+  }, {
+    path: 'websitType',
+    name: 'websitType',
+    component: WebsitType,
+    meta: ['应用管理', '网点管理', '类型']
+  }, {
+    path: 'websitList',
+    name: 'websitList',
+    component: WebsitList,
+    meta: ['应用管理', '网点管理', '网点']
   }, {
     path: 'statistics/statisticsInterview',
     name: 'statisticsInterview',

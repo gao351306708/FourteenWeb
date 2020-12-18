@@ -19,7 +19,8 @@ export const setStore = (name, content) => {
  */
 export const getStore = name => {
   if (!name) return;
-  return window.localStorage.getItem(name);
+  let values = window.localStorage.getItem(name);
+  return JSON.parse(values)
 }
 
 /**
@@ -47,7 +48,8 @@ export const setSession = (name, content) => {
 }
 export const getSession = (name) => {
   if (!name) return;
-  return window.sessionStorage.getItem(name);
+  let values = window.sessionStorage.getItem(name);
+  return JSON.parse(values)
 }
 export const clearSession = () => {
   return window.sessionStorage.clear();
@@ -61,13 +63,13 @@ export const getStyle = (element, attr, NumberMode = 'int') => {
   // scrollTop 获取方式不同，没有它不属于style，而且只有document.body才能用
   if (attr === 'scrollTop') {
     target = element.scrollTop;
-  }else if(element.currentStyle){
+  } else if (element.currentStyle) {
     target = element.currentStyle[attr];
-  }else{
-    target = document.defaultView.getComputedStyle(element,null)[attr];
+  } else {
+    target = document.defaultView.getComputedStyle(element, null)[attr];
   }
   //在获取 opactiy 时需要获取小数 parseFloat
-  return  NumberMode == 'float'? parseFloat(target) : parseInt(target);
+  return NumberMode == 'float' ? parseFloat(target) : parseInt(target);
 }
 
 /**
@@ -82,27 +84,33 @@ export const loadMore = (element, callback) => {
   let requestFram;
   let oldScrollTop;
 
-  document.body.addEventListener('scroll',() => {
+  document.body.addEventListener('scroll', () => {
     loadMore();
   }, false)
   //运动开始时获取元素 高度 和 offseTop, pading, margin
-  element.addEventListener('touchstart',() => {
+  element.addEventListener('touchstart', () => {
     height = element.offsetHeight;
     setTop = element.offsetTop;
-    paddingBottom = getStyle(element,'paddingBottom');
-    marginBottom = getStyle(element,'marginBottom');
-  },{passive: true})
+    paddingBottom = getStyle(element, 'paddingBottom');
+    marginBottom = getStyle(element, 'marginBottom');
+  }, {
+    passive: true
+  })
 
   //运动过程中保持监听 scrollTop 的值判断是否到达底部
-  element.addEventListener('touchmove',() => {
+  element.addEventListener('touchmove', () => {
     loadMore();
-  },{passive: true})
+  }, {
+    passive: true
+  })
 
   //运动结束时判断是否有惯性运动，惯性运动结束判断是非到达底部
-  element.addEventListener('touchend',() => {
+  element.addEventListener('touchend', () => {
     oldScrollTop = document.body.scrollTop;
     moveEnd();
-  },{passive: true})
+  }, {
+    passive: true
+  })
 
   const moveEnd = () => {
     requestFram = requestAnimationFrame(() => {
@@ -110,7 +118,7 @@ export const loadMore = (element, callback) => {
         oldScrollTop = document.body.scrollTop;
         loadMore();
         moveEnd();
-      }else{
+      } else {
         cancelAnimationFrame(requestFram);
         //为了防止鼠标抬起时已经渲染好数据从而导致重获取数据，应该重新获取dom高度
         height = element.offsetHeight;
@@ -128,8 +136,8 @@ export const loadMore = (element, callback) => {
 /**
  * 图片预加载，当没有加载出来的时候用默认颜色
  * **/
-const colorList = ['#CDDC39','#80c1de','#ee6d45','#94d897','#f0b0fb','#c1a49a','#bedc9b','#f6eb89','#98b3fb','#ffc7fb'];
-export const HandlePreImg = ()=>{
-  let random = Math.floor(Math.random()*10);
+const colorList = ['#CDDC39', '#80c1de', '#ee6d45', '#94d897', '#f0b0fb', '#c1a49a', '#bedc9b', '#f6eb89', '#98b3fb', '#ffc7fb'];
+export const HandlePreImg = () => {
+  let random = Math.floor(Math.random() * 10);
   return colorList[random];
 }

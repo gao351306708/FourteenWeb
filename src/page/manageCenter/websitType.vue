@@ -1,5 +1,5 @@
 <template>
-  <div class="sectionMain blogTypeModule">
+  <div class="sectionMain websitType">
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item v-for="(item, index) in $route.meta" :key="index">{{ item }}</el-breadcrumb-item>
@@ -11,8 +11,8 @@
       <el-table :data="currentData" border style="width: 100%" height="550">
         <el-table-column fixed type="index" label="序列" width="50"></el-table-column>
         <el-table-column prop="name" label="类型名"></el-table-column>
-        <el-table-column prop="status" label="状态"></el-table-column>
-        <el-table-column prop="dependence" label="从属"></el-table-column>
+        <el-table-column prop="modeltype" label="类型ID"></el-table-column>
+        <el-table-column prop="sort" label="顺序"></el-table-column>
         <el-table-column fixed="right" label="操作" width="150">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row, 'edit')" type="text" size="small">编辑</el-button>
@@ -39,21 +39,14 @@
     <!--弹框编辑-->
     <el-dialog :title="dialogTile" :visible.sync="dialogFormVisible">
       <el-form :model="form" ref="form">
-        <el-form-item label="名字:" :label-width="formLabelWidth">
+        <el-form-item label="类型:" :label-width="formLabelWidth">
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="状态:" :label-width="formLabelWidth">
-          <el-radio-group v-model="form.status">
-            <el-radio label="开启"></el-radio>
-            <el-radio label="关闭"></el-radio>
-          </el-radio-group>
+        <el-form-item label="顺序:" :label-width="formLabelWidth">
+          <el-input v-model="form.sort" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="从属:" :label-width="formLabelWidth">
-          <el-select v-model="form.dependence" placeholder="请选择从属类型">
-            <el-option label="前端" value="1"></el-option>
-            <el-option label="服务端" value="2"></el-option>
-            <el-option label="数据库" value="3"></el-option>
-          </el-select>
+        <el-form-item label="类型:" :label-width="formLabelWidth">
+          <el-input v-model="form.modeltype" autocomplete="off" :disabled="dialogType == 'add' ? false : true"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -64,16 +57,15 @@
   </div>
 </template>
 <script type="text/ecmascript-6">
-import { addBlogType, deleteBlogType, updateBlogType, queryBlogTypeList } from "@/api/manage.js";
+import { addWebsitMenu, removeWebsitMenu, updateWebsitMenu, queryAllMenuList } from "@/api/manage.js";
 export default {
-  name: "blogTypeModule",
+  name: "websitType",
   data() {
     return {
       tableData: [
         {
           name: "css",
-          status: "1",
-          dependence: "计算机"
+          modeltype: "计算机"
         }
       ], //原始数据
       currentData: [], //当前显示的数据
@@ -81,8 +73,8 @@ export default {
       dialogType: "",
       form: {
         name: "",
-        status: "开启",
-        dependence: ""
+        modeltype: "",
+        sort: ""
       },
       formLabelWidth: "120px",
       currentPage: 1,
@@ -107,7 +99,7 @@ export default {
   },
   methods: {
     async getList() {
-      let res = await queryBlogTypeList();
+      let res = await queryAllMenuList();
       if (res.code == 200) {
         this.tableData = res.data;
         this.total = res.data.length;
@@ -128,7 +120,7 @@ export default {
         let params = this.form;
         params.id = this.form._id;
         if (this.dialogType == "add") {
-          addBlogType(params)
+          addWebsitMenu(params)
             .then((res) => {
               this.$message({
                 message: "添加成功",
@@ -139,7 +131,7 @@ export default {
               this.getList();
             });
         } else {
-          updateBlogType(params)
+          updateWebsitMenu(params)
             .then((res) => {
               this.$message({
                 message: "编辑成功",
@@ -172,7 +164,7 @@ export default {
         });
       }
       if (key == "remove") {
-        deleteBlogType({ id: item._id })
+        removeWebsitMenu({ id: item._id })
           .then((res) => {
             this.$message({
               message: key + "删除成功",
@@ -200,7 +192,7 @@ export default {
 };
 </script>
 <style scoped lang="less" type="text/less">
-.blogTypeModule {
+.websitType {
   .tableContent {
     margin-top: 20px;
     .addContent {

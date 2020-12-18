@@ -86,3 +86,68 @@ export const queryPopularBlogList = (data) => {
   const url = `${API_CONFIG}/queryPopularBlogList`;
   return fetch_requset(url, data, 'GET')
 }
+
+/**
+ * [查询网站菜单以及所有对应的网点]
+ */
+export const queryAllMenuWithWebsitList = (data) => {
+  const url = `${API_CONFIG}/getAllMenuWithWebsit`;
+  return fetch_requset(url, data, 'GET')
+}
+/**
+ * [查询网站菜单]
+ */
+export const queryAllMenuList = (data) => {
+  const url = `${API_CONFIG}/queryWebsitMenu`;
+  return fetch_requset(url, data, 'GET')
+}
+/**
+ * [查询网点]
+ */
+export const queryAllWebsitList = (data) => {
+  const url = `${API_CONFIG}/queryWebsit`;
+  return fetch_requset(url, data, 'GET')
+}
+/**
+ * [添加菜单项目]
+ */
+export const addWebsitMenu = (data) => {
+  const url = `${API_CONFIG}/addWebsitMenu`;
+  return fetch_requset(url, data, 'POST')
+}
+/**
+ * [删除菜单项目]
+ */
+export const removeWebsitMenu = (data) => {
+  const url = `${API_CONFIG}/removeWebsitMenu`;
+  return fetch_requset(url, data, 'POST')
+}
+/**
+ * [更新菜单项目]
+ */
+export const updateWebsitMenu = (data) => {
+  const url = `${API_CONFIG}/updateWebsitMenu`;
+  return fetch_requset(url, data, 'POST')
+}
+
+/**
+ * [添加网点]
+ */
+export const addWebsit = (data) => {
+  const url = `${API_CONFIG}/addWebsit`;
+  return fetch_requset(url, data, 'POST')
+}
+/**
+ * [删除网点]
+ */
+export const removeWebsit = (data) => {
+  const url = `${API_CONFIG}/removeWebsit`;
+  return fetch_requset(url, data, 'POST')
+}
+/**
+ * [更新网点]
+ */
+export const updateWebsit = (data) => {
+  const url = `${API_CONFIG}/updateWebsit`;
+  return fetch_requset(url, data, 'POST')
+}
