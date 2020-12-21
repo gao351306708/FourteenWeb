@@ -13,7 +13,18 @@ const router = new VueRouter({
 
 //路由跳转前
 router.beforeEach((to, from, next) => {
-  next();
+  //to即将进入的目标路由对象，from当前导航正要离开的路由， next : 下一步执行的函数钩子
+  if (to.path === '/') {
+    next();
+  } else {
+    if (!localStorage.getItem('token')) {
+      next({
+        path: '/'
+      })
+    } else {
+      next()
+    }
+  }
 });
 
 //路由加载完成

@@ -3,6 +3,7 @@
 const Door = () => import( /* webpackChunkName: "index" */ '@/page/manageCenter/door')
 const Home = () => import( /* webpackChunkName: "index" */ '@/page/manageCenter/home.vue')
 const defaultPage = () => import( /* webpackChunkName: "index" */ '@/page/manageCenter/default')
+const Register = () => import( /* webpackChunkName: "register" */ '@/page/manageCenter/register')
 const Blog = () => import( /* webpackChunkName: "blog" */ '@/page/manageCenter/blog.vue')
 const BlogTypeModule = () => import( /* webpackChunkName: "blog" */ '@/page/manageCenter/blogTypeModule.vue')
 const WebsitType = () => import( /* webpackChunkName: "websit" */ '@/page/manageCenter/websitType.vue')
@@ -16,6 +17,10 @@ export const routes = [{
   path: '/',
   name: 'door',
   component: Door
+}, {
+  path: '/register',
+  name: 'register',
+  component: Register
 }, {
   path: '/home',
   component: Home,

@@ -81,7 +81,7 @@ export default {
   methods: {
     handleCommand(command) {
       if (command == "exit") {
-        clearSession();
+        clearStore();
         this.$router.replace({ path: "/" });
       }
     }

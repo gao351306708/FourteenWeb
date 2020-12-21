@@ -96,7 +96,7 @@ websitRouter.post('/addWebsitMenu', async (req, res) => {
   let WebsitMenuModel1 = {
     name: params.name, //名字
     modeltype: params.modeltype, //从属
-    sort: params.sort, //从属
+    sort: params.sort, //顺序
   }
   //有modeltype类型的就更新没有就插入
   WebsitMenuModel.update({
@@ -155,6 +155,7 @@ websitRouter.post('/updateWebsitMenu', async (req, res) => {
   let params = req.body;
   let newValue = {
     name: params.name,
+    sort: params.sort, //顺序
   }
   if (!params.id) {
     return res.json({
