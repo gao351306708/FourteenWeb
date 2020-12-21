@@ -8,19 +8,21 @@
             <span>{{ itm.name }}</span>
             <div v-if="idx == 0" class="editContent">
               <span v-if="editStatus" @click="addWebsit">添加网站</span>
-              <span v-if="editStatus" @click="clearWebsit">全部清除</span>
-              <span @click="editStatus = !editStatus">{{ editStatus ? "退出编辑" : "编辑自定义网站" }}</span>
+              <span v-if="editStatus" @click="clearWebsit('clear')">全部清除</span>
+              <span @click="editStatus = !editStatus"><i class="el-icon-setting"></i>{{ editStatus ? "退出编辑" : "编辑自定义网站" }}</span>
             </div>
           </div>
           <div class="contnet">
             <template v-if="itm.items">
-              <div class="item" v-for="(ite, ix) in itm.items" :key="ix" @click="clickWebsitHandle(ite)">
-                <div class="headerImg"><img :src="filterLogo(ite.logo)" /></div>
-                <div class="header">
-                  <div class="headerTitle">{{ ite.title }}</div>
-                  <div class="introduce">{{ ite.introduce }}</div>
+              <div class="itempart" v-for="(ite, ix) in itm.items" :key="ix">
+                <div class="item" @click="clickWebsitHandle(ite)">
+                  <div class="headerImg"><img :src="filterLogo(ite.logo)" /></div>
+                  <div class="header">
+                    <div class="headerTitle">{{ ite.title }}</div>
+                    <div class="introduce">{{ ite.introduce }}</div>
+                  </div>
                 </div>
-                <div v-if="idx == 0 && editStatus" class="delete" @click="clearWebsit(ix)">X</div>
+                <div v-if="idx == 0 && editStatus" class="delete" @click.prevent="clearWebsit(ix)"><i class="el-icon-circle-close"></i></div>
               </div>
             </template>
           </div>
@@ -66,7 +68,6 @@ import FooterBottom from "@/components/footerBottom.vue";
 import websit from "@/data/websit";
 import { queryAllMenuWithWebsitList } from "@/api/manage.js";
 import { setStore, getStore, clearStore, removeStore } from "@/utils/publicMethod";
-const customItem = getStore("customItem");
 export default {
   //data中放入初始默认值
   name: "allmost",
@@ -79,7 +80,7 @@ export default {
         {
           id: 1,
           name: "自定义",
-          items: customItem || []
+          items: getStore("customItem") || []
         }
       ],
       moudleList: [],
@@ -106,7 +107,7 @@ export default {
         for (let i in data) {
           data[i].id = data[i]["_id"];
         }
-        // this.menuList = data;
+        this.menuList = data;
       }
     });
   },
@@ -126,8 +127,9 @@ export default {
       Object.assign(this, { dialogFormVisible: true });
     },
     clearWebsit(val) {
-      if (val != undefined) {
+      if (val != "clear") {
         let newList = [];
+        let customItem = getStore("customItem");
         if (customItem) {
           customItem.splice(val, 1);
           newList = customItem;
@@ -147,6 +149,8 @@ export default {
       if (value == "confirm") {
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            debugger;
+            let customItem = getStore("customItem");
             let newList = [];
             if (customItem) {
               newList = customItem.concat([this.form]);
@@ -244,20 +248,25 @@ export default {
               margin: 0 5px;
               cursor: pointer;
             }
+            i {
+              margin: 0 3px;
+            }
           }
         }
         .contnet {
           display: flex;
           flex-wrap: wrap;
           padding: 25px 20px;
+          .itempart {
+            position: relative;
+          }
           .item {
             position: relative;
             display: flex;
             align-items: center;
             max-width: 200px;
             cursor: pointer;
-            margin-right: 25px;
-            margin-bottom: 25px;
+            margin: 0 25px 25px 10px;
             padding: 8px;
             .headerImg {
               width: 40px;
@@ -289,11 +298,12 @@ export default {
                 box-orient: vertical;
               }
             }
-            .delete {
-              position: absolute;
-              top: -6px;
-              right: -6px;
-            }
+          }
+          .delete {
+            position: absolute;
+            top: -6px;
+            right: -2px;
+            cursor: pointer;
           }
         }
       }
