@@ -107,7 +107,7 @@ export default {
         for (let i in data) {
           data[i].id = data[i]["_id"];
         }
-        this.menuList = data;
+        this.menuList = this.menuList[0].concat(data);
       }
     });
   },
