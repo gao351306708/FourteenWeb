@@ -100,6 +100,7 @@ export default {
     };
   },
   created() {
+    let _this = this;
     this.menuList = this.menuList.concat(websit.websitList);
     queryAllMenuWithWebsitList().then((res) => {
       if (res.code == 200) {
@@ -107,7 +108,7 @@ export default {
         for (let i in data) {
           data[i].id = data[i]["_id"];
         }
-        this.menuList = this.menuList[0].concat(data);
+        _this.menuList = [_this.menuList[0]].concat(data);
       }
     });
   },
@@ -241,7 +242,7 @@ export default {
           padding-left: 20px;
           border-bottom: 1px solid #f1f4f9;
           .editContent {
-            font-size: 16px;
+            font-size: 14px;
             margin-right: 10px;
             color: #51b5e1;
             span {
