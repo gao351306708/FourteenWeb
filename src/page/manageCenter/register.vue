@@ -65,13 +65,6 @@ export default {
             trigger: "blur"
           }
         ]
-        // comfirmpass: [
-        //   {
-        //     required: true,
-        //     validator: validatePass,
-        //     trigger: "blur"
-        //   }
-        // ]
       }
     };
   },
@@ -86,7 +79,10 @@ export default {
           })
             .then((res) => {
               console.log("登录返回信息", res);
-              // this.$router.replace({path:"/"});
+              this.$message({ message: "注册成功！2秒之后返回登陆页面", type: "success" });
+              setTimeout(() => {
+                this.$router.replace({ path: "/" });
+              }, 2000);
             })
             .catch((err) => {
               this.$message({

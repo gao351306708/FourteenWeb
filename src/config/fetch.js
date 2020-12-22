@@ -8,7 +8,14 @@ import {
 import {
   bodyUrlencoded
 } from './methods'
-// import { Notification } from 'element-ui';
+import Store from "../store/index.js"
+import VueRouter1 from '@/router/index.js'
+import VueRouter2 from '@/router/manageCenter.js'
+const {
+  $notify: Notification
+} = Vue.prototype
+const isManage = window.location.pathname == '/manage.html' ? true : false
+const Router = isManage ? VueRouter2 : VueRouter1;
 
 export default async (url = '', data = {}, type = 'GET', method = 'fetch') => {
   type = type.toUpperCase();
@@ -28,7 +35,10 @@ export default async (url = '', data = {}, type = 'GET', method = 'fetch') => {
       },
       mode: "cors",
     }
-
+    //后台管理服务端添加token校验
+    if (isManage) {
+      requestConfig['headers'].needtokencheck = true
+    }
     if (type == 'POST') {
       Object.defineProperty(requestConfig, 'body', {
         value: JSON.stringify(data)
@@ -40,6 +50,20 @@ export default async (url = '', data = {}, type = 'GET', method = 'fetch') => {
         fetch(url, requestConfig).then((response) => {
           if (response.status >= 200 && response.status < 300) {
             return response.json();
+          }
+          if (response.status === 403) {
+            Notification.error({
+              title: 'token 失效',
+              message: error,
+              onClick: () => {
+                Notification.closeAll()
+                Store.dispatch("manage/AclearUserInfo");
+                Router.push({
+                  path: '/'
+                })
+              }
+            })
+            return
           }
           const error = new Error(response.statusText);
           error.response = response;

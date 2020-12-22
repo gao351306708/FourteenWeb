@@ -30,6 +30,7 @@
 <script type="text/ecmascript-6">
 import encrypted from "@/utils/crypto.js";
 import { doLogin } from "@/api/user.js";
+import { setStore, getStore, clearStore, removeStore } from "@/utils/publicMethod";
 export default {
   name: "door",
   data() {
@@ -72,15 +73,19 @@ export default {
           doLogin({
             username: this.ruleForm.name,
             pass: pass
-          }).then((res) => {
-            console.log("登录返回信息", res);
-            if (res.code === 200) {
-              localStorage.setItem("token", res.token);
-              this.$router.replace("home");
-            } else {
-              console.error("error login submit!!");
-            }
-          });
+          })
+            .then((res) => {
+              console.log("登录返回信息", res);
+              if (res.code === 200) {
+                setStore("token", res.token);
+                this.$router.replace("home");
+              } else {
+                this.$message({ message: "登录失败", type: "error" });
+              }
+            })
+            .catch((err) => {
+              this.$message({ message: "登录失败" });
+            });
         } else {
           console.error("error login submit!!");
           return false;
@@ -146,6 +151,8 @@ export default {
     width: 100%;
     cursor: pointer;
     color: white;
+    margin: 0;
+    margin-top: 10px;
   }
 }
 </style>
