@@ -4,6 +4,7 @@
  **/
 
 var express = require('express');
+var ObjectID = require('mongodb').ObjectID;
 var {
   UserModel
 } = require('../database/user.db.js');
@@ -27,7 +28,6 @@ userRouter.post('/login', async (req, res) => {
       }
     });
   }).then((result) => {
-    debugger
     console.log("用户信息==》" + result);
     if (result) {
       // 密码解密 利用aes
@@ -68,7 +68,7 @@ userRouter.get('/getAllUser', async (req, res) => {
   let query = req.query;
   let queryRes = new RegExp(query.key, 'i'); //正则模糊查询参数
   let keyList = {
-    name: queryRes || ""
+    username: queryRes || ""
   }
   UserModel.find(keyList, {
     content: 0
@@ -92,17 +92,71 @@ userRouter.get('/getAllUser', async (req, res) => {
 //注册新用户
 userRouter.post('/registerUser', async (req, res) => {
   let params = req.body;
-  let formData = {
+  let UserModelNew = new UserModel({
     username: params.username, //名字
     password: params.password, //模块类型
+  })
+  UserModelNew.save(function (err, doc) {
+    if (err) {
+      res.json({
+        code: 500,
+        message: err.message
+      });
+    } else {
+      res.json({
+        code: 200,
+        message: "新增成功",
+        data: doc
+      });
+    }
+  })
+})
+//添加新用户
+userRouter.post('/addUser', async (req, res) => {
+  let params = req.body;
+  let UserModelNew = new UserModel({
+    username: params.username, //名字
+    password: params.password,
+    role: params.role, //角色
+    rank: params.rank, //等级
+  })
+  // 根据用户名查询用户
+  const resl = await UserModel.findOne({
+    'username': params.username
+  });
+  if (resl) {
+    res.status(500).json({
+      code: 500,
+      message: "此用户已存在！",
+    });
+    return;
   }
-  //有modeltype类型的就更新没有就插入
-  UserModel.updateOne({
-    username: formData.name
-  }, {
-    "$set": formData
-  }, {
-    "upsert": "true"
+  UserModelNew.save(function (err, doc) {
+    if (err) {
+      res.json({
+        code: 500,
+        message: err.message
+      });
+    } else {
+      res.json({
+        code: 200,
+        message: "新增成功",
+        data: doc
+      });
+    }
+  })
+})
+//删除用户
+userRouter.post('/removeUser', async (req, res) => {
+  let params = req.body;
+  if (!params.id) {
+    return res.json({
+      code: 500,
+      message: "缺少参数id"
+    });
+  }
+  UserModel.remove({
+    _id: ObjectID(params.id)
   }, function (err, doc) {
     if (err) {
       res.json({
@@ -112,7 +166,41 @@ userRouter.post('/registerUser', async (req, res) => {
     } else {
       res.json({
         code: 200,
-        message: "用户新增成功",
+        message: "删除成功",
+        data: doc
+      });
+    }
+  })
+})
+//更新用户信息
+userRouter.post('/updateUser', async (req, res) => {
+  let params = req.body;
+  let newValue = {
+    username: params.username, //名字
+    password: params.password,
+    role: params.role, //角色
+    rank: params.rank, //等级
+  }
+  if (!params.id) {
+    return res.json({
+      code: 500,
+      message: "缺少参数id"
+    });
+  }
+  UserModel.updateOne({
+    _id: ObjectID(params.id)
+  }, {
+    $set: newValue
+  }, function (err, doc) {
+    if (err) {
+      res.json({
+        code: 500,
+        message: err.message
+      });
+    } else {
+      res.json({
+        code: 200,
+        message: "修改成功",
         data: doc
       });
     }

@@ -21,6 +21,9 @@
             <el-form-item label="确认密码" prop="comfirmpass">
               <el-input type="password" v-model="ruleForm.comfirmpass"></el-input>
             </el-form-item>
+            <el-form-item label="邀请码" prop="code">
+              <el-input type="password" v-model="ruleForm.code"></el-input>
+            </el-form-item>
             <el-button @click="registerSubmit('ruleForm')" class="enterButton">注 册</el-button>
           </el-form>
         </div>
@@ -33,22 +36,33 @@
 import encrypted from "@/utils/crypto.js";
 import { registerUser } from "@/api/user.js";
 
-var validatePass = (rule, value, callback) => {
-  console.log(rule, value);
-  if (value !== "1234") {
-    callback(new Error("两次密码不一致"));
-  } else {
-    callback();
-  }
-};
 export default {
   name: "register",
   data() {
+    var validatePass = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
+      } else if (value !== this.ruleForm.pass) {
+        callback(new Error("两次输入密码不一致!"));
+      } else {
+        callback();
+      }
+    };
+    var validateCode = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入邀请码"));
+      } else if (value !== "gaoju") {
+        callback(new Error("邀请码错误!"));
+      } else {
+        callback();
+      }
+    };
     return {
       ruleForm: {
         name: "",
         pass: "",
-        comfirmpass: ""
+        comfirmpass: "",
+        code: ""
       },
       rules: {
         name: [
@@ -64,13 +78,27 @@ export default {
             message: "请输入密码",
             trigger: "blur"
           }
+        ],
+        comfirmpass: [
+          {
+            required: true,
+            validator: validatePass,
+            trigger: "blur"
+          }
+        ],
+        code: [
+          {
+            required: true,
+            validator: validateCode,
+            trigger: "blur"
+          }
         ]
       }
     };
   },
   methods: {
     async registerSubmit(formName) {
-      this.$refs[formName].validate(async (valid, values) => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
           let pass = encrypted.enCrypted_AES(this.ruleForm.pass);
           registerUser({

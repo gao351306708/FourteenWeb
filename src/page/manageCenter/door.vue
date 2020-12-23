@@ -75,7 +75,6 @@ export default {
             pass: pass
           })
             .then((res) => {
-              console.log("登录返回信息", res);
               if (res.code === 200) {
                 setStore("token", res.token);
                 this.$router.replace("home");
