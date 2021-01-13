@@ -2,21 +2,21 @@
  * 从属类型
  * **/
 const dependenceMap = new Map();
-dependenceMap.set(1, {
+dependenceMap.set("startFont", {
   label: "前端",
-  value: 1
+  value: "startFont"
 })
-dependenceMap.set(2, {
+dependenceMap.set("endFont", {
   label: "服务端",
-  value: 2
+  value: "endFont"
 })
-dependenceMap.set(3, {
+dependenceMap.set("oracle", {
   label: "数据库",
-  value: 3
+  value: "oracle"
 })
-dependenceMap.set(4, {
+dependenceMap.set("other", {
   label: "其他",
-  value: 4
+  value: "other"
 })
 
 const dependenceList = [{

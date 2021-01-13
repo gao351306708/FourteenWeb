@@ -203,7 +203,11 @@ export default {
     },
     //过滤数据
     filterData(val) {
-      return dependenceMap.get(Number(val)).label;
+      console.log(val, dependenceMap, dependenceMap.get(Number(val)));
+      if (dependenceMap.get(val)) {
+        return dependenceMap.get(val).label;
+      }
+      return val;
     }
   }
 };
