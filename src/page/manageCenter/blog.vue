@@ -74,7 +74,9 @@
         </el-form-item>
         <el-form-item label="类型" :label-width="formLabelWidth">
           <el-checkbox-group v-model="form.tag" @change="handleCheckedCitiesChange">
-            <el-checkbox v-for="tag in tagOptions" :label="tag.name" :key="tag.name">{{ tag.name }}</el-checkbox>
+            <template v-for="tagItem in tagOptions">
+              <el-checkbox v-if="tagItem.status == '开启'" :label="tagItem.name" :key="tagItem.name">{{ tagItem.name }}</el-checkbox>
+            </template>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="文章内容" :label-width="formLabelWidth">

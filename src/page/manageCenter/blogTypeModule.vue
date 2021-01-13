@@ -12,7 +12,11 @@
         <el-table-column fixed type="index" label="序列" width="50"></el-table-column>
         <el-table-column prop="name" label="类型名"></el-table-column>
         <el-table-column prop="status" label="状态"></el-table-column>
-        <el-table-column prop="dependence" label="从属"></el-table-column>
+        <el-table-column label="从属">
+          <template slot-scope="scope">
+            <span>{{ filterData(scope.row.dependence) }}</span>
+          </template>
+        </el-table-column>
         <el-table-column fixed="right" label="操作" width="150">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row, 'edit')" type="text" size="small">编辑</el-button>
@@ -50,9 +54,7 @@
         </el-form-item>
         <el-form-item label="从属:" :label-width="formLabelWidth">
           <el-select v-model="form.dependence" placeholder="请选择从属类型">
-            <el-option label="前端" value="1"></el-option>
-            <el-option label="服务端" value="2"></el-option>
-            <el-option label="数据库" value="3"></el-option>
+            <el-option v-for="itm in optionList" :key="itm[1].value" :label="itm[1].label" :value="itm[1].value"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -65,6 +67,8 @@
 </template>
 <script type="text/ecmascript-6">
 import { addBlogType, deleteBlogType, updateBlogType, queryBlogTypeList } from "@/api/manage.js";
+import staticList from "@/data/staticList";
+let dependenceMap = staticList.dependenceMap;
 export default {
   name: "blogTypeModule",
   data() {
@@ -73,7 +77,7 @@ export default {
         {
           name: "css",
           status: "1",
-          dependence: "计算机"
+          dependence: ""
         }
       ], //原始数据
       currentData: [], //当前显示的数据
@@ -87,7 +91,8 @@ export default {
       formLabelWidth: "120px",
       currentPage: 1,
       total: 10,
-      pageSize: 10
+      pageSize: 10,
+      optionList: [...dependenceMap]
     };
   },
   computed: {
@@ -195,6 +200,10 @@ export default {
       console.log(`当前页: ${val}`);
       this.currentPage = val;
       this.getPageData(this.tableData);
+    },
+    //过滤数据
+    filterData(val) {
+      return dependenceMap.get(Number(val)).label;
     }
   }
 };

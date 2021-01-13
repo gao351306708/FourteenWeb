@@ -43,14 +43,16 @@
                   <span>标签</span>
                 </div>
                 <div class="tagSection">
-                  <el-tag
-                    v-for="(item, index) in categoryList"
-                    :key="index"
-                    :class="['textItem', { active: searchName == item.name }]"
-                    :color="colorRadom()"
-                    @click="getKeyTile(item.name)"
-                    >{{ item.name }}</el-tag
-                  >
+                  <template v-for="(item, index) in categoryList">
+                    <el-tag
+                      v-if="item.status == '开启'"
+                      :key="index"
+                      :class="['textItem', { active: searchName == item.name }]"
+                      :color="colorRadom()"
+                      @click="getKeyTile(item.name)"
+                      >{{ item.name }}</el-tag
+                    >
+                  </template>
                 </div>
               </el-card>
             </div>
