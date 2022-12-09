@@ -24,7 +24,7 @@
     "debug": "^4.1.0",
     "ejs": "^2.6.1",
     "eventsource-polyfill": "^0.9.6",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "express-fileupload": "^1.0.0",
     "express-session": "^1.15.6",
     "fetch-jsonp": "^1.1.3",
